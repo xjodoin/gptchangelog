@@ -1,9 +1,9 @@
-import os
-import subprocess
-import git
 import configparser
+import os
+
+import git
 import openai
-from datetime import datetime
+
 
 def generate_changelog_and_next_version(commit_messages, latest_version):
     prompt = (
@@ -12,32 +12,33 @@ def generate_changelog_and_next_version(commit_messages, latest_version):
         f"Just the next version: "
     )
     response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user","content": prompt,}
-                ],
-            )
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt, }
+        ],
+    )
     next_version = response.choices[0].message['content'].strip()
 
     print(f"Next version: {next_version}")
 
     prompt = (
-            f"Generate a well-formatted changelog in markdown format for a software project "
-            f"with the following commit messages:\n\n{commit_messages}\n\n"
-            f"Please exclude empty sections in the changelog. The next version is {next_version}.\n\n"
-            f"Changelog:\n"
+        f"Generate a well-formatted changelog in markdown format for a software project "
+        f"with the following commit messages:\n\n{commit_messages}\n\n"
+        f"Please exclude empty sections in the changelog. The next version is {next_version}.\n\n"
+        f"Changelog:\n"
     )
     response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user","content": prompt,}
-                    ],
-                )
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt, }
+        ],
+    )
     changelog = response.choices[0].message['content'].strip()
 
     return changelog
+
 
 # Function to fetch commit messages since the most recent tag
 def get_commit_messages_since_latest_tag(repo_path="."):
@@ -45,6 +46,7 @@ def get_commit_messages_since_latest_tag(repo_path="."):
     latest_tag = repo.git.describe("--tags", "--abbrev=0")
     commit_messages = repo.git.log(f"{latest_tag}..HEAD", pretty="%s").split("\n")
     return latest_tag, "\n".join(commit_messages)
+
 
 # Function to prepend changelog to CHANGELOG.md
 def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
@@ -70,8 +72,8 @@ def load_openai_api_key(config_file_name="config.ini"):
     config.read(config_file)
     return config["openai"]["api_key"]
 
-# Main script
-if __name__ == "__main__":
+
+def main():
     openai.api_key = load_openai_api_key()
 
     latest_tag, commit_messages = get_commit_messages_since_latest_tag()
@@ -81,4 +83,3 @@ if __name__ == "__main__":
 
     print("Changelog generated and prepended to CHANGELOG.md:")
     print(changelog)
-
