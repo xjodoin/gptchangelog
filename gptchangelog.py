@@ -58,7 +58,14 @@ def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
             file.write(changelog + "\n\n" + original_content)
 
 
-def load_openai_api_key(config_file="config.ini"):
+def load_openai_api_key(config_file_name="config.ini"):
+    home_dir = os.path.expanduser("~")
+    config_dir = os.path.join(home_dir, ".config", "gptchangelog")
+    config_file = os.path.join(config_dir, config_file_name)
+
+    if not os.path.exists(config_file):
+        raise FileNotFoundError(f"Configuration file '{config_file}' not found in the .config/gptchangelog directory.")
+
     config = configparser.ConfigParser()
     config.read(config_file)
     return config["openai"]["api_key"]
