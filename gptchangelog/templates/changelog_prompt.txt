@@ -1,0 +1,17 @@
+The next version is $next_version
+Current date: $current_date
+
+THE CHANGELOG ENTRY EXAMPLE:
+```
+## [1.1.1] - 2023-03-05
+```
+
+THE COMMITS MESSSAGES:
+```
+$commit_messages
+```
+
+Generate a well-formatted changelog entry in markdown format for a software project
+Please exclude empty sections in the changelog.
+
+Changelog:

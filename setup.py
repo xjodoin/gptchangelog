@@ -13,6 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/xjodoin/gptchangelog",
     packages=find_packages(),
+    package_data={"gptchangelog": ["templates/*.txt"]},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",

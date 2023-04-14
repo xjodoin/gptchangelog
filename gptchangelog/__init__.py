@@ -1,16 +1,25 @@
 import configparser
 import os
+from datetime import datetime
+from string import Template
 
 import git
 import openai
 
 
+def render_prompt(template_path, context):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    full_template_path = os.path.join(script_dir, template_path)
+    with open(full_template_path, 'r') as template_file:
+        template_content = template_file.read()
+
+    template = Template(template_content)
+    return template.safe_substitute(context)
+
+
 def generate_changelog_and_next_version(commit_messages, latest_version):
-    prompt = (
-        f"Based on the following commit messages and the latest version {latest_version}, "
-        f"determine the next version using semantic versioning:\n\n{commit_messages}\n\n"
-        f"Just the next version: "
-    )
+    prompt = render_prompt('templates/version_prompt.txt', {'commit_messages': commit_messages, 'latest_version': latest_version})
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -22,12 +31,7 @@ def generate_changelog_and_next_version(commit_messages, latest_version):
 
     print(f"Next version: {next_version}")
 
-    prompt = (
-        f"Generate a well-formatted changelog in markdown format for a software project "
-        f"with the following commit messages:\n\n{commit_messages}\n\n"
-        f"Please exclude empty sections in the changelog. The next version is {next_version}.\n\n"
-        f"Changelog:\n"
-    )
+    prompt = render_prompt('templates/changelog_prompt.txt', {'commit_messages': commit_messages, 'next_version': next_version, 'current_date': datetime.today().strftime('%Y-%m-%d')})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
