@@ -1,3 +1,9 @@
+## [v0.3.0] - 2023-11-22
+
+### Changed
+- Refactor changelog template
+- Update package versions, template headers, and function refactoring
+
 ## [0.2.0] - 2023-04-14
 ### Changed
 - Refactor changelog and version prompt templates
