@@ -1,3 +1,7 @@
+## [v0.4.0] - 2023-11-22
+### Changed
+- Refactor code, improve commit message generation, and changelog wording.
+
 ## [v0.3.0] - 2023-11-22
 
 ### Changed
