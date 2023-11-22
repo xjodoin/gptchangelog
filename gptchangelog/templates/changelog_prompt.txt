@@ -20,7 +20,7 @@ Instructions:
         Ensure each commit message is converted into a bullet point under the appropriate header.
 
     Exclude Empty Sections:
-        If there are no commit messages for a particular category (like 'Removed'), do not include that section in the changelog.
+        If there are no commit messages for a particular category ('Added', 'Fixed', 'Changed', etc), do not include that section in the changelog.
 
 Changelog Template:
 
