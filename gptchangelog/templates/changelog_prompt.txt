@@ -33,4 +33,4 @@ Changelog Template:
     - (List out updates to existing features)
     ... (Include other relevant sections like 'Removed', 'Deprecated', etc., if applicable)
 
-    Note: Ensure that the changelog is succinct, accurately reflects the changes, and adheres to markdown syntax. Avoid inclusion of irrelevant or redundant information.
+Ensure that the changelog is succinct, accurately reflects the changes, and adheres to markdown syntax. Avoid inclusion of irrelevant or redundant information.
