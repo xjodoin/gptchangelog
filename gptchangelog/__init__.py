@@ -26,7 +26,31 @@ def render_prompt(template_path, context):
     return template.safe_substitute(context)
 
 
-def generate_changelog_and_next_version(commit_messages, latest_version):
+def generate_changelog_and_next_version(raw_commit_messages, latest_version):
+    
+    prompt = render_prompt(
+        "templates/commits_prompt.txt",
+        {"commit_messages": raw_commit_messages},
+    )
+    
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Your task is to process the following series of commit messages. Start by analyzing each message to identify key themes and changes. Detect and mark any redundant information across these messages. Focus on refining the clarity and conciseness of each message. Merge similar or redundant points to create a single cohesive message that clearly communicates all relevant changes and updates. Ensure the final message is concise, clear, and aligns with standard commit message guidelines.",
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+    )
+    
+    commit_messages = response.choices[0].message.content
+    
+    print(f"Refactor commits: {commit_messages}")
+    
     # Assuming render_prompt is a function you've defined elsewhere
     prompt = render_prompt(
         "templates/version_prompt.txt",
@@ -80,11 +104,22 @@ def generate_changelog_and_next_version(commit_messages, latest_version):
 
 
 # Function to fetch commit messages since the most recent tag
-def get_commit_messages_since_latest_tag(repo_path="."):
+def get_commit_messages_since_latest_tag(repo_path=".", min_length=10, max_length=200):
     repo = git.Repo(repo_path)
     latest_tag = repo.git.describe("--tags", "--abbrev=0")
-    commit_messages = repo.git.log(f"{latest_tag}..HEAD", pretty="%s").split("\n")
+    # Using --no-merges to exclude merge commits and iterating over the log
+    commit_messages = set()
+    for commit in repo.iter_commits(f"{latest_tag}..HEAD", no_merges=True):
+        message = commit.message.strip().split("\n")[0]  # Taking the first line of the commit message
+        # Check if message length is within the specified range
+        if min_length <= len(message) <= max_length:
+            commit_messages.add(message)
+        elif len(message) > max_length:
+            commit_messages.add(message[:max_length] + "...")  # Truncate and add ellipsis
+
+
     return latest_tag, "\n".join(commit_messages)
+
 
 
 # Function to prepend changelog to CHANGELOG.md
