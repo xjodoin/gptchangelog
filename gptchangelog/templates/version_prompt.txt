@@ -1,16 +1,20 @@
-Given a version number MAJOR.MINOR.PATCH, increment the version:
+Task: Increment Software Version Number Using Semantic Versioning
 
-    MAJOR version when you make incompatible API changes
-    MINOR version when you add functionality in a backwards compatible manner
-    PATCH version when you make backwards compatible bug fixes
+Current Version: $latest_version (format: MAJOR.MINOR.PATCH)
 
-Based on the following commit messages and the latest version $latest_version
-determine the next version using semantic versioning following the rules above.
-
-THE COMMITS MESSSAGES:
+Commit Messages:
 ```
 $commit_messages
 ```
 
-Remember to write only the next version number, e.g. 1.2.3
-THE NEXT VERSION:
+Rules for Incrementing:
+
+    MAJOR Update: When there are incompatible API changes.
+    MINOR Update: When new, backwards-compatible functionality is added.
+    PATCH Update: For backwards-compatible bug fixes.
+
+Objective: Determine the next version number based on the above commit messages, adhering to semantic versioning principles.
+
+Output Format: Provide the next version number in the format MAJOR.MINOR.PATCH.
+
+Example Output: 1.2.3
