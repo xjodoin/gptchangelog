@@ -14,7 +14,8 @@ fi
 
 # Update version in setup.py
 echo "Updating version to $VERSION in setup.py..."
-sed -i "s/version=\"[0-9.]*\"/version=\"$VERSION\"/" setup.py
+# Use awk for cross-platform compatibility
+awk -v version="$VERSION" '/version=/ {gsub(/"[0-9.]+"/, "\"" version "\"")}1' setup.py > setup.tmp && mv setup.tmp setup.py
 
 # Install required tools
 echo "Installing setuptools, wheel, and twine..."
@@ -33,4 +34,3 @@ echo "Uploading the package to PyPI..."
 twine upload dist/*
 
 echo "Deployment complete. Version $VERSION has been uploaded to PyPI."
-
