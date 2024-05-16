@@ -26,43 +26,66 @@ def render_prompt(template_path, context):
     return template.safe_substitute(context)
 
 
-def generate_changelog_and_next_version(raw_commit_messages, latest_version):
-    prompt = render_prompt(
-        "templates/commits_prompt.txt",
-        {"commit_messages": raw_commit_messages},
-    )
+def split_commit_messages(commit_messages, max_length):
+    message_batches = []
+    current_batch = []
 
-    response = openai.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are an expert in refining commit messages. Your task is to analyze, identify redundancies, and improve the clarity and conciseness of the provided commit messages. "
-                    "Combine similar or redundant elements to create a single cohesive message that clearly communicates all relevant changes and updates. "
-                    "Ensure the final message is concise, clear, and follows standard commit message guidelines."
-                ),
-            },
-            {
-                "role": "user",
-                "content": prompt,
-            },
-        ],
-    )
+    current_length = 0
+    for message in commit_messages:
+        message_length = len(message)
+        if current_length + message_length > max_length:
+            message_batches.append("\n".join(current_batch))
+            current_batch = [message]
+            current_length = message_length
+        else:
+            current_batch.append(message)
+            current_length += message_length
 
-    commit_messages = response.choices[0].message.content
+    if current_batch:
+        message_batches.append("\n".join(current_batch))
 
-    print(f"Refactor commits: {commit_messages}")
+    return message_batches
 
-    # Assuming render_prompt is a function you've defined elsewhere
+
+def generate_changelog_and_next_version(raw_commit_messages, latest_version, model, max_context_length):
+    prompt_batches = split_commit_messages(raw_commit_messages.split("\n"), max_context_length)
+
+    refined_commit_messages = []
+    for batch in prompt_batches:
+        prompt = render_prompt(
+            "templates/commits_prompt.txt",
+            {"commit_messages": batch},
+        )
+
+        response = openai.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an expert in refining commit messages. Your task is to analyze, identify redundancies, and improve the clarity and conciseness of the provided commit messages. "
+                        "Combine similar or redundant elements to create a single cohesive message that clearly communicates all relevant changes and updates. "
+                        "Ensure the final message is concise, clear, and follows standard commit message guidelines."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+        )
+
+        refined_commit_messages.append(response.choices[0].message.content)
+
+    combined_commit_messages = "\n".join(refined_commit_messages)
+
     prompt = render_prompt(
         "templates/version_prompt.txt",
-        {"commit_messages": commit_messages, "latest_version": latest_version},
+        {"commit_messages": combined_commit_messages, "latest_version": latest_version},
     )
 
-    # Refactored to use the updated OpenAI API
     response = openai.chat.completions.create(
-        model="gpt-4o",
+        model=model,
         messages=[
             {
                 "role": "system",
@@ -86,14 +109,14 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version):
     prompt = render_prompt(
         "templates/changelog_prompt.txt",
         {
-            "commit_messages": commit_messages,
+            "commit_messages": combined_commit_messages,
             "next_version": next_version,
             "current_date": datetime.today().strftime("%Y-%m-%d"),
         },
     )
 
     response = openai.chat.completions.create(
-        model="gpt-4o",
+        model=model,
         messages=[
             {
                 "role": "system",
@@ -115,7 +138,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version):
 
 
 # Function to fetch commit messages since the most recent tag
-def get_commit_messages_since_latest_tag(repo_path=".", min_length=10, max_length=200):
+def get_commit_messages_since_latest_tag(repo_path=".", min_length=10):
     repo = git.Repo(repo_path)
     latest_tag = repo.git.describe("--tags", "--abbrev=0")
     # Using --no-merges to exclude merge commits and iterating over the log
@@ -123,10 +146,8 @@ def get_commit_messages_since_latest_tag(repo_path=".", min_length=10, max_lengt
     for commit in repo.iter_commits(f"{latest_tag}..HEAD", no_merges=True):
         message = commit.message.strip().split("\n")[0]  # Taking the first line of the commit message
         # Check if message length is within the specified range
-        if min_length <= len(message) <= max_length:
+        if len(message) >= min_length:
             commit_messages.add(message)
-        elif len(message) > max_length:
-            commit_messages.add(message[:max_length] + "...")  # Truncate and add ellipsis
 
     return latest_tag, "\n".join(commit_messages)
 
@@ -143,7 +164,7 @@ def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
             file.write(changelog + "\n\n" + original_content)
 
 
-def load_openai_api_key(config_file_name="config.ini"):
+def load_openai_config(config_file_name="config.ini"):
     home_dir = os.path.expanduser("~")
     config_dir = os.path.join(home_dir, ".config", "gptchangelog")
     config_file = os.path.join(config_dir, config_file_name)
@@ -155,7 +176,7 @@ def load_openai_api_key(config_file_name="config.ini"):
 
     config = configparser.ConfigParser()
     config.read(config_file)
-    return config["openai"]["api_key"]
+    return config["openai"]["api_key"], config["openai"].get("model", "gpt-4o")
 
 
 def main():
@@ -171,12 +192,19 @@ def main():
     # Parse the arguments
     args = parser.parse_args()
 
-    openai.api_key = load_openai_api_key()
+    api_key, model = load_openai_config()
+
+    openai.api_key = api_key
 
     latest_tag, commit_messages = get_commit_messages_since_latest_tag()
-    changelog = generate_changelog_and_next_version(commit_messages, latest_tag)
+    max_context_length = 128 * 1024  # 128K context length limit for GPT-4
+    changelog = generate_changelog_and_next_version(commit_messages, latest_tag, model, max_context_length)
 
     prepend_changelog_to_file(changelog)
 
     print("Changelog generated and prepended to CHANGELOG.md:")
     print(changelog)
+
+
+if __name__ == "__main__":
+    main()
