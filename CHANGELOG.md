@@ -1,3 +1,11 @@
+## [0.5.1] - 2024-05-16
+
+### Added
+- Add progress output for batch processing in changelog generation.
+
+### Changed
+- Enhance README.md with features, installation, and usage details.
+
 ## [0.5.0] - 2024-05-16
 
 ### Changed
