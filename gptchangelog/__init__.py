@@ -51,7 +51,9 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
     prompt_batches = split_commit_messages(raw_commit_messages.split("\n"), max_context_length)
 
     refined_commit_messages = []
-    for batch in prompt_batches:
+    for i, batch in enumerate(prompt_batches):
+        print(f"Processing batch {i + 1}/{len(prompt_batches)}...")
+
         prompt = render_prompt(
             "templates/commits_prompt.txt",
             {"commit_messages": batch},
@@ -79,6 +81,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
 
     combined_commit_messages = "\n".join(refined_commit_messages)
 
+    print("Generating next version...")
     prompt = render_prompt(
         "templates/version_prompt.txt",
         {"commit_messages": combined_commit_messages, "latest_version": latest_version},
@@ -105,6 +108,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
 
     print(f"Next version: {next_version}")
 
+    print("Generating changelog...")
     # Generate the changelog
     prompt = render_prompt(
         "templates/changelog_prompt.txt",
@@ -137,19 +141,18 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
     return changelog
 
 
-# Function to fetch commit messages since the most recent tag
-def get_commit_messages_since_latest_tag(repo_path=".", min_length=10):
+# Function to fetch commit messages since the specified commit or the most recent tag
+def get_commit_messages_since(latest_commit, repo_path=".", min_length=10):
     repo = git.Repo(repo_path)
-    latest_tag = repo.git.describe("--tags", "--abbrev=0")
     # Using --no-merges to exclude merge commits and iterating over the log
     commit_messages = set()
-    for commit in repo.iter_commits(f"{latest_tag}..HEAD", no_merges=True):
+    for commit in repo.iter_commits(f"{latest_commit}..HEAD", no_merges=True):
         message = commit.message.strip().split("\n")[0]  # Taking the first line of the commit message
         # Check if message length is within the specified range
         if len(message) >= min_length:
             commit_messages.add(message)
 
-    return latest_tag, "\n".join(commit_messages)
+    return latest_commit, "\n".join(commit_messages)
 
 
 # Function to prepend changelog to CHANGELOG.md
@@ -188,6 +191,12 @@ def main():
         action="version",
         version=f"gptchangelog {get_package_version()}",
     )
+    parser.add_argument(
+        "--since",
+        type=str,
+        default=None,
+        help="Specify the commit hash or tag to start fetching commit messages from. If not provided, uses the most recent tag."
+    )
 
     # Parse the arguments
     args = parser.parse_args()
@@ -196,9 +205,14 @@ def main():
 
     openai.api_key = api_key
 
-    latest_tag, commit_messages = get_commit_messages_since_latest_tag()
+    latest_commit = args.since
+    if latest_commit is None:
+        repo = git.Repo(".")
+        latest_commit = repo.git.describe("--tags", "--abbrev=0")
+
+    latest_commit, commit_messages = get_commit_messages_since(latest_commit)
     max_context_length = 128 * 1024  # 128K context length limit for GPT-4
-    changelog = generate_changelog_and_next_version(commit_messages, latest_tag, model, max_context_length)
+    changelog = generate_changelog_and_next_version(commit_messages, latest_commit, model, max_context_length)
 
     prepend_changelog_to_file(changelog)
 
