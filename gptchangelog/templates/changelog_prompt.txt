@@ -52,3 +52,4 @@ Additional Guidelines:
     - Ensure that the changelog is succinct and accurately reflects the changes.
     - Adhere strictly to markdown syntax for consistency and readability.
     - Avoid including irrelevant or redundant information.
+    - Do not include any additional comments or introductions in the output.
