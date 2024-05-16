@@ -1,3 +1,9 @@
+## [0.5.0] - 2024-05-16
+
+### Changed
+- Enhanced commit message structure.
+- Updated installation instructions for gptchangelog.
+
 ## [v0.4.0] - 2023-11-22
 ### Changed
 - Refactor code, improve commit message generation, and changelog wording.
