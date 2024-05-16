@@ -3,39 +3,47 @@ Commit Messages:
 $commit_messages
 ```
 
-Objective: To refine a series of commit messages by merging redundant information and improving overall clarity.
+Objective:
+
+To enhance a series of commit messages by merging redundant information and improving clarity.
 
 Instructions:
+1. Input Collection:
 
-    Input Collection:
-        Gather all the commit messages provided.
-        Ensure completeness and accuracy of the messages for processing.
+    Gather all provided commit messages.
+    Ensure the messages are complete and accurate for processing.
 
-    Initial Analysis:
-        Read through each commit message carefully.
-        Identify key themes, terms, changes, and the purpose of each commit.
+2. Initial Analysis:
 
-    Redundancy Identification:
-        Compare the commit messages to find overlapping or redundant information.
-        Highlight these redundancies for consolidation.
+    Carefully read through each commit message.
+    Identify key themes, terms, changes, and the purpose of each commit.
 
-    Message Refinement:
-        Focus on making each message more clear and concise.
-        Standardize the format and structure of the messages for consistency.
+3. Redundancy Identification:
 
-    Merging Process:
-        Combine similar or redundant elements from different messages.
-        Ensure the merged message retains the essential details and context from the original messages.
+    Compare commit messages to find overlapping or redundant information.
+    Highlight redundancies for consolidation.
 
-    Output Creation:
-        Formulate an optimized commit message that is clear, concise, and comprehensive.
-        Check for consistency with standard commit message guidelines and practices.
+4. Message Refinement:
 
-    Review and Adjustment:
-        Review the optimized message for accuracy and completeness.
-        Make necessary adjustments to ensure fidelity to the original intent and information.
+    Make each message clearer and more concise.
+    Standardize the format and structure for consistency.
+
+5. Merging Process:
+
+    Combine similar or redundant elements from different messages.
+    Ensure the merged message retains essential details and context from the originals.
+
+6. Output Creation:
+
+    Formulate an optimized commit message that is clear, concise, and comprehensive.
+    Ensure consistency with standard commit message guidelines and practices.
+
+7. Review and Adjustment:
+
+    Review the optimized message for accuracy and completeness.
+    Make necessary adjustments to ensure fidelity to the original intent and information.
 
 Completion Criteria:
 
-    The final commit message should be a coherent, concise representation of all relevant changes and updates.
+    The final commit message should be a coherent and concise representation of all relevant changes and updates.
     The message should be free of redundancies, maintaining the integrity and intent of the original messages.

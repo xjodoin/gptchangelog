@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gptchangelog",
-    version="0.4.0",
+    version="0.5.0",
     author="Xavier Jodoin",
     author_email="xavier@jodoin.me",
     description="Automatically generate a changelog using GPT-3.5",

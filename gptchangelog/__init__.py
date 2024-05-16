@@ -27,18 +27,21 @@ def render_prompt(template_path, context):
 
 
 def generate_changelog_and_next_version(raw_commit_messages, latest_version):
-    
     prompt = render_prompt(
         "templates/commits_prompt.txt",
         {"commit_messages": raw_commit_messages},
     )
-    
+
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
-                "content": "Your task is to process the following series of commit messages. Start by analyzing each message to identify key themes and changes. Detect and mark any redundant information across these messages. Focus on refining the clarity and conciseness of each message. Merge similar or redundant points to create a single cohesive message that clearly communicates all relevant changes and updates. Ensure the final message is concise, clear, and aligns with standard commit message guidelines.",
+                "content": (
+                    "You are an expert in refining commit messages. Your task is to analyze, identify redundancies, and improve the clarity and conciseness of the provided commit messages. "
+                    "Combine similar or redundant elements to create a single cohesive message that clearly communicates all relevant changes and updates. "
+                    "Ensure the final message is concise, clear, and follows standard commit message guidelines."
+                ),
             },
             {
                 "role": "user",
@@ -46,11 +49,11 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version):
             },
         ],
     )
-    
+
     commit_messages = response.choices[0].message.content
-    
+
     print(f"Refactor commits: {commit_messages}")
-    
+
     # Assuming render_prompt is a function you've defined elsewhere
     prompt = render_prompt(
         "templates/version_prompt.txt",
@@ -59,11 +62,15 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version):
 
     # Refactored to use the updated OpenAI API
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful assistant, optimized to provide accurate and concise information.",
+                "content": (
+                    "You are an expert in software versioning. Your task is to determine the next software version number based on semantic versioning principles. "
+                    "Analyze the provided commit messages and increment the version number according to the following rules: "
+                    "MAJOR update for incompatible API changes, MINOR update for new, backwards-compatible functionality, and PATCH update for backwards-compatible bug fixes."
+                ),
             },
             {
                 "role": "user",
@@ -86,11 +93,15 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version):
     )
 
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful assistant, optimized to provide accurate and concise information.",
+                "content": (
+                    "You are an expert in creating structured and clear changelogs. Your task is to generate a concise and accurate changelog in markdown format based on the provided commit messages. "
+                    "Categorize the changes under appropriate headers such as 'Added', 'Fixed', and 'Changed'. "
+                    "Exclude any empty sections and ensure the changelog adheres to markdown syntax."
+                ),
             },
             {
                 "role": "user",
@@ -117,9 +128,7 @@ def get_commit_messages_since_latest_tag(repo_path=".", min_length=10, max_lengt
         elif len(message) > max_length:
             commit_messages.add(message[:max_length] + "...")  # Truncate and add ellipsis
 
-
     return latest_tag, "\n".join(commit_messages)
-
 
 
 # Function to prepend changelog to CHANGELOG.md

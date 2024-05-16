@@ -7,30 +7,48 @@ Commit Messages:
 $commit_messages
 ```
 
-Objective: Create a structured, clear, and concise changelog in markdown format, reflecting the changes made in the latest software version.
+Objective:
+
+Create a structured, clear, and concise changelog in markdown format, reflecting the changes made in the latest software version.
 
 Instructions:
 
-    Format the Changelog Header:
-        Use markdown's '##' syntax to format the version header.
-        Follow the pattern: ## [$next_version] - $current_date
+1. Format the Changelog Header:
 
-    Process Commit Messages:
-        Categorize these messages under relevant headers like 'Added', 'Fixed', 'Changed', etc.
-        Ensure each commit message is converted into a bullet point under the appropriate header.
+    Use markdown's ## syntax to format the version header.
+    Follow the pattern: ## [$next_version] - $current_date.
 
-    Exclude Empty Sections:
-        If there are no commit messages for a particular category ('Added', 'Fixed', 'Changed', etc), do not include that section in the changelog.
+2. Process Commit Messages:
+
+    Categorize these messages under relevant headers such as Added, Fixed, Changed, etc.
+    Convert each commit message into a bullet point under the appropriate header.
+
+3. Exclude Empty Sections:
+
+    If there are no commit messages for a particular category (e.g., Added, Fixed, Changed), do not include that section in the changelog.
 
 Changelog Template:
 
     ## [$next_version] - $current_date
+
     ### Added
     - (List out added features or enhancements)
+
     ### Fixed
     - (List out bug fixes)
+
     ### Changed
     - (List out updates to existing features)
-    ... (Include other relevant sections like 'Removed', 'Deprecated', etc., if applicable)
 
-Ensure that the changelog is succinct, accurately reflects the changes, and adheres to markdown syntax. Avoid inclusion of irrelevant or redundant information.
+    ### Removed
+    - (List out features that have been removed)
+
+    ### Deprecated
+    - (List out features that have been deprecated)
+
+
+Additional Guidelines:
+
+    - Ensure that the changelog is succinct and accurately reflects the changes.
+    - Adhere strictly to markdown syntax for consistency and readability.
+    - Avoid including irrelevant or redundant information.

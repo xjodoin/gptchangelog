@@ -9,12 +9,15 @@ $commit_messages
 
 Rules for Incrementing:
 
-    MAJOR Update: When there are incompatible API changes.
-    MINOR Update: When new, backwards-compatible functionality is added.
-    PATCH Update: For backwards-compatible bug fixes.
+    MAJOR Update: Increment for incompatible API changes.
+    MINOR Update: Increment for new, backwards-compatible functionality.
+    PATCH Update: Increment for backwards-compatible bug fixes.
 
-Objective: Determine the next version number based on the above commit messages, adhering to semantic versioning principles.
+Objective:
 
-Output Format: Provide the next version number in the format MAJOR.MINOR.PATCH.
+Determine the next version number based on the provided commit messages, following the principles of semantic versioning.
+Output Format:
+
+Provide the next version number in the format MAJOR.MINOR.PATCH.
 
 Example Output: 1.2.3
