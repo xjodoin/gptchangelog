@@ -8,7 +8,7 @@ setup(
     version="0.5.0",
     author="Xavier Jodoin",
     author_email="xavier@jodoin.me",
-    description="Automatically generate a changelog using GPT-3.5",
+    description="Automatically generate a changelog using AI",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/xjodoin/gptchangelog",
