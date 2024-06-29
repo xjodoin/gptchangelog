@@ -179,7 +179,7 @@ def load_openai_config(config_file_name="config.ini"):
 
     config = configparser.ConfigParser()
     config.read(config_file)
-    return config["openai"]["api_key"], config["openai"].get("model", "gpt-4o")
+    return config["openai"]["api_key"], config["openai"].get("model", "gpt-4o"), config["openai"].get("base_url", "https://api.openai.com/v1")
 
 
 def main():
@@ -201,9 +201,10 @@ def main():
     # Parse the arguments
     args = parser.parse_args()
 
-    api_key, model = load_openai_config()
+    api_key, model, base_url = load_openai_config()
 
     openai.api_key = api_key
+    openai.base_url = base_url
 
     latest_commit = args.since
     if latest_commit is None:
