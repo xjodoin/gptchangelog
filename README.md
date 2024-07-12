@@ -27,6 +27,17 @@ model = gpt-4o
 ```
 Replace `your_openai_api_key_here` with your actual OpenAI API key. You can set the `model` parameter to the desired version of GPT (e.g., `gpt-4o`).
 
+### Ollama Configuration
+
+To use Ollama, configure the file as follows:
+
+```ini
+[openai]
+api_key = ollama
+model = gemma2
+base_url = http://localhost:11434/v1/
+```
+
 ## Usage
 
 Generating a changelog and updating your `CHANGELOG.md` file is straightforward. Navigate to your Git repository directory and run:
