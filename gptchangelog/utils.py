@@ -24,13 +24,13 @@ def render_prompt(template_path, context):
     return template.safe_substitute(context)
 
 
-def estimate_tokens(text, model="gpt-3.5-turbo"):
+def estimate_tokens(text, model="gpt-4o-mini"):
     """Estimate the number of tokens in a text for a given model."""
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
 
-def split_commit_messages(commit_messages, max_tokens, model="gpt-3.5-turbo"):
+def split_commit_messages(commit_messages, max_tokens, model="gpt-4o-mini"):
     """Split commit messages into batches that fit within the max token limit."""
     message_batches = []
     current_batch = []

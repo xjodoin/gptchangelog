@@ -25,8 +25,8 @@ def load_openai_config(config_file_name="config.ini"):
     config.read(config_file)
 
     api_key = config["openai"]["api_key"]
-    model = config["openai"].get("model", "gpt-4")
-    max_context_tokens = int(config["openai"].get("max_context_tokens", "8000"))
+    model = config["openai"].get("model", "gpt-4o")
+    max_context_tokens = int(config["openai"].get("max_context_tokens", "80000"))
 
     return api_key, model, max_context_tokens
 
@@ -59,8 +59,8 @@ def init_config():
         return
 
     # Use defaults for model and max_context_tokens, but allow the user to change them
-    default_model = "gpt-4"
-    default_max_tokens = "8000"
+    default_model = "gpt-4o"
+    default_max_tokens = "80000"
 
     model = input(f"Enter the model to use [default: {default_model}]: ").strip() or default_model
     max_context_tokens = input(f"Enter max context tokens [default: {default_max_tokens}]: ").strip() or default_max_tokens

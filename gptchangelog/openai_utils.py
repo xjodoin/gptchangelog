@@ -1,9 +1,12 @@
 # openai_utils.py
 
-import openai
 import logging
-from utils import render_prompt, estimate_tokens, split_commit_messages
 from datetime import datetime
+
+import openai
+from openai import OpenAIError
+
+from utils import render_prompt, split_commit_messages
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +25,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
         )
 
         try:
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model=model,
                 messages=[
                     {
@@ -37,9 +40,9 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
                     },
                 ],
             )
-            refined_message = response.choices[0].message.content.strip()
+            refined_message = response.choices[0].message.content
             refined_commit_messages.append(refined_message)
-        except openai.error.OpenAIError as e:
+        except OpenAIError as e:
             logger.error(f"OpenAI API error: {e}")
             continue
 
@@ -52,7 +55,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
     )
 
     try:
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model=model,
             messages=[
                 {
@@ -67,8 +70,8 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
                 },
             ],
         )
-        next_version = response.choices[0].message.content.strip()
-    except openai.error.OpenAIError as e:
+        next_version = response.choices[0].message.content
+    except OpenAIError as e:
         logger.error(f"OpenAI API error: {e}")
         next_version = latest_version  # Fallback to the latest version
 
@@ -85,7 +88,7 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
     )
 
     try:
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model=model,
             messages=[
                 {
@@ -100,8 +103,8 @@ def generate_changelog_and_next_version(raw_commit_messages, latest_version, mod
                 },
             ],
         )
-        changelog = response.choices[0].message.content.strip()
-    except openai.error.OpenAIError as e:
+        changelog = response.choices[0].message.content
+    except OpenAIError as e:
         logger.error(f"OpenAI API error: {e}")
         changelog = ""  # Fallback to empty changelog
 

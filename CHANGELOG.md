@@ -1,3 +1,16 @@
+## [0.6.0] - 2024-10-18
+
+### Added
+- Added deploy script and implemented project-specific configuration support for `gptchangelog`.
+- Introduced utility functions for fetching commit messages to streamline changelog generation.
+- Added functions for rendering prompts and estimating token usage to optimize OpenAI API calls.
+
+### Changed
+- Refactored main application logic to improve structure and error handling.
+- Enhanced interactions for generating changelogs and versioning, optimizing accuracy and reliability.
+- Updated README with additional features, installation, and usage instructions.
+- Updated requirements and setup for better package management, removed deprecated `setup.py`, and reorganized project structure for clarity and maintainability.
+
 ## [0.5.1] - 2024-05-16
 
 ### Added
