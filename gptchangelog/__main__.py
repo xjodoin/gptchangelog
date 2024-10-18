@@ -2,7 +2,12 @@
 
 """
 
-if __name__ == '__main__':  # pragma: nocover
+
+def main():
     from gptchangelog.cli import app
 
     app()
+
+
+if __name__ == '__main__':  # pragma: nocover
+    main()
