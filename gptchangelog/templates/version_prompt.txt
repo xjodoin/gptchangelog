@@ -16,6 +16,7 @@ Rules for Incrementing:
 Objective:
 
 Determine the next version number based on the provided commit messages, following the principles of semantic versioning.
+
 Output Format:
 
 Provide the next version number in the format MAJOR.MINOR.PATCH.

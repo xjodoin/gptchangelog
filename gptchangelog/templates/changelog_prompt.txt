@@ -46,7 +46,6 @@ Changelog Template:
     ### Deprecated
     - (List out features that have been deprecated)
 
-
 Additional Guidelines:
 
     - Ensure that the changelog is succinct and accurately reflects the changes.
