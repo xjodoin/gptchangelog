@@ -4,12 +4,12 @@ import os
 
 def load_openai_config(config_file_name="config.ini"):
     # First, check for per-project config
-    project_config_dir = os.path.join(os.getcwd(), '.src')
+    project_config_dir = os.path.join(os.getcwd(), '.gptchangelog')
     project_config_file = os.path.join(project_config_dir, config_file_name)
 
     # Then, check for global config
     home_dir = os.path.expanduser("~")
-    global_config_dir = os.path.join(home_dir, ".config", "src")
+    global_config_dir = os.path.join(home_dir, ".config", "gptchangelog")
     global_config_file = os.path.join(global_config_dir, config_file_name)
 
     if os.path.exists(project_config_file):
@@ -18,7 +18,7 @@ def load_openai_config(config_file_name="config.ini"):
         config_file = global_config_file
     else:
         raise FileNotFoundError(
-            "Configuration file not found. Please run 'src config init' to initialize the configuration."
+            "Configuration file not found. Please run 'gptchangelog config init' to initialize the configuration."
         )
 
     config = configparser.ConfigParser()
@@ -41,9 +41,9 @@ def init_config():
             print("Please enter 'g' for global or 'p' for project.")
 
     if config_type == '' or config_type == 'g':
-        config_dir = os.path.join(os.path.expanduser("~"), ".config", "src")
+        config_dir = os.path.join(os.path.expanduser("~"), ".config", "gptchangelog")
     else:
-        config_dir = os.path.join(os.getcwd(), '.src')
+        config_dir = os.path.join(os.getcwd(), '.gptchangelog')
 
     if not os.path.exists(config_dir):
         os.makedirs(config_dir)
@@ -79,12 +79,12 @@ def init_config():
 
 def show_config():
     # Check for project config
-    project_config_dir = os.path.join(os.getcwd(), '.src')
+    project_config_dir = os.path.join(os.getcwd(), '.gptchangelog')
     project_config_file = os.path.join(project_config_dir, 'config.ini')
 
     # Check for global config
     home_dir = os.path.expanduser("~")
-    global_config_dir = os.path.join(home_dir, ".config", "src")
+    global_config_dir = os.path.join(home_dir, ".config", "gptchangelog")
     global_config_file = os.path.join(global_config_dir, 'config.ini')
 
     configs = []
