@@ -6,7 +6,7 @@ from datetime import datetime
 import openai
 from openai import OpenAIError
 
-from utils import render_prompt, split_commit_messages
+from .utils import render_prompt, split_commit_messages
 
 logger = logging.getLogger(__name__)
 

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def get_package_version():
     try:
-        return pkg_resources.get_distribution("gptchangelog").version
+        return pkg_resources.get_distribution("src").version
     except pkg_resources.DistributionNotFound:
         return "Unknown"
 

@@ -12,7 +12,7 @@ Make sure you have Python installed on your system. You can download Python from
 
    ```sh
    git clone https://github.com/xjodoin/gptchangelog.git
-   cd gptchangelog
+   cd src
    ```
 
 2. **Create a Virtual Environment (Optional but Recommended):**
@@ -43,7 +43,7 @@ Make sure you have Python installed on your system. You can download Python from
 You can verify the installation by running the `gptchangelog` command:
 
 ```sh
-gptchangelog --help
+src --help
 ```
 
 ### Additional Information
@@ -61,7 +61,7 @@ gptchangelog --help
   To uninstall the project, simply run:
 
   ```sh
-  pip uninstall gptchangelog
+  pip uninstall src
   ```
 
 ### Troubleshooting

@@ -3,11 +3,11 @@ import logging
 import git
 import openai
 
-from utils import get_package_version
-from config import load_openai_config, init_config, show_config
-from git_utils import get_commit_messages_since
-from openai_utils import generate_changelog_and_next_version
-from utils import prepend_changelog_to_file
+from .utils import get_package_version
+from .config import load_openai_config, init_config, show_config
+from .git_utils import get_commit_messages_since
+from .openai_utils import generate_changelog_and_next_version
+from .utils import prepend_changelog_to_file
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,13 +46,13 @@ def run_gptchangelog(args):
     print(changelog)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="gptchangelog")
+def app():
+    parser = argparse.ArgumentParser(description="src")
     parser.add_argument(
         "-v",
         "--version",
         action="version",
-        version=f"gptchangelog {get_package_version()}",
+        version=f"src {get_package_version()}",
     )
     subparsers = parser.add_subparsers(dest='command', help='Sub-commands')
 
@@ -88,4 +88,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    app()
