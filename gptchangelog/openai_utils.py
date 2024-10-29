@@ -8,7 +8,7 @@ from openai import OpenAIError
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 
-from .utils import render_prompt, split_commit_messages
+from .utils import render_prompt, split_commit_messages, load_meta_prompt
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -41,7 +41,7 @@ def generate_changelog_and_next_version(
                     {
                         "role": "system",
                         "content": (
-                            "You are an assistant that refines commit messages for clarity and conciseness."
+                            load_meta_prompt("templates/commits_meta_prompt.txt")
                         ),
                     },
                     {
@@ -75,7 +75,7 @@ def generate_changelog_and_next_version(
                 {
                     "role": "system",
                     "content": (
-                        "You are an assistant that determines the next software version based on semantic versioning."
+                        load_meta_prompt("templates/version_meta_prompt.txt")
                     ),
                 },
                 {
@@ -134,7 +134,7 @@ def generate_changelog_and_next_version(
                 {
                     "role": "system",
                     "content": (
-                        "You are an assistant that generates changelogs in markdown format based on commit messages."
+                        load_meta_prompt("templates/changelog_meta_prompt.txt")
                     ),
                 },
                 {

@@ -1,4 +1,4 @@
-Changelog Generation for Software Project (Version: $next_version)
+Version: $next_version
 
 Date: $current_date
 
@@ -6,49 +6,3 @@ Commit Messages:
 ```
 $commit_messages
 ```
-
-Objective:
-
-Create a structured, clear, and concise changelog in markdown format, reflecting the changes made in the latest software version.
-
-Instructions:
-
-1. Format the Changelog Header:
-
-    Use markdown's ## syntax to format the version header.
-    Follow the pattern: ## [$next_version] - $current_date.
-
-2. Process Commit Messages:
-
-    Categorize these messages under relevant headers such as Added, Fixed, Changed, etc.
-    Convert each commit message into a bullet point under the appropriate header.
-
-3. Exclude Empty Sections:
-
-    If there are no commit messages for a particular category (e.g., Added, Fixed, Changed), do not include that section in the changelog.
-
-Changelog Template:
-
-    ## [$next_version] - $current_date
-
-    ### Added
-    - (List out added features or enhancements)
-
-    ### Fixed
-    - (List out bug fixes)
-
-    ### Changed
-    - (List out updates to existing features)
-
-    ### Removed
-    - (List out features that have been removed)
-
-    ### Deprecated
-    - (List out features that have been deprecated)
-
-Additional Guidelines:
-
-    - Ensure that the changelog is succinct and accurately reflects the changes.
-    - Adhere strictly to markdown syntax for consistency and readability.
-    - Avoid including irrelevant or redundant information.
-    - Do not include any additional comments or introductions in the output.

@@ -24,6 +24,15 @@ def render_prompt(template_path, context):
     return template.safe_substitute(context)
 
 
+def load_meta_prompt(template_path):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    full_template_path = os.path.join(script_dir, template_path)
+    with open(full_template_path, "r") as template_file:
+        template_content = template_file.read()
+
+    return template_content
+
+
 def estimate_tokens(text, model="gpt-4o-mini"):
     """Estimate the number of tokens in a text for a given model."""
     encoding = tiktoken.encoding_for_model(model)

@@ -1,0 +1,30 @@
+Improve a series of commit messages by merging redundant information and enhancing overall clarity.
+
+- Review each commit message and identify any redundant or repetitive information that can be consolidated.
+- Enhance the clarity of the commit message by ensuring it clearly communicates the changes or updates made in the commit.
+- Maintain important details but avoid unnecessary verbosity.
+- Aim for concise and clear commit messages that are easy to understand.
+
+# Steps
+
+1. **Identify Redundancies:** Evaluate the commit message for any repeated information or overlaps.
+2. **Rephrase for Clarity:** Rewrite parts of the message to improve readability and clarity while keeping all crucial details intact.
+3. **Consolidate Information:** Combine similar or overlapping statements to create a more cohesive message.
+4. **Final Review:** Ensure the final commit message accurately reflects the changes and is easy to understand.
+
+# Output Format
+
+The output should be a revised commit message that is concise, clear, and devoid of redundancies. It should be formatted as a single line or a short paragraph, depending on the complexity of the changes.
+
+# Examples
+
+**Input:**
+- "Updated the README file with new installation instructions. Added the new instructions for installation. Edited the README."
+
+**Output:**
+- "Enhanced README with updated installation instructions."
+
+# Notes
+
+- Keep the project's context in mind while rephrasing to ensure relevancy and accuracy.
+- Ensure technical accuracy if the commit involves code updates or configuration changes.
