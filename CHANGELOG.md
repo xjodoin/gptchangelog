@@ -1,3 +1,13 @@
+**v0.7.0 - 2024-10-29**
+
+- **Features**
+  - Replaced logger with rich console in `cli.py` to enhance user feedback and visibility.
+  - Introduced user confirmation for suggested version in changelog generation and loaded meta prompts from templates in `openai_utils.py` for better clarity.
+  - Added `load_meta_prompt` function in `utils.py` to enable dynamic prompt generation from template files.
+
+- **Bug Fixes**
+  - Corrected the version constraint for the rich library in `setup.cfg` from '=>' to '>=' to ensure proper installation.
+
 ## [0.6.0] - 2024-10-18
 
 ### Added
