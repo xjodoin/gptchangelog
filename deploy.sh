@@ -18,8 +18,8 @@ echo "Updating version to $VERSION in setup.py..."
 awk -v version="$VERSION" '/version=/ {gsub(/"[0-9.]+"/, "\"" version "\"")}1' setup.py > setup.tmp && mv setup.tmp setup.py
 
 # Install required tools
-echo "Installing setuptools, wheel, and twine..."
-pip install --upgrade setuptools wheel twine
+echo "Installing twine..."
+pip install --upgrade twine
 
 # Clean previous builds
 echo "Cleaning previous builds..."
@@ -27,7 +27,7 @@ rm -rf dist
 
 # Build the package
 echo "Building the package..."
-python setup.py sdist bdist_wheel
+python -m build
 
 # Upload to PyPI
 echo "Uploading the package to PyPI..."
