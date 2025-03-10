@@ -22,10 +22,35 @@ console = Console()
 
 
 def run_gptchangelog(args):
-    try:
-        api_key, model, max_context_tokens = load_openai_config()
-    except FileNotFoundError as e:
-        logger.error(e)
+    # Check for environment variables first
+    api_key = os.environ.get("OPENAI_API_KEY")
+    model = os.environ.get("GPTCHANGELOG_MODEL")
+    max_tokens = os.environ.get("GPTCHANGELOG_MAX_TOKENS")
+
+    # If not in environment, load from config
+    if not api_key or not model or not max_tokens:
+        try:
+            config_api_key, config_model, config_max_tokens = load_openai_config()
+            api_key = api_key or config_api_key
+            model = model or config_model
+            max_tokens = max_tokens or config_max_tokens
+        except FileNotFoundError as e:
+            logger.error(e)
+            return 1
+
+    # Command line arguments override config and env vars
+    if args.model:
+        model = args.model
+
+    if args.max_tokens:
+        max_tokens = args.max_tokens
+
+    # Ensure we have values or use defaults
+    model = model or "gpt-4o"
+    max_tokens = int(max_tokens or 80000)
+
+    if not api_key:
+        logger.error("No OpenAI API key found. Set it in config or use OPENAI_API_KEY environment variable.")
         return 1
 
     openai.api_key = api_key
@@ -96,11 +121,26 @@ def run_gptchangelog(args):
 
         # Generate the changelog
         try:
+            # Handle language setting for multi-language support
+            language = args.language
+            if language != "en":
+                # Prepare context for multi-language support
+                lang_context = {
+                    **context,
+                    "language": language,
+                }
+
+                # Override template paths for language-specific templates
+                os.environ["GPTCHANGELOG_TEMPLATE_PATH"] = f"templates/{language}_changelog_prompt.txt"
+
+                # Log the language being used
+                console.print(f"[blue]Generating changelog in {language}[/blue]")
+
             changelog, next_version = generate_changelog_and_next_version(
                 commit_messages,
                 current_version,
                 model,
-                max_context_tokens,
+                max_tokens,
                 context
             )
             progress.update(task, advance=75)
@@ -214,6 +254,24 @@ def app():
         "--interactive", "-i",
         action="store_true",
         help="Enable interactive mode to review and edit the changelog before saving."
+    )
+    generate_parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="OpenAI model to use (overrides the one in config)."
+    )
+    generate_parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=None,
+        help="Maximum context tokens to use (overrides the one in config)."
+    )
+    generate_parser.add_argument(
+        "--language",
+        type=str,
+        default="en",
+        help="Language for the changelog (default: English)."
     )
 
     # Set generate as the default command

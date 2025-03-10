@@ -1,0 +1,85 @@
+Génération de Journal des Modifications pour Projet Logiciel (Version: $next_version)
+
+Date: $current_date
+Projet: $project_name
+
+Messages de Commit:
+```
+$commit_messages
+```
+
+Objectif:
+Créer un journal des modifications structuré, clair et complet en format markdown, reflétant les changements effectués dans la dernière version du logiciel.
+
+Instructions:
+
+1. Format de l'En-tête du Journal des Modifications:
+   - Utiliser la syntaxe ## de markdown pour formater l'en-tête de version.
+   - Suivre le modèle: ## [$next_version] - $current_date
+
+2. Traitement des Messages de Commit:
+   - Analyser chaque commit pour déterminer son type (fonctionnalité, correction, amélioration, etc.)
+   - Rechercher les préfixes de commit conventionnels comme "feat:", "fix:", "chore:", etc.
+   - Si un commit n'a pas de préfixe, analyser son contenu pour déterminer la catégorie la plus appropriée
+   - Regrouper les commits connexes sous le même point
+
+3. Catégoriser les Changements:
+   - Utiliser ces catégories principales:
+     - ✨ **Fonctionnalités**: Nouvelles fonctionnalités ou améliorations significatives
+     - 🐛 **Corrections de Bugs**: Corrections de fonctionnalités existantes
+     - 🔄 **Changements**: Mises à jour ou modifications de fonctionnalités existantes
+     - 🗑️ **Supprimé**: Fonctionnalités ou fonctionnalités qui ont été supprimées
+     - ⚠️ **Déprécié**: Fonctionnalités qui seront supprimées dans les versions futures
+     - 📚 **Documentation**: Mises à jour ou améliorations de la documentation
+     - 🔧 **Maintenance**: Refactorisation du code, mises à jour des dépendances, etc.
+   - N'inclure que les catégories qui ont des commits pertinents
+
+4. Formater Chaque Changement:
+   - Commencer par un résumé clair et concis du changement
+   - Inclure le contexte pertinent et l'impact si approprié
+   - Formater en points cohérents
+   - Mentionner les numéros de problèmes/PR s'ils apparaissent dans les messages de commit
+
+5. Style d'Écriture:
+   - Utiliser le présent (ex: "Ajoute une fonctionnalité" et non "A ajouté une fonctionnalité")
+   - Être précis sur ce qui a changé et pourquoi c'est important
+   - Garder les entrées concises mais informatives
+   - Assurer un formatage cohérent pour toutes les entrées
+
+6. Organisation:
+   - Lister d'abord les changements les plus significatifs dans chaque catégorie
+   - Regrouper les changements connexes
+   - Assurer un flux logique dans la présentation des changements
+
+Directives supplémentaires:
+- S'assurer que le journal des modifications est accessible aux lecteurs techniques et non techniques
+- Mettre en évidence les changements majeurs de manière proéminente
+- Éviter le jargon technique sauf si nécessaire
+- Ne pas inclure les hachages de commit ou les commits triviaux (ex: corrections de fautes de frappe) sauf s'ils résolvent des problèmes importants
+
+Format de Sortie:
+```markdown
+## [$next_version] - $current_date
+
+### ✨ Fonctionnalités
+- Implémentation de la nouvelle fonctionnalité X qui permet la capacité Y
+- Ajout du support pour l'intégration Z
+
+### 🐛 Corrections de Bugs
+- Correction du problème avec la fonctionnalité de connexion qui empêchait les utilisateurs d'accéder à leurs comptes
+- Résolution du goulot d'étranglement de performance dans le pipeline de traitement des données
+
+### 🔄 Changements
+- Mise à jour des composants UI pour une meilleure réactivité
+- Modification de la structure des points de terminaison API pour une meilleure cohérence
+
+### 🔧 Maintenance
+- Mise à niveau des dépendances vers les dernières versions
+- Refactorisation de la structure du code pour une meilleure maintenabilité
+
+### 📚 Documentation
+- Ajout d'un guide complet pour les nouvelles fonctionnalités
+- Mise à jour des instructions d'installation
+```
+
+Ne pas inclure de texte explicatif ou de commentaires dans votre sortie - fournir uniquement le journal des modifications formaté.

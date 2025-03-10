@@ -1,8 +1,8 @@
 site_name: GPTChangelog
 site_description: Automatically generate detailed changelogs from git commit history using AI
-site_url: https://username.github.io/gptchangelog/
-repo_url: https://github.com/username/gptchangelog
-repo_name: username/gptchangelog
+site_url: https://xjodoin.github.io/gptchangelog/
+repo_url: https://github.com/xjodoin/gptchangelog
+repo_name: xjodoin/gptchangelog
 
 theme:
   name: material

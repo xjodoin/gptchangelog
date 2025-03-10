@@ -1,0 +1,85 @@
+Generación de Registro de Cambios para Proyecto de Software (Versión: $next_version)
+
+Fecha: $current_date
+Proyecto: $project_name
+
+Mensajes de Commit:
+```
+$commit_messages
+```
+
+Objetivo:
+Crear un registro de cambios estructurado, claro y completo en formato markdown, que refleje los cambios realizados en la última versión del software.
+
+Instrucciones:
+
+1. Formato del Encabezado del Registro de Cambios:
+   - Usar la sintaxis ## de markdown para formatear el encabezado de versión.
+   - Seguir el patrón: ## [$next_version] - $current_date
+
+2. Procesar Mensajes de Commit:
+   - Analizar cada commit para determinar su tipo (función, corrección, mejora, etc.)
+   - Buscar prefijos de commit convencionales como "feat:", "fix:", "chore:", etc.
+   - Si un commit no tiene prefijo, analizar su contenido para determinar la categoría más apropiada
+   - Agrupar commits relacionados bajo el mismo punto
+
+3. Categorizar Cambios:
+   - Usar estas categorías principales:
+     - ✨ **Características**: Nuevas funcionalidades o mejoras significativas
+     - 🐛 **Correcciones de Errores**: Correcciones a funcionalidades existentes
+     - 🔄 **Cambios**: Actualizaciones o modificaciones a características existentes
+     - 🗑️ **Eliminado**: Características o funcionalidades que han sido eliminadas
+     - ⚠️ **Obsoleto**: Características que serán eliminadas en futuras versiones
+     - 📚 **Documentación**: Actualizaciones o mejoras en la documentación
+     - 🔧 **Mantenimiento**: Refactorización de código, actualizaciones de dependencias, etc.
+   - Solo incluir categorías que tengan commits relevantes
+
+4. Formatear Cada Cambio:
+   - Comenzar con un resumen claro y conciso del cambio
+   - Incluir contexto relevante e impacto cuando sea apropiado
+   - Formatear en puntos consistentes
+   - Mencionar números de problemas/PR si aparecen en los mensajes de commit
+
+5. Estilo de Escritura:
+   - Usar tiempo presente (ej., "Añade función" no "Añadió función")
+   - Ser específico sobre qué cambió y por qué es importante
+   - Mantener las entradas concisas pero informativas
+   - Asegurar un formato consistente en todas las entradas
+
+6. Organización:
+   - Listar los cambios más significativos primero dentro de cada categoría
+   - Agrupar cambios relacionados
+   - Asegurar un flujo lógico en la presentación de los cambios
+
+Directrices Adicionales:
+- Asegurar que el registro de cambios sea accesible tanto para lectores técnicos como no técnicos
+- Destacar prominentemente los cambios disruptivos
+- Evitar jerga técnica a menos que sea necesario
+- No incluir hashes de commit o commits triviales (ej., correcciones de tipografía) a menos que aborden problemas significativos
+
+Formato de Salida:
+```markdown
+## [$next_version] - $current_date
+
+### ✨ Características
+- Implementación de nueva característica X que permite la capacidad Y
+- Añadido soporte para integración con Z
+
+### 🐛 Correcciones de Errores
+- Solucionado problema con la funcionalidad de inicio de sesión que impedía a los usuarios acceder a sus cuentas
+- Resuelto cuello de botella de rendimiento en el pipeline de procesamiento de datos
+
+### 🔄 Cambios
+- Actualizados componentes de UI para mejor capacidad de respuesta
+- Modificada estructura de endpoints de API para mejor consistencia
+
+### 🔧 Mantenimiento
+- Actualizadas dependencias a las últimas versiones
+- Refactorizado estructura de código para mejor mantenibilidad
+
+### 📚 Documentación
+- Añadida guía completa para nuevas características
+- Actualizadas instrucciones de instalación
+```
+
+No incluyas ningún texto explicativo o comentarios en tu salida - proporciona solamente el registro de cambios formateado.

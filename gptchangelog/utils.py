@@ -41,8 +41,23 @@ def render_prompt(template_path, context):
     Returns:
         The rendered prompt string
     """
+    # Check if an environment variable override is provided
+    env_template_path = os.environ.get("GPTCHANGELOG_TEMPLATE_PATH")
+    if env_template_path:
+        template_path = env_template_path
+
+    # First, check for project-specific template
+    project_template = os.path.join(os.getcwd(), ".gptchangelog", "templates", template_path)
+
+    # Next, check for package template
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    full_template_path = os.path.join(script_dir, template_path)
+    package_template = os.path.join(script_dir, template_path)
+
+    # Try to load the template from either location
+    if os.path.exists(project_template):
+        full_template_path = project_template
+    else:
+        full_template_path = package_template
 
     try:
         with open(full_template_path, "r") as template_file:
