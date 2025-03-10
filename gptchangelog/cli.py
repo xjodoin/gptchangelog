@@ -1,17 +1,23 @@
-# main.py
-
 import argparse
 import logging
+import os
+import sys
 import git
 import openai
 from rich.console import Console
+from rich.markdown import Markdown
+from rich.progress import Progress
+from rich.prompt import Confirm, Prompt
+from datetime import datetime
 
-from .utils import get_package_version
+from .utils import get_package_version, prepend_changelog_to_file, render_prompt
 from .config import load_openai_config, init_config, show_config
-from .git_utils import get_commit_messages_since
+from .git_utils import get_commit_messages_since, get_latest_tag, get_repository_name
 from .openai_utils import generate_changelog_and_next_version
-from .utils import prepend_changelog_to_file
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 console = Console()
 
 
@@ -19,95 +25,218 @@ def run_gptchangelog(args):
     try:
         api_key, model, max_context_tokens = load_openai_config()
     except FileNotFoundError as e:
-        console.print(f"[bold red]Error:[/bold red] {e}")
-        return
+        logger.error(e)
+        return 1
 
     openai.api_key = api_key
 
-    latest_commit = args.since
-    repo = git.Repo(".")
-    if latest_commit is None:
+    # Get repository information
+    try:
+        repo = git.Repo(".")
+        repo_name = get_repository_name(repo)
+    except git.InvalidGitRepositoryError:
+        logger.error("Current directory is not a git repository.")
+        return 1
+
+    # Get commit range
+    from_commit = args.since
+    to_commit = args.to or "HEAD"
+
+    if from_commit is None:
         try:
-            latest_commit = repo.git.describe("--tags", "--abbrev=0")
-        except git.GitCommandError:
-            latest_commit = repo.git.rev_list("--max-parents=0", "HEAD")
+            from_commit = get_latest_tag(repo)
+            console.print(f"[green]Using latest tag: {from_commit}[/green]")
+        except Exception as e:
+            logger.error(f"Failed to get latest tag: {e}")
+            from_commit = repo.git.rev_list("--max-parents=0", "HEAD")
+            console.print(f"[yellow]No tags found, using initial commit: {from_commit[:8]}...[/yellow]")
 
-    latest_commit, commit_messages = get_commit_messages_since(latest_commit)
-    if not commit_messages:
-        console.print("[bold yellow]No new commit messages found.[/bold yellow]")
-        return
+    # Get commit messages
+    with Progress() as progress:
+        task = progress.add_task("[cyan]Fetching commit messages...", total=100)
+        progress.update(task, advance=50)
 
-    changelog, next_version = generate_changelog_and_next_version(
-        commit_messages, latest_commit, model, max_context_tokens
-    )
+        commit_range = f"{from_commit}..{to_commit}"
+        try:
+            latest_commit, commit_messages = get_commit_messages_since(from_commit, to_commit=to_commit)
 
-    if not changelog:
-        console.print("[bold red]Failed to generate changelog.[/bold red]")
-        return
+            if not commit_messages:
+                console.print("[yellow]No new commit messages found.[/yellow]")
+                return 0
 
-    prepend_changelog_to_file(changelog)
+            num_commits = len(commit_messages.strip().split("\n"))
+            console.print(f"[green]Found {num_commits} commits in range {commit_range}[/green]")
+            progress.update(task, advance=50)
+        except Exception as e:
+            logger.error(f"Failed to fetch commit messages: {e}")
+            return 1
 
-    console.print("\n[bold green]Changelog generated and prepended to CHANGELOG.md:[/bold green]")
-    console.print(changelog)
-    console.print(f"\n[bold green]Next version:[/bold green] {next_version}")
-    console.print("[bold cyan]Done.[/bold cyan]")
+    # Generate changelog
+    with Progress() as progress:
+        task = progress.add_task("[cyan]Generating changelog...", total=100)
+
+        # Get current version from latest tag or provided version
+        current_version = args.current_version or latest_commit
+        if current_version.startswith('v'):
+            # Keep the 'v' prefix for consistency
+            has_v_prefix = True
+        else:
+            has_v_prefix = False
+
+        # Set up context for prompt rendering
+        context = {
+            "project_name": repo_name,
+            "current_date": datetime.today().strftime("%Y-%m-%d"),
+        }
+
+        progress.update(task, advance=25)
+
+        # Generate the changelog
+        try:
+            changelog, next_version = generate_changelog_and_next_version(
+                commit_messages,
+                current_version,
+                model,
+                max_context_tokens,
+                context
+            )
+            progress.update(task, advance=75)
+        except Exception as e:
+            logger.error(f"Failed to generate changelog: {e}")
+            return 1
+
+    # Display the generated changelog
+    console.print("\n[bold]Generated Changelog:[/bold]")
+    console.print(Markdown(changelog))
+    console.print(f"\n[bold]Next version:[/bold] {next_version}")
+
+    # Interactive mode to confirm or edit the changelog
+    if args.interactive:
+        should_edit = Confirm.ask("Would you like to edit the changelog?")
+        if should_edit:
+            temp_file = os.path.join(os.getcwd(), ".temp_changelog.md")
+            with open(temp_file, "w") as f:
+                f.write(changelog)
+
+            # Open editor
+            editor = os.environ.get("EDITOR", "vim")
+            os.system(f"{editor} {temp_file}")
+
+            # Read edited content
+            with open(temp_file, "r") as f:
+                changelog = f.read()
+
+            # Remove temp file
+            os.unlink(temp_file)
+
+            # Show the edited changelog
+            console.print("\n[bold]Edited Changelog:[/bold]")
+            console.print(Markdown(changelog))
+
+    # Save changelog
+    if not args.dry_run:
+        should_save = True
+        if args.interactive:
+            should_save = Confirm.ask("Save this changelog to CHANGELOG.md?")
+
+        if should_save:
+            output_file = args.output or "CHANGELOG.md"
+            prepend_changelog_to_file(changelog, output_file)
+            console.print(f"[green]Changelog saved to {output_file}[/green]")
+    else:
+        console.print("[yellow]Dry run mode - changelog not saved[/yellow]")
+
+    return 0
 
 
 def app():
-    parser = argparse.ArgumentParser(description="Generate a changelog using GPT.")
+    parser = argparse.ArgumentParser(
+        description="Generate changelogs from git commit messages using AI"
+    )
     parser.add_argument(
         "-v",
         "--version",
         action="version",
-        version=f"gpt-changelog {get_package_version()}",
+        version=f"gptchangelog {get_package_version()}",
     )
-    subparsers = parser.add_subparsers(dest="command", help="Sub-commands")
+
+    subparsers = parser.add_subparsers(dest='command', help='Commands')
 
     # 'config' sub-command
-    config_parser = subparsers.add_parser("config", help="Manage configuration")
-    config_subparsers = config_parser.add_subparsers(
-        dest="config_command", help="Config commands"
-    )
+    config_parser = subparsers.add_parser('config', help='Manage configuration')
+    config_subparsers = config_parser.add_subparsers(dest='config_command', help='Config commands')
 
     # 'config show' sub-command
-    config_subparsers.add_parser("show", help="Show current configuration")
+    config_subparsers.add_parser('show', help='Show current configuration')
 
     # 'config init' sub-command
-    config_subparsers.add_parser("init", help="Initialize configuration")
+    config_subparsers.add_parser('init', help='Initialize configuration')
 
-    # Main options
-    parser.add_argument(
+    # 'generate' sub-command
+    generate_parser = subparsers.add_parser('generate', help='Generate changelog')
+
+    # Commit range options
+    generate_parser.add_argument(
         "--since",
         type=str,
         default=None,
-        help="Specify the commit hash or tag to start fetching commit messages from. If not provided, uses the most recent tag.",
+        help="Starting point (commit hash, tag, or reference). Defaults to the most recent tag."
     )
-    parser.add_argument(
-        "--debug",
+    generate_parser.add_argument(
+        "--to",
+        type=str,
+        default="HEAD",
+        help="Ending point (commit hash, tag, or reference). Defaults to HEAD."
+    )
+
+    # Output options
+    generate_parser.add_argument(
+        "--output", "-o",
+        type=str,
+        default="CHANGELOG.md",
+        help="Output file for the changelog. Defaults to CHANGELOG.md."
+    )
+    generate_parser.add_argument(
+        "--current-version",
+        type=str,
+        default=None,
+        help="Current version to use (overrides auto-detection from git tags)."
+    )
+    generate_parser.add_argument(
+        "--dry-run",
         action="store_true",
-        help="Enable debug mode with detailed logging.",
+        help="Generate changelog but don't save it to file."
     )
+    generate_parser.add_argument(
+        "--interactive", "-i",
+        action="store_true",
+        help="Enable interactive mode to review and edit the changelog before saving."
+    )
+
+    # Set generate as the default command
+    if len(sys.argv) > 1 and sys.argv[1] not in ['config', 'generate', '-v', '--version', '-h', '--help']:
+        # If first arg is not a known command but looks like an option, insert 'generate'
+        sys.argv.insert(1, 'generate')
+    elif len(sys.argv) == 1:
+        # If no args, default to generate
+        sys.argv.append('generate')
+
     args = parser.parse_args()
 
-    # Configure logging
-    if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
-        logger = logging.getLogger(__name__)
-    else:
-        logging.basicConfig(level=logging.ERROR)
-        logger = logging.getLogger(__name__)
-
-    if args.command == "config":
-        if args.config_command == "show":
+    if args.command == 'config':
+        if args.config_command == 'show':
             show_config()
-        elif args.config_command == "init":
+        elif args.config_command == 'init':
             init_config()
         else:
             parser.print_help()
+    elif args.command == 'generate':
+        return run_gptchangelog(args)
     else:
-        # Proceed with the main functionality
-        run_gptchangelog(args)
+        parser.print_help()
+
+    return 0
 
 
 if __name__ == "__main__":
-    app()
+    sys.exit(app())

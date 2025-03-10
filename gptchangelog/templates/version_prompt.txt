@@ -1,6 +1,61 @@
-Current Version: $latest_version (format: MAJOR.MINOR.PATCH)
+Task: Determine Next Software Version Using Semantic Versioning
+
+Current Version: $latest_version (format: MAJOR.MINOR.PATCH, may include v prefix)
+Project: $project_name
 
 Commit Messages:
 ```
 $commit_messages
 ```
+
+Semantic Versioning Rules:
+
+1. MAJOR version increment:
+   - Breaking changes to public API or functionality
+   - Changes that require users to modify their code/usage
+   - Major architectural changes or rewrites
+   - Look for: commits containing "BREAKING CHANGE", "major rewrite", or similar language
+   - Look for: conventional commits with "feat!:" or "fix!:" prefix indicating breaking changes
+
+2. MINOR version increment:
+   - New features or significant enhancements that are backward-compatible
+   - Substantial improvements to existing functionality
+   - Deprecation of features (but not removal)
+   - Look for: commits with "feat:" prefix or describing new features
+   - Look for: substantial enhancements that don't break compatibility
+
+3. PATCH version increment:
+   - Bug fixes and patches that maintain backward-compatibility
+   - Small optimizations or improvements
+   - Documentation updates, dependency updates, or refactoring
+   - Look for: commits with "fix:", "docs:", "chore:", "refactor:", or "test:" prefixes
+   - Look for: descriptions of bug fixes or small improvements
+
+Pre-release & Build Metadata (if applicable):
+- Pre-release versions: append "-alpha.1", "-beta.2", etc.
+- Build metadata: append "+20130313144700" or "+exp.sha.5114f85"
+
+Analysis Instructions:
+
+1. Examine All Commits:
+   - Analyze each commit message to identify its nature (feature, fix, breaking change, etc.)
+   - Consider both conventional commit prefixes and the actual content
+
+2. Evaluate Overall Impact:
+   - Determine the highest level of change (MAJOR > MINOR > PATCH)
+   - A single breaking change warrants a MAJOR increment
+   - Any new feature warrants at least a MINOR increment
+   - Only increment PATCH if there are no features or breaking changes
+
+3. Handle Versioning Edge Cases:
+   - If current version is 0.y.z (pre-1.0), MINOR changes may be treated as MAJOR
+   - If in pre-release (has "-" suffix), increment appropriately based on changes
+   - Preserve any version prefix (e.g., "v") in the output
+
+4. Provide Justification:
+   - Briefly explain why you chose the specific version increment
+   - Reference key commits that influenced the decision
+
+Output Format:
+Version: x.y.z (exactly matching the input format, including any "v" prefix)
+Justification: Brief explanation of your version increment decision

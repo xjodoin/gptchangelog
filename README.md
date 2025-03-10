@@ -1,172 +1,143 @@
-# GPT Changelog
+# GPTChangelog
 
-GPT Changelog is a powerful tool that automatically generates high-quality changelogs using OpenAI's advanced language models. By analyzing commit messages since the most recent tag, GPT Changelog creates a well-structured, markdown-formatted changelog and seamlessly integrates it into your `CHANGELOG.md` file.
+Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI's GPT models.
 
 ## Features
 
-- **Fast and Efficient**: Quickly generates changelogs by leveraging OpenAI's GPT models.
-- **High Quality**: Produces clear, concise, and informative changelogs to keep your project documentation up-to-date.
-- **Seamless Integration**: Automatically prepends the generated changelog to your existing `CHANGELOG.md` file or creates one if it doesn't exist.
-- **Customizable**: Supports configuration of the OpenAI model and context token limits.
-- **Semantic Versioning**: Determines the next version number based on semantic versioning principles.
+- 🤖 AI-powered changelog generation from git commit messages
+- 🔄 Automatic semantic versioning determination
+- 🏷️ Support for conventional commits
+- ✨ Beautiful formatting with Markdown
+- 🧠 Smart categorization of changes
+- 🖋️ Interactive editing mode
+- 📋 Customizable templates
+- 🛠️ Project-specific or global configuration
 
 ## Installation
 
-### Prerequisites
-
-- **Python 3.6 or higher**: Ensure that Python is installed on your system.
-- **OpenAI API Key**: You need an OpenAI API key to use this tool. Sign up at [OpenAI](https://platform.openai.com/) to obtain one.
-
-### Using pip
-
-Install GPT Changelog via pip:
-
-```sh
+```bash
 pip install gptchangelog
+```
+
+## Quick Start
+
+1. Initialize the configuration (only needed once):
+
+```bash
+gptchangelog config init
+```
+
+2. Generate a changelog from your latest tag:
+
+```bash
+gptchangelog generate
+```
+
+The tool will:
+- Fetch commit messages since your latest tag
+- Process and categorize them using OpenAI
+- Determine the next version number based on semantic versioning
+- Generate a well-structured changelog
+- Prepend it to your CHANGELOG.md file
+
+## Command Line Usage
+
+```
+gptchangelog generate [OPTIONS]
+```
+
+### Options
+
+- `--since <ref>`: Starting point (commit hash, tag, or reference)
+- `--to <ref>`: Ending point (commit hash, tag, or reference, defaults to HEAD)
+- `--output <file>`, `-o <file>`: Output file (defaults to CHANGELOG.md)
+- `--current-version <version>`: Override the current version
+- `--dry-run`: Generate changelog but don't save it
+- `--interactive`, `-i`: Review and edit before saving
+
+### Examples
+
+Generate changelog since the latest tag:
+```bash
+gptchangelog generate
+```
+
+Generate changelog between two specific tags:
+```bash
+gptchangelog generate --since v1.0.0 --to v2.0.0
+```
+
+Generate changelog with interactive editing:
+```bash
+gptchangelog generate -i
 ```
 
 ## Configuration
 
-Before using GPT Changelog, you need to configure your OpenAI API key and settings. You can initialize the configuration using the built-in command:
+GPTChangelog supports both global and project-specific configuration:
 
-```sh
+- Global: Stored in `~/.config/gptchangelog/config.ini`
+- Project: Stored in `./.gptchangelog/config.ini`
+
+### Managing Configuration
+
+Show current configuration:
+```bash
+gptchangelog config show
+```
+
+Initialize configuration:
+```bash
 gptchangelog config init
 ```
 
-This command will guide you through setting up your configuration file, where you can specify your OpenAI API key, the model to use, and other settings.
+### Configuration Options
 
-By default, the configuration file is created in one of the following locations:
+- `api_key`: Your OpenAI API key
+- `model`: The OpenAI model to use (default: gpt-4o)
+- `max_context_tokens`: Maximum tokens to use in each API call (default: 80000)
 
-- **Global Configuration**: `$HOME/.config/gptchangelog/config.ini`
-- **Project Configuration**: `./.gptchangelog/config.ini`
+## Integrating with CI/CD
 
-### Manual Configuration
+You can integrate GPTChangelog into your CI/CD pipeline to automatically generate changelogs for new releases:
 
-Alternatively, you can manually create a configuration file named `config.ini` with the following content:
+```yaml
+# Example GitHub Actions workflow
+name: Generate Changelog
 
-```ini
-[openai]
-api_key = your_openai_api_key_here
-model = gpt-4
-max_context_tokens = 8000
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Important to fetch all history
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install gptchangelog
+
+      - name: Generate changelog
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > .env
+          gptchangelog generate --since $(git describe --tags --abbrev=0 --match "v*" HEAD^) --to ${{ github.ref_name }}
 ```
-
-- Replace `your_openai_api_key_here` with your actual OpenAI API key.
-- Set the `model` parameter to the desired OpenAI model (e.g., `gpt-4` or `gpt-3.5-turbo`).
-- Optionally adjust `max_context_tokens` based on your model's token limit.
-
-## Usage
-
-Navigate to your Git repository directory and run:
-
-```sh
-gptchangelog
-```
-
-This command will:
-
-1. Fetch commit messages since the most recent tag or specified commit.
-2. Refine commit messages for clarity and conciseness.
-3. Determine the next version number based on semantic versioning.
-4. Generate a changelog using the specified OpenAI model.
-5. Prepend the generated changelog to the `CHANGELOG.md` file. If the file doesn't exist, it will create one.
-
-### Command-Line Options
-
-- `--since <commit>`: Specify the commit hash or tag to start fetching commit messages from. If not provided, it uses the most recent tag.
-
-Example:
-
-```sh
-gptchangelog --since v1.2.3
-```
-
-### Configuration Commands
-
-- `gptchangelog config init`: Initialize the configuration file.
-- `gptchangelog config show`: Display the current configuration.
-
-## Example
-
-Here's how to use GPT Changelog:
-
-```sh
-cd /path/to/your/repo
-gptchangelog
-```
-
-Within seconds, your `CHANGELOG.md` will be updated with the latest changes, keeping your project documentation current and professional.
-
-### Sample Generated Changelog
-
-```markdown
-## [1.3.0] - 2023-10-18
-
-### Added
-
-- Implemented user authentication feature.
-
-### Fixed
-
-- Resolved bug in the payment processing module.
-
-### Changed
-
-- Updated the API documentation for clarity.
-
-### Removed
-
-- Deprecated endpoints removed from the API.
-```
-
-## Templates
-
-GPT Changelog uses customizable templates for prompts. You can modify the templates located in the `templates` directory within the `gptchangelog` package to tailor the prompts to your needs.
-
-- **commits_prompt.txt**: Template for refining commit messages.
-- **version_prompt.txt**: Template for determining the next version number.
-- **changelog_prompt.txt**: Template for generating the changelog.
-
-## Development
-
-### Project Structure
-
-```
-gptchangelog/
-├── __init__.py
-├── main.py
-├── config.py
-├── git_utils.py
-├── openai_utils.py
-├── utils.py
-└── templates/
-    ├── commits_prompt.txt
-    ├── version_prompt.txt
-    └── changelog_prompt.txt
-```
-
-- **main.py**: Entry point of the application.
-- **config.py**: Handles configuration management.
-- **git_utils.py**: Contains Git-related utility functions.
-- **openai_utils.py**: Manages interactions with the OpenAI API.
-- **utils.py**: Contains shared utility functions.
-- **templates/**: Contains prompt templates used by the application.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with clear messages.
-4. Submit a pull request to the `main` branch.
-
-Please ensure that your code adheres to the project's coding standards and passes all tests.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT
 
-## Contact
+## Contributing
 
-For questions or support, please open an issue on the [GitHub repository](https://github.com/xjodoin/gptchangelog).
+Contributions are welcome! Please feel free to submit a Pull Request.

@@ -1,8 +1,85 @@
-Version: $next_version
+Changelog Generation for Software Project (Version: $next_version)
 
 Date: $current_date
+Project: $project_name
 
 Commit Messages:
 ```
 $commit_messages
 ```
+
+Objective:
+Create a structured, clear, and comprehensive changelog in markdown format, reflecting the changes made in the latest software version.
+
+Instructions:
+
+1. Format the Changelog Header:
+   - Use markdown's ## syntax to format the version header.
+   - Follow the pattern: ## [$next_version] - $current_date
+
+2. Process Commit Messages:
+   - Analyze each commit for its type (feature, fix, improvement, etc.)
+   - Look for conventional commit prefixes like "feat:", "fix:", "chore:", etc.
+   - If a commit doesn't have a prefix, analyze its content to determine the most appropriate category
+   - Group related commits together under the same bullet point
+
+3. Categorize Changes:
+   - Use these primary categories:
+     - ✨ **Features**: New functionality or significant enhancements
+     - 🐛 **Bug Fixes**: Corrections to existing functionality
+     - 🔄 **Changes**: Updates or modifications to existing features
+     - 🗑️ **Removed**: Features or functionality that have been removed
+     - ⚠️ **Deprecated**: Features that will be removed in future versions
+     - 📚 **Documentation**: Documentation updates or improvements
+     - 🔧 **Maintenance**: Code refactoring, dependency updates, etc.
+   - Only include categories that have relevant commits
+
+4. Format Each Change:
+   - Start with a clear, concise summary of the change
+   - Include relevant context and impact where appropriate
+   - Format in consistent bullet points
+   - Mention issue/PR numbers if they appear in the commit messages
+
+5. Writing Style:
+   - Use present tense (e.g., "Add feature" not "Added feature")
+   - Be specific about what changed and why it matters
+   - Keep entries concise but informative
+   - Ensure consistent formatting across all entries
+
+6. Organization:
+   - List the most significant changes first within each category
+   - Group related changes together
+   - Ensure a logical flow in the presentation of changes
+
+Additional Guidelines:
+- Ensure the changelog is accessible to both technical and non-technical readers
+- Highlight breaking changes prominently
+- Avoid technical jargon unless necessary
+- Do not include commit hashes or trivial commits (e.g., typo fixes) unless they address significant issues
+
+Output Format:
+```markdown
+## [$next_version] - $current_date
+
+### ✨ Features
+- Implement new feature X that enables capability Y
+- Add support for Z integration
+
+### 🐛 Bug Fixes
+- Fix issue with login functionality that prevented users from accessing their accounts
+- Resolve performance bottleneck in data processing pipeline
+
+### 🔄 Changes
+- Update UI components for improved responsiveness
+- Modify API endpoint structure for better consistency
+
+### 🔧 Maintenance
+- Upgrade dependencies to latest versions
+- Refactor code structure for improved maintainability
+
+### 📚 Documentation
+- Add comprehensive guide for new features
+- Update installation instructions
+```
+
+Do not include any explanatory text or comments in your output - only provide the formatted changelog.

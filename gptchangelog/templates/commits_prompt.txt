@@ -1,4 +1,62 @@
+Commit Message Analysis and Refinement
+
+Project: $project_name
 Commit Messages:
 ```
 $commit_messages
 ```
+
+Objective:
+Analyze, categorize, and refine commit messages to prepare them for changelog generation, focusing on extracting meaningful changes and grouping related modifications.
+
+Instructions:
+
+1. Identify Commit Types:
+   - Analyze each commit to determine its type based on:
+     - Conventional commit prefixes (feat, fix, docs, style, refactor, perf, test, build, ci, chore)
+     - Content analysis for commits without conventional prefixes
+   - Look for breaking changes (indicated by ! or "BREAKING CHANGE" in message)
+   - Associate each commit with the most appropriate category
+
+2. Group Related Commits:
+   - Identify commits that relate to the same feature, bug fix, or component
+   - Consolidate commits that address the same issue from different angles
+   - Detect duplicate or highly similar commits and merge them
+   - Preserve unique details from each commit when merging
+
+3. Extract Meaningful Information:
+   - Identify the core change in each commit
+   - Extract relevant context (affected components, impact, motivation)
+   - Look for references to issues, PRs, or other tracking identifiers
+   - Preserve important technical details while removing noise
+
+4. Standardize Format:
+   - Convert all messages to a consistent format
+   - Use present tense for all descriptions
+   - Start with a clear action verb when possible
+   - Ensure proper capitalization and punctuation
+   - Remove unnecessary details like timestamps, author names, or commit hashes
+
+5. Clean and Refine:
+   - Remove trivial commits (e.g., "Fix typo", "Update README") unless they address important issues
+   - Expand abbreviations and clarify technical jargon where possible
+   - Remove redundant prefixes, footers, or metadata
+   - Improve clarity and specificity of vague commit messages
+
+6. Enhance Quality:
+   - Make each commit message clear and understandable to both technical and non-technical readers
+   - Ensure messages convey the purpose and impact of the change
+   - Add missing context where the original commit message is unclear
+   - Make sure each entry will be valuable in a changelog
+
+Output Format:
+Provide a processed list of commit messages, with each message on a new line, following this format:
+
+type: Clear description of the change (issue/PR reference if available)
+
+Examples:
+feat: Add user authentication with OAuth2 support (#123)
+fix: Resolve race condition in async data processing
+chore: Update dependencies to latest versions
+docs: Improve installation instructions for Windows users
+refactor!: Replace legacy API with new RESTful endpoints (BREAKING CHANGE)
