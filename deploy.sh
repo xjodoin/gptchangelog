@@ -4,22 +4,22 @@
 set -e
 
 # Variables
-VERSION=$1
+#VERSION=$1
 
 # Check if version number is provided
-if [ -z "$VERSION" ]; then
-    echo "Usage: $0 <version>"
-    exit 1
-fi
-
-# Update version in setup.py
-echo "Updating version to $VERSION in setup.py..."
-# Use awk for cross-platform compatibility
-awk -v version="$VERSION" '/version=/ {gsub(/"[0-9.]+"/, "\"" version "\"")}1' setup.py > setup.tmp && mv setup.tmp setup.py
-
-# Install required tools
-echo "Installing twine..."
-pip install --upgrade twine
+#if [ -z "$VERSION" ]; then
+#    echo "Usage: $0 <version>"
+#    exit 1
+#fi
+#
+## Update version in setup.py
+#echo "Updating version to $VERSION in setup.py..."
+## Use awk for cross-platform compatibility
+#awk -v version="$VERSION" '/version=/ {gsub(/"[0-9.]+"/, "\"" version "\"")}1' setup.py > setup.tmp && mv setup.tmp setup.py
+#
+## Install required tools
+#echo "Installing twine..."
+#pip install --upgrade twine
 
 # Clean previous builds
 echo "Cleaning previous builds..."
