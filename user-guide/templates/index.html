@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://xjodoin.github.io/gptchangelog/user-guide/configuration/">
+        <link rel="canonical" href="https://xjodoin.github.io/gptchangelog/user-guide/templates/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../advanced-usage/">
       
       
-        <link rel="next" href="../basic-usage/">
+        <link rel="next" href="../../developer-guide/contributing/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Configuration - GPTChangelog</title>
+        <title>Templates - GPTChangelog</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration" class="md-skip">
+        <a href="#prompt-templates" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration
+              Templates
             
           </span>
         </div>
@@ -345,31 +345,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Configuration
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -379,203 +358,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-locations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Locations
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#managing-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Managing Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Managing Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initializing-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Initializing Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#viewing-current-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Viewing Current Configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-file-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration File Format
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Options
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenAI Settings
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Advanced Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-different-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using Different Models
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#token-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      Token Management
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multiple Configurations
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example Configurations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example Configurations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minimal-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Full Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration for Large Repositories
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-lower-cost" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration for Lower Cost
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -629,10 +411,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../templates/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Templates
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -642,6 +445,212 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Templates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Templates
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commits-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commits Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing Templates
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Location
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available Variables
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commits-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commits Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Customization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Best Practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-template-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Template Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Template Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-categorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Categorization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-specific-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project-Specific Instructions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Formatting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting Templates
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -842,37 +851,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuration-locations" class="md-nav__link">
+  <a href="#understanding-templates" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration Locations
+      Understanding Templates
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#managing-configuration" class="md-nav__link">
+  <a href="#default-templates" class="md-nav__link">
     <span class="md-ellipsis">
-      Managing Configuration
+      Default Templates
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Managing Configuration">
+    <nav class="md-nav" aria-label="Default Templates">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#initializing-configuration" class="md-nav__link">
+  <a href="#commits-template" class="md-nav__link">
     <span class="md-ellipsis">
-      Initializing Configuration
+      Commits Template
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#viewing-current-configuration" class="md-nav__link">
+  <a href="#version-template" class="md-nav__link">
     <span class="md-ellipsis">
-      Viewing Current Configuration
+      Version Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
     </span>
   </a>
   
@@ -884,37 +902,70 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-file-format" class="md-nav__link">
+  <a href="#customizing-templates" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration File Format
+      Customizing Templates
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Options
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration Options">
+    <nav class="md-nav" aria-label="Customizing Templates">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#openai-settings" class="md-nav__link">
+  <a href="#template-location" class="md-nav__link">
     <span class="md-ellipsis">
-      OpenAI Settings
+      Template Location
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
+  <a href="#available-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Environment Variables
+      Available Variables
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commits-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commits Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Customization
     </span>
   </a>
   
@@ -926,37 +977,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
+  <a href="#template-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Advanced Configuration
+      Template Best Practices
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Advanced Configuration">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-template-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Template Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Template Techniques">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#using-different-models" class="md-nav__link">
+  <a href="#custom-categorization" class="md-nav__link">
     <span class="md-ellipsis">
-      Using Different Models
+      Custom Categorization
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#token-management" class="md-nav__link">
+  <a href="#project-specific-instructions" class="md-nav__link">
     <span class="md-ellipsis">
-      Token Management
+      Project-Specific Instructions
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#multiple-configurations" class="md-nav__link">
+  <a href="#custom-formatting" class="md-nav__link">
     <span class="md-ellipsis">
-      Multiple Configurations
+      Custom Formatting
     </span>
   </a>
   
@@ -968,53 +1028,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-configurations" class="md-nav__link">
+  <a href="#troubleshooting-templates" class="md-nav__link">
     <span class="md-ellipsis">
-      Example Configurations
+      Troubleshooting Templates
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Example Configurations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minimal-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Full Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration for Large Repositories
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-lower-cost" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration for Lower Cost
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1037,127 +1055,172 @@
   
 
 
-<h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>GPTChangelog can be configured at both the global and project levels. This page explains all available configuration options and how to manage them.</p>
-<h2 id="configuration-locations">Configuration Locations<a class="headerlink" href="#configuration-locations" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog looks for configuration in the following locations, in order of precedence:</p>
+<h1 id="prompt-templates">Prompt Templates<a class="headerlink" href="#prompt-templates" title="Permanent link">&para;</a></h1>
+<p>GPTChangelog uses customizable prompt templates to guide the AI in generating high-quality changelogs. This page explains how these templates work and how you can customize them.</p>
+<h2 id="understanding-templates">Understanding Templates<a class="headerlink" href="#understanding-templates" title="Permanent link">&para;</a></h2>
+<p>GPTChangelog uses three main prompt templates:</p>
 <ol>
-<li>Project-specific configuration: <code>./.gptchangelog/config.ini</code></li>
-<li>Global configuration: <code>~/.config/gptchangelog/config.ini</code></li>
+<li><strong>Commits Template</strong> (<code>commits_prompt.txt</code>): Guides the processing and refinement of commit messages</li>
+<li><strong>Version Template</strong> (<code>version_prompt.txt</code>): Determines the next version number based on semantic versioning</li>
+<li><strong>Changelog Template</strong> (<code>changelog_prompt.txt</code>): Formats the final changelog output</li>
 </ol>
-<p>If a setting is defined in both places, the project-specific setting takes precedence.</p>
-<h2 id="managing-configuration">Managing Configuration<a class="headerlink" href="#managing-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="initializing-configuration">Initializing Configuration<a class="headerlink" href="#initializing-configuration" title="Permanent link">&para;</a></h3>
-<p>To create a new configuration file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
+<p>These templates use Python's <code>string.Template</code> format with <code>$variable</code> placeholders.</p>
+<h2 id="default-templates">Default Templates<a class="headerlink" href="#default-templates" title="Permanent link">&para;</a></h2>
+<h3 id="commits-template">Commits Template<a class="headerlink" href="#commits-template" title="Permanent link">&para;</a></h3>
+<p>This template helps the AI understand and process raw commit messages:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Commit Messages:
 </code></pre></div>
-<p>You'll be prompted to choose between global or project-specific configuration and enter your OpenAI API key and other settings.</p>
-<h3 id="viewing-current-configuration">Viewing Current Configuration<a class="headerlink" href="#viewing-current-configuration" title="Permanent link">&para;</a></h3>
-<p>To see your current configuration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>show
+$commit_messages
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Objective:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>To enhance a series of commit messages by merging redundant information and improving clarity.
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Instructions:
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>1. Input Collection:
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    Gather all provided commit messages.
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    Ensure the messages are complete and accurate for processing.
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>...
+</code></pre></div></p>
+<h3 id="version-template">Version Template<a class="headerlink" href="#version-template" title="Permanent link">&para;</a></h3>
+<p>This template determines the next version number based on semantic versioning:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Task: Increment Software Version Number Using Semantic Versioning
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Current Version: $latest_version (format: MAJOR.MINOR.PATCH)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Commit Messages:
 </code></pre></div>
-<p>This will display both global and project-specific configurations if they exist.</p>
-<h2 id="configuration-file-format">Configuration File Format<a class="headerlink" href="#configuration-file-format" title="Permanent link">&para;</a></h2>
-<p>The configuration file uses the INI format:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-4o</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">max_context_tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">80000</span>
+$commit_messages
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Rules for Incrementing:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    MAJOR Update: Increment for incompatible API changes.
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    MINOR Update: Increment for new, backwards-compatible functionality.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    PATCH Update: Increment for backwards-compatible bug fixes.
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>...
+</code></pre></div></p>
+<h3 id="changelog-template">Changelog Template<a class="headerlink" href="#changelog-template" title="Permanent link">&para;</a></h3>
+<p>This template formats the final changelog:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Changelog Generation for Software Project (Version: $next_version)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Date: $current_date
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Commit Messages:
 </code></pre></div>
-<h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
-<h3 id="openai-settings">OpenAI Settings<a class="headerlink" href="#openai-settings" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>api_key</code></td>
-<td>Your OpenAI API key</td>
-<td>(Required)</td>
-</tr>
-<tr>
-<td><code>model</code></td>
-<td>The OpenAI model to use</td>
-<td><code>gpt-4o</code></td>
-</tr>
-<tr>
-<td><code>max_context_tokens</code></td>
-<td>Maximum tokens to use in each API call</td>
-<td><code>80000</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
-<p>You can also use environment variables to override configuration settings:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Corresponding Config Option</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>OPENAI_API_KEY</code></td>
-<td><code>[openai] api_key</code></td>
-</tr>
-<tr>
-<td><code>GPTCHANGELOG_MODEL</code></td>
-<td><code>[openai] model</code></td>
-</tr>
-<tr>
-<td><code>GPTCHANGELOG_MAX_TOKENS</code></td>
-<td><code>[openai] max_context_tokens</code></td>
-</tr>
-</tbody>
-</table>
-<p>Environment variables take precedence over configuration file settings.</p>
-<h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="using-different-models">Using Different Models<a class="headerlink" href="#using-different-models" title="Permanent link">&para;</a></h3>
-<p>GPTChangelog works best with GPT-4 variants, but you can use other models:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-3.5-turbo</span>
+$commit_messages
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Objective:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Create a structured, clear, and concise changelog in markdown format, reflecting the changes made in the latest software version.
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Instructions:
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>1. Format the Changelog Header:
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    Use markdown&#39;s ## syntax to format the version header.
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    Follow the pattern: ## [$next_version] - $current_date.
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>...
+</code></pre></div></p>
+<h2 id="customizing-templates">Customizing Templates<a class="headerlink" href="#customizing-templates" title="Permanent link">&para;</a></h2>
+<p>You can customize these templates to fit your project's specific needs.</p>
+<h3 id="template-location">Template Location<a class="headerlink" href="#template-location" title="Permanent link">&para;</a></h3>
+<p>The default templates are located in the GPTChangelog package. To customize them, create your own copies in a project-specific location:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>.gptchangelog/templates/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── changelog_prompt.txt
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├── commits_prompt.txt
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>└── version_prompt.txt
 </code></pre></div>
-<p>Smaller models may produce less comprehensive results but use fewer tokens.</p>
-<h3 id="token-management">Token Management<a class="headerlink" href="#token-management" title="Permanent link">&para;</a></h3>
-<p>The <code>max_context_tokens</code> setting controls how many tokens are used in each API call. If you have a large repository with many commits, you might need to adjust this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">max_context_tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">120000</span>
+<p>GPTChangelog will look for templates in this directory before falling back to the defaults.</p>
+<h3 id="available-variables">Available Variables<a class="headerlink" href="#available-variables" title="Permanent link">&para;</a></h3>
+<p>Each template has access to specific variables:</p>
+<h4 id="commits-template_1">Commits Template<a class="headerlink" href="#commits-template_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>$commit_messages</code>: The raw commit messages</li>
+<li><code>$project_name</code>: The name of your project</li>
+</ul>
+<h4 id="version-template_1">Version Template<a class="headerlink" href="#version-template_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>$commit_messages</code>: The processed commit messages</li>
+<li><code>$latest_version</code>: The current version number</li>
+<li><code>$project_name</code>: The name of your project</li>
+</ul>
+<h4 id="changelog-template_1">Changelog Template<a class="headerlink" href="#changelog-template_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>$commit_messages</code>: The processed commit messages</li>
+<li><code>$next_version</code>: The determined next version number</li>
+<li><code>$current_date</code>: The current date (YYYY-MM-DD)</li>
+<li><code>$project_name</code>: The name of your project</li>
+</ul>
+<h3 id="example-customization">Example Customization<a class="headerlink" href="#example-customization" title="Permanent link">&para;</a></h3>
+<p>Here's an example of a customized changelog template:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># $project_name Changelog
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>## Release $next_version (Released on $current_date)
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>The following changes were included in this release:
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>$commit_messages
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>### Breaking Changes
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>List any breaking changes here.
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>### Known Issues
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>- None at this time
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>### Contributors
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>Thanks to all our contributors for this release!
 </code></pre></div>
-<p>Keep in mind that larger values use more API tokens and may be more expensive.</p>
-<h3 id="multiple-configurations">Multiple Configurations<a class="headerlink" href="#multiple-configurations" title="Permanent link">&para;</a></h3>
-<p>You can maintain different configurations for different projects:</p>
+<h2 id="template-best-practices">Template Best Practices<a class="headerlink" href="#template-best-practices" title="Permanent link">&para;</a></h2>
+<p>When customizing templates, consider the following best practices:</p>
 <ol>
-<li>Set up a global configuration with default settings</li>
-<li>Create project-specific configurations for projects with special requirements</li>
+<li><strong>Be Specific</strong>: Give clear instructions to the AI</li>
+<li><strong>Structure Matters</strong>: Organize your template with clear sections</li>
+<li><strong>Consistent Formatting</strong>: Maintain a consistent style guide</li>
+<li><strong>Test Thoroughly</strong>: Test your templates with different types of commits</li>
+<li><strong>Preserve Variables</strong>: Don't remove the essential variables needed for template rendering</li>
 </ol>
-<h2 id="example-configurations">Example Configurations<a class="headerlink" href="#example-configurations" title="Permanent link">&para;</a></h2>
-<h3 id="minimal-configuration">Minimal Configuration<a class="headerlink" href="#minimal-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
+<h2 id="advanced-template-techniques">Advanced Template Techniques<a class="headerlink" href="#advanced-template-techniques" title="Permanent link">&para;</a></h2>
+<h3 id="custom-categorization">Custom Categorization<a class="headerlink" href="#custom-categorization" title="Permanent link">&para;</a></h3>
+<p>You can customize how changes are categorized:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Categorize changes into these custom groups:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>- User-Facing: Changes visible to end users
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>- Backend: Internal changes not visible to users
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>- Performance: Optimizations and speed improvements
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>- Security: Security fixes and enhancements
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>- Documentation: Documentation and example updates
 </code></pre></div>
-<h3 id="full-configuration">Full Configuration<a class="headerlink" href="#full-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-4o</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="na">max_context_tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">80000</span>
+<h3 id="project-specific-instructions">Project-Specific Instructions<a class="headerlink" href="#project-specific-instructions" title="Permanent link">&para;</a></h3>
+<p>Add project-specific context:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>This project is a Python CLI tool for data analysis.
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>When describing changes, focus on:
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>- Command usage changes
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>- Data processing improvements
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>- User experience enhancements
 </code></pre></div>
-<h3 id="configuration-for-large-repositories">Configuration for Large Repositories<a class="headerlink" href="#configuration-for-large-repositories" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-4o</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="na">max_context_tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">120000</span>
+<h3 id="custom-formatting">Custom Formatting<a class="headerlink" href="#custom-formatting" title="Permanent link">&para;</a></h3>
+<p>Specify your preferred Markdown formatting:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Use the following format for the changelog:
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a># Release $next_version
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>**Release Date**: $current_date
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>## What&#39;s New
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>- Feature 1
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>- Feature 2
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>## Bug Fixes
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>- Fix 1
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>- Fix 2
 </code></pre></div>
-<h3 id="configuration-for-lower-cost">Configuration for Lower Cost<a class="headerlink" href="#configuration-for-lower-cost" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-3.5-turbo</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="na">max_context_tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">60000</span>
+<h2 id="troubleshooting-templates">Troubleshooting Templates<a class="headerlink" href="#troubleshooting-templates" title="Permanent link">&para;</a></h2>
+<p>If you encounter issues with custom templates:</p>
+<ol>
+<li><strong>Syntax Errors</strong>: Ensure your template uses the correct <code>$variable</code> syntax</li>
+<li><strong>Missing Variables</strong>: Make sure all required variables are present</li>
+<li><strong>Template Not Found</strong>: Verify the template file paths and names</li>
+<li><strong>Unexpected Output</strong>: Check for formatting issues or conflicting instructions</li>
+</ol>
+<p>For debugging, you can run with the dry-run option to see the rendered output without saving:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
 </code></pre></div>
 
 
@@ -1181,7 +1244,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27">March 10, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38">March 10, 2025</span>
   </span>
 
     
@@ -1191,7 +1254,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27">March 10, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38">March 10, 2025</span>
   </span>
 
     

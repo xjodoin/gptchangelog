@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://username.github.io/gptchangelog/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-         <loc>https://username.github.io/gptchangelog/getting-started/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/examples/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-         <loc>https://username.github.io/gptchangelog/developer-guide/contributing/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/getting-started/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-         <loc>https://username.github.io/gptchangelog/user-guide/basic-usage/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/developer-guide/api-reference/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-         <loc>https://username.github.io/gptchangelog/user-guide/configuration/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/developer-guide/architecture/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-         <loc>https://username.github.io/gptchangelog/user-guide/installation/</loc>
+         <loc>https://xjodoin.github.io/gptchangelog/developer-guide/contributing/</loc>
+         <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://xjodoin.github.io/gptchangelog/user-guide/advanced-usage/</loc>
+         <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://xjodoin.github.io/gptchangelog/user-guide/basic-usage/</loc>
+         <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://xjodoin.github.io/gptchangelog/user-guide/configuration/</loc>
+         <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://xjodoin.github.io/gptchangelog/user-guide/installation/</loc>
+         <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://xjodoin.github.io/gptchangelog/user-guide/templates/</loc>
          <lastmod>2025-03-10</lastmod>
     </url>
 </urlset>
