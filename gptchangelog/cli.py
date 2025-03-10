@@ -58,7 +58,10 @@ def run_gptchangelog(args):
 
         commit_range = f"{from_commit}..{to_commit}"
         try:
-            latest_commit, commit_messages = get_commit_messages_since(from_commit, to_commit=to_commit)
+            latest_commit, commit_messages = get_commit_messages_since(
+                latest_commit=from_commit,
+                to_commit=to_commit
+            )
 
             if not commit_messages:
                 console.print("[yellow]No new commit messages found.[/yellow]")

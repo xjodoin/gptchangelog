@@ -103,8 +103,8 @@ def analyze_commit_message(message: str) -> Tuple[str, str, bool]:
 
 
 def get_commit_messages_since(
-        from_ref: str,
-        to_ref: str = "HEAD",
+        latest_commit: str,
+        to_commit: str = "HEAD",
         repo_path: str = ".",
         min_length: int = 10
 ) -> Tuple[str, str]:
@@ -112,8 +112,8 @@ def get_commit_messages_since(
     Get commit messages between two git references.
 
     Args:
-        from_ref: The starting reference (commit hash, tag, etc.)
-        to_ref: The ending reference (defaults to HEAD)
+        latest_commit: The starting reference (commit hash, tag, etc.)
+        to_commit: The ending reference (defaults to HEAD)
         repo_path: Path to the git repository
         min_length: Minimum length of commit messages to include
 
@@ -124,7 +124,7 @@ def get_commit_messages_since(
     commit_data = []
 
     # Get the commits in the range
-    for commit in repo.iter_commits(f"{from_ref}..{to_ref}", no_merges=True):
+    for commit in repo.iter_commits(f"{latest_commit}..{to_commit}", no_merges=True):
         message = commit.message.strip()
 
         if len(message) >= min_length:
@@ -144,7 +144,7 @@ def get_commit_messages_since(
             commit_data.append(formatted_message)
 
     # Join the commit messages with newlines
-    return from_ref, "\n".join(commit_data)
+    return latest_commit, "\n".join(commit_data)
 
 
 def get_commit_stats(
