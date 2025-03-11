@@ -1,3 +1,28 @@
+```markdown
+## [v0.8.0] - 2025-03-10
+
+### ✨ Features
+- Add logo in PNG and SVG formats for branding consistency and enhanced project visibility
+- Simplify deployment script by removing setuptools and wheel installation, using `python -m build` for package building
+- Enhance changelog generation by loading meta prompts from template files for improved clarity and structure
+- Add `load_meta_prompt` function to read template files for dynamic prompt generation
+- Enhance user feedback in CLI by replacing logger with rich console for better visibility
+
+### 🐛 Bug Fixes
+- Correct `rich` package version constraint from '=>' to '>=' for proper installation
+
+### 🔄 Changes
+- Improve changelog generation process with user confirmation for suggested version
+
+### 📚 Documentation
+- Add API reference documentation to improve usability
+- Update README to enhance clarity, structure, and formatting of features and instructions
+
+### 🔧 Maintenance
+- Create `python-package.yml` for CI configuration
+- Remove logo from documentation and configuration for a cleaner presentation
+```
+
 **v0.7.0 - 2024-10-29**
 
 - **Features**
