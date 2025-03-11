@@ -1,4 +1,3 @@
-```markdown
 ## [v0.8.0] - 2025-03-10
 
 ### ✨ Features
@@ -21,7 +20,7 @@
 ### 🔧 Maintenance
 - Create `python-package.yml` for CI configuration
 - Remove logo from documentation and configuration for a cleaner presentation
-```
+
 
 **v0.7.0 - 2024-10-29**
 
