@@ -6,8 +6,6 @@ repo_name: xjodoin/gptchangelog
 
 theme:
   name: material
-  logo: assets/images/logo.png
-  favicon: assets/images/logo.png
   palette:
     primary: indigo
     accent: blue

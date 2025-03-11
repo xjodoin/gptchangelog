@@ -1,9 +1,5 @@
 # GPTChangelog
 
-<figure markdown>
-  ![GPTChangelog Logo](assets/images/logo.png){ width="300" }
-</figure>
-
 **Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI's GPT models.**
 
 ## Overview
