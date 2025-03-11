@@ -7,7 +7,7 @@ repo_name: xjodoin/gptchangelog
 theme:
   name: material
   palette:
-    primary: indigo
+    primary: indigoq
     accent: blue
   features:
     - navigation.instant
