@@ -107,8 +107,8 @@ generate_changelog_and_version() {
     fi
     
     # Extract the next version from the output
-    # Look for "Next version: X.Y.Z" pattern
-    local suggested_version=$(grep -o "Next version: [0-9]\+\.[0-9]\+\.[0-9]\+" "$temp_output" | sed 's/Next version: //')
+    # Look for "Next version: X.Y.Z" or "Next version: vX.Y.Z" pattern
+    local suggested_version=$(grep -o "Next version: v\?[0-9]\+\.[0-9]\+\.[0-9]\+" "$temp_output" | sed 's/Next version: v\?//')
     
     if [[ -z "$suggested_version" ]]; then
         log_error "Could not extract next version from gptchangelog output"
