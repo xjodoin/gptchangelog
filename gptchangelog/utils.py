@@ -2,20 +2,25 @@ import os
 from string import Template
 import tiktoken
 import logging
-import pkg_resources
 import json
 import re
 import time
 from typing import List, Dict, Any
 
+try:
+    from importlib.metadata import version, PackageNotFoundError
+except ImportError:
+    # Python < 3.8 fallback
+    from importlib_metadata import version, PackageNotFoundError
+
 logger = logging.getLogger(__name__)
 
 
 def get_package_version():
-    """Get the package version from pkg_resources or fallback to version file."""
+    """Get the package version from importlib.metadata or fallback to version file."""
     try:
-        return pkg_resources.get_distribution("gptchangelog").version
-    except pkg_resources.DistributionNotFound:
+        return version("gptchangelog")
+    except PackageNotFoundError:
         # Fallback to reading from the package's __init__.py
         script_dir = os.path.dirname(os.path.abspath(__file__))
         init_file = os.path.join(script_dir, "__init__.py")

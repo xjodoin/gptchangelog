@@ -1,0 +1,144 @@
+Enhanced Changelog Generation
+
+Project: $project_name
+Version: $next_version
+Release Date: $current_date
+
+Project Context:
+- Total commits analyzed: $total_commits  
+- Breaking changes: $breaking_changes
+- Files modified: $files_changed
+- Code changes: +$insertions/-$deletions lines
+- Main components affected: $main_components
+- Development period: $date_range
+
+Processed Commit Analysis:
+```
+$processed_commits
+```
+
+Changelog Generation Objective:
+Create a comprehensive, user-focused changelog that clearly communicates the value and impact of this release. The changelog should help users understand what has changed, why it matters, and any actions they need to take.
+
+Enhanced Generation Framework:
+
+1. **User-Centric Content Strategy**:
+   - Focus on benefits and impact rather than implementation details
+   - Explain how changes improve user experience, performance, or capabilities
+   - Use clear, accessible language that non-technical users can understand
+   - Highlight changes that users will directly experience or benefit from
+
+2. **Hierarchical Information Architecture**:
+   - Organize changes by significance and user impact
+   - Group related changes to tell a coherent story
+   - Use consistent categorization and formatting
+   - Ensure breaking changes are prominently featured and explained
+
+3. **Content Quality Standards**:
+   - Write clear, concise descriptions that capture the essence of each change
+   - Avoid technical jargon unless necessary, with explanations when used
+   - Ensure each entry provides meaningful information for decision-making
+   - Include relevant issue/PR references for traceability
+
+4. **Change Impact Communication**:
+   - Clearly identify breaking changes with migration guidance
+   - Highlight new features and their practical applications
+   - Explain performance improvements with quantifiable benefits where possible
+   - Note any deprecations or future changes users should be aware of
+
+5. **Professional Presentation**:
+   - Use consistent formatting, emojis, and structure
+   - Maintain a professional yet friendly tone
+   - Ensure proper markdown formatting for readability
+   - Create scannable content with clear section headers
+
+Changelog Structure Template:
+
+```markdown
+## [$next_version] - $current_date
+
+[Brief release summary highlighting the most significant changes - 1-2 sentences]
+
+### ⚠️ Breaking Changes
+[Only include if breaking_changes > 0]
+- [Change description with clear impact and migration guidance]
+- [Include specific steps users need to take]
+
+### ✨ Features  
+[Major new capabilities and enhancements]
+- [Feature description focusing on user value and use cases]
+
+### 🐛 Bug Fixes
+[Issue resolutions that improve reliability]
+- [Fix description with user impact context]
+
+### ⚡ Performance
+[Speed and efficiency improvements]
+- [Improvement description with measurable benefits where possible]
+
+### 🔄 Changes
+[Modifications to existing functionality]
+- [Change description with rationale and impact]
+
+### 🗑️ Removed
+[Discontinued features or functionality]
+- [Removal description with alternatives or migration path]
+
+### ⚠️ Deprecated
+[Features marked for future removal]
+- [Deprecation notice with timeline and alternatives]
+
+### 📚 Documentation
+[Documentation improvements and additions]
+- [Documentation change with value to users]
+
+### 🔧 Maintenance
+[Behind-the-scenes improvements]
+- [Maintenance item with indirect user benefits]
+```
+
+Content Generation Guidelines:
+
+**Breaking Changes Section:**
+- Lead with impact: "This change affects..."
+- Provide clear migration steps
+- Include code examples if helpful
+- Estimate migration effort/complexity
+
+**Features Section:**
+- Start with the user benefit
+- Describe practical use cases
+- Mention any configuration or setup required
+- Include relevant documentation links in issue references
+
+**Bug Fixes Section:**
+- Describe the problem that was solved
+- Explain how it improves user experience
+- Note any workarounds that are no longer needed
+
+**Performance Section:**
+- Quantify improvements where possible ("40% faster", "50% less memory")
+- Explain user-visible impact
+- Note any configuration changes to realize benefits
+
+**Writing Style Requirements:**
+- Use active voice and present tense
+- Start bullet points with action verbs when possible
+- Be specific about what changed and why it matters
+- Keep entries concise but informative (1-2 lines typically)
+- Ensure consistency in tone and formatting across all sections
+
+**Quality Assurance:**
+- Every entry should answer "How does this help users?"
+- Avoid duplicate or redundant entries
+- Ensure technical accuracy while maintaining accessibility
+- Include only sections that have relevant changes
+- Verify all issue/PR references are properly formatted
+
+Output Requirements:
+- Use the exact markdown structure shown above
+- Include only sections that have relevant changes
+- Ensure proper emoji usage and formatting
+- Start with the version header and brief summary
+- End with the most important maintenance items (limit to key changes)
+- Maintain professional quality suitable for public release notes

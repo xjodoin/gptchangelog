@@ -1,0 +1,86 @@
+Enhanced Semantic Version Determination
+
+Project: $project_name
+Current Version: $current_version
+Analysis Context:
+- Total commits: $total_commits
+- Breaking changes: $breaking_changes
+- Recommended impact: $version_impact
+- Impact justification: $impact_justification
+
+Commit Analysis:
+```
+$commit_messages
+```
+
+Semantic Versioning Analysis Objective:
+Determine the next appropriate version number using semantic versioning principles (MAJOR.MINOR.PATCH), with enhanced analysis of change impact and user-facing consequences.
+
+Enhanced Version Analysis Framework:
+
+1. **Breaking Change Assessment (MAJOR version)**:
+   - API changes that require user code modifications
+   - Removal or significant modification of existing functionality
+   - Changes to public interfaces, method signatures, or data structures
+   - Behavioral changes that could break existing integrations
+   - Migration requirements for users to maintain compatibility
+   - Configuration or environment requirement changes
+
+2. **Feature Impact Analysis (MINOR version)**:
+   - New user-facing features or capabilities
+   - Significant enhancements to existing functionality
+   - New API endpoints or methods (backward-compatible)
+   - Performance improvements that substantially change user experience
+   - New configuration options or extensibility features
+   - Deprecation notices (but not removal) of existing features
+
+3. **Fix and Maintenance Assessment (PATCH version)**:
+   - Bug fixes that correct incorrect behavior
+   - Security patches and vulnerability fixes
+   - Performance optimizations without significant user impact
+   - Documentation improvements and clarifications
+   - Internal code refactoring without external impact
+   - Dependency updates that don't affect functionality
+
+4. **Pre-release and Edge Cases**:
+   - Projects in 0.x.x phase: treat minor changes as potentially major
+   - Alpha/beta releases: consider appropriate pre-release labeling
+   - Hotfix scenarios: ensure proper patch increment priority
+   - Multiple change types: prioritize the highest impact level
+
+5. **User Impact Prioritization**:
+   - Evaluate how changes affect end users vs. developers vs. operators
+   - Consider backward compatibility preservation
+   - Assess migration effort required from users
+   - Review documentation and communication needs
+
+Version Decision Matrix:
+- If ANY breaking changes exist → MAJOR increment
+- If ANY new features exist (and no breaking changes) → MINOR increment  
+- If ONLY fixes, docs, or maintenance (and no features/breaking) → PATCH increment
+
+Special Considerations:
+- Preserve version prefix format (with or without 'v')
+- Consider project maturity level (pre-1.0 vs. stable)
+- Account for semantic versioning exceptions in specific ecosystems
+- Ensure version follows project's established versioning pattern
+
+Output Requirements:
+Provide your analysis in this exact format:
+
+**Version Analysis:**
+- Change Impact Level: [MAJOR/MINOR/PATCH]
+- Breaking Changes: [Count and brief description]
+- New Features: [Count and brief description]
+- Bug Fixes: [Count and brief description]
+- Maintenance: [Count and brief description]
+
+**Version Decision Rationale:**
+[2-3 sentences explaining why this version increment is appropriate based on the changes]
+
+**Migration Notes (if applicable):**
+[Brief notes on any user actions required for major/minor versions]
+
+**Version:** $next_version_format
+
+Replace $next_version_format with the exact next version number, preserving any prefix format from the current version.

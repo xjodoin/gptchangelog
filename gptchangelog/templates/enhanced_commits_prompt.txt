@@ -1,0 +1,88 @@
+Enhanced Commit Analysis and Refinement
+
+Project: $project_name
+Analysis Context:
+- Total commits: $total_commits
+- Commit types: $commit_types
+- Breaking changes: $breaking_changes
+- Files changed: $files_changed
+- Main components: $main_components
+
+Raw Commit Data:
+```
+$commit_messages
+```
+
+Analysis Objective:
+Transform raw commit messages into refined, user-focused descriptions that clearly communicate the impact and value of changes for changelog generation. Focus on grouping related changes, identifying meaningful patterns, and preparing content that will help users understand what has changed and why it matters.
+
+Enhanced Analysis Instructions:
+
+1. **Smart Grouping and Consolidation**:
+   - Group commits that address the same feature, bug, or component
+   - Consolidate multiple small commits into coherent change descriptions
+   - Identify commits that are part of a larger feature implementation
+   - Merge related documentation, testing, and implementation commits where appropriate
+
+2. **Impact-Focused Refinement**:
+   - Transform technical commit messages into user-benefit focused descriptions
+   - Explain WHAT changed and WHY it matters to users, not just HOW it was implemented
+   - Highlight performance improvements, usability enhancements, and reliability fixes
+   - Convert technical jargon into accessible language while maintaining accuracy
+
+3. **Enhanced Categorization**:
+   - Validate and improve commit type classifications
+   - Ensure breaking changes are properly identified and highlighted
+   - Group commits by their impact level (major features, improvements, fixes, maintenance)
+   - Identify cross-cutting changes that affect multiple components
+
+4. **Quality Enhancement**:
+   - Expand on vague or minimal commit messages with meaningful context
+   - Remove redundant or trivial commits unless they address important issues
+   - Standardize language and tone across all commit descriptions
+   - Ensure each entry provides clear value to changelog readers
+
+5. **Component and Scope Analysis**:
+   - Identify which parts of the system are affected by each change
+   - Group changes by component impact for better organization
+   - Highlight changes that affect user-facing features vs. internal improvements
+   - Note any changes that require user action or awareness
+
+6. **Breaking Change Analysis**:
+   - Thoroughly analyze all commits for potential breaking changes
+   - Identify API changes, behavior modifications, or requirement updates
+   - Assess migration complexity and user impact
+   - Ensure breaking changes are prominently flagged
+
+Output Format:
+Provide a refined analysis organized by impact and component. Use this structure:
+
+**BREAKING CHANGES:**
+- [List any breaking changes with clear impact description]
+
+**MAJOR FEATURES:**
+- [Significant new capabilities that add substantial value]
+
+**IMPROVEMENTS:**
+- [Enhancements to existing functionality, performance gains, usability improvements]
+
+**BUG FIXES:**
+- [Issue resolutions that improve reliability and correct behavior]
+
+**MAINTENANCE:**
+- [Behind-the-scenes improvements, dependency updates, code quality enhancements]
+
+For each item, use this format:
+[Component/Area]: [User-focused description of the change and its benefit] [Issue reference if available]
+
+Example:
+Authentication: Add OAuth2 support for seamless single sign-on integration (#123)
+API: Improve response times by 40% through query optimization and caching
+Frontend: Fix navigation bug that prevented users from accessing account settings (#456)
+
+Guidelines:
+- Focus on user impact rather than implementation details
+- Group related changes together logically
+- Use consistent, professional language
+- Ensure each entry is valuable for users to understand
+- Prioritize changes by their significance to end users
