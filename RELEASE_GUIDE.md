@@ -71,10 +71,11 @@ $ ./release.sh
 [INFO] Current version: 0.8.2
 
 [STEP] Generating changelog and extracting next version using gptchangelog...
-[SUCCESS] Suggested next version: 0.9.0
 
-[STEP] Generating final changelog interactively...
 # Interactive changelog generation with quality analysis...
+# User reviews and edits changelog as needed
+
+[SUCCESS] Changelog generated and next version extracted: 0.9.0
 
 ============================================
            RELEASE SUMMARY

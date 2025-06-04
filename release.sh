@@ -99,10 +99,9 @@ generate_changelog_and_version() {
     # Create temporary file to capture output
     local temp_output=$(mktemp)
     
-    # Generate changelog with enhanced mode and quality analysis, capture output
-    if ! gptchangelog generate --dry-run --quality-analysis --stats > "$temp_output" 2>&1; then
+    # Generate actual changelog with enhanced mode and quality analysis, capture output
+    if ! gptchangelog generate --interactive --quality-analysis --stats 2>&1 | tee "$temp_output"; then
         log_error "Failed to generate changelog"
-        cat "$temp_output"
         rm -f "$temp_output"
         return 1
     fi
@@ -113,8 +112,8 @@ generate_changelog_and_version() {
     
     if [[ -z "$suggested_version" ]]; then
         log_error "Could not extract next version from gptchangelog output"
-        log_info "Full output:"
-        cat "$temp_output"
+        log_info "Searching for version patterns in output..."
+        grep -i "version" "$temp_output" || true
         rm -f "$temp_output"
         return 1
     fi
@@ -125,16 +124,7 @@ generate_changelog_and_version() {
     # Set the extracted version
     SUGGESTED_VERSION="$suggested_version"
     
-    log_success "Suggested next version: $SUGGESTED_VERSION"
-    
-    # Now generate the actual changelog interactively
-    log_step "Generating final changelog interactively..."
-    if ! gptchangelog generate --interactive --quality-analysis --stats; then
-        log_error "Failed to generate final changelog"
-        return 1
-    fi
-    
-    log_success "Changelog generated successfully"
+    log_success "Changelog generated and next version extracted: $SUGGESTED_VERSION"
 }
 
 # Function to commit changes
