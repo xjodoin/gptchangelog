@@ -21,6 +21,10 @@ set -e
 #echo "Installing twine..."
 #pip install --upgrade twine
 
+# Install required tools
+echo "Installing build dependencies..."
+pip install --upgrade build twine
+
 # Clean previous builds
 echo "Cleaning previous builds..."
 rm -rf dist
