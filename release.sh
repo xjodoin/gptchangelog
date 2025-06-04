@@ -86,9 +86,9 @@ update_version() {
     log_success "Version updated to $new_version"
 }
 
-# Function to generate changelog
-generate_changelog() {
-    log_step "Generating changelog using gptchangelog..."
+# Function to generate changelog and extract next version
+generate_changelog_and_version() {
+    log_step "Generating changelog and extracting next version using gptchangelog..."
     
     # Check if gptchangelog is available
     if ! command -v gptchangelog &> /dev/null; then
@@ -96,9 +96,41 @@ generate_changelog() {
         pip install -e .
     fi
     
-    # Generate changelog with enhanced mode and quality analysis
-    if ! gptchangelog generate --interactive --quality-analysis --stats; then
+    # Create temporary file to capture output
+    local temp_output=$(mktemp)
+    
+    # Generate changelog with enhanced mode and quality analysis, capture output
+    if ! gptchangelog generate --dry-run --quality-analysis --stats > "$temp_output" 2>&1; then
         log_error "Failed to generate changelog"
+        cat "$temp_output"
+        rm -f "$temp_output"
+        return 1
+    fi
+    
+    # Extract the next version from the output
+    # Look for "Next version: X.Y.Z" pattern
+    local suggested_version=$(grep -o "Next version: [0-9]\+\.[0-9]\+\.[0-9]\+" "$temp_output" | sed 's/Next version: //')
+    
+    if [[ -z "$suggested_version" ]]; then
+        log_error "Could not extract next version from gptchangelog output"
+        log_info "Full output:"
+        cat "$temp_output"
+        rm -f "$temp_output"
+        return 1
+    fi
+    
+    # Clean up temp file
+    rm -f "$temp_output"
+    
+    # Set the extracted version
+    SUGGESTED_VERSION="$suggested_version"
+    
+    log_success "Suggested next version: $SUGGESTED_VERSION"
+    
+    # Now generate the actual changelog interactively
+    log_step "Generating final changelog interactively..."
+    if ! gptchangelog generate --interactive --quality-analysis --stats; then
+        log_error "Failed to generate final changelog"
         return 1
     fi
     
@@ -223,19 +255,45 @@ main() {
     current_version=$(get_current_version)
     log_info "Current version: $current_version"
     
-    # Prompt for new version
-    echo -e "\n${YELLOW}Please enter the new version number (current: $current_version):${NC}"
-    read -p "New version: " new_version
-    
-    # Validate new version
-    if ! validate_version "$new_version"; then
+    # Step 1: Generate changelog and extract suggested version
+    if ! generate_changelog_and_version; then
+        log_error "Failed to generate changelog and extract version"
         exit 1
     fi
     
-    # Check if version is newer
-    if [[ "$new_version" == "$current_version" ]]; then
-        log_error "New version must be different from current version"
+    # Use the automatically suggested version
+    new_version="$SUGGESTED_VERSION"
+    
+    # Validate extracted version
+    if ! validate_version "$new_version"; then
+        log_error "Generated version '$new_version' is not valid"
         exit 1
+    fi
+    
+    # Check if version is different from current
+    if [[ "$new_version" == "$current_version" ]]; then
+        log_warning "Generated version ($new_version) is the same as current version"
+        echo -e "${YELLOW}Would you like to override with a custom version? (y/N):${NC}"
+        read -p "" -n 1 -r
+        echo
+        
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "\n${YELLOW}Please enter the new version number (current: $current_version):${NC}"
+            read -p "New version: " custom_version
+            
+            if ! validate_version "$custom_version"; then
+                exit 1
+            fi
+            
+            if [[ "$custom_version" == "$current_version" ]]; then
+                log_error "Custom version must be different from current version"
+                exit 1
+            fi
+            
+            new_version="$custom_version"
+        else
+            log_info "Keeping suggested version and proceeding"
+        fi
     fi
     
     # Show release summary
@@ -243,7 +301,7 @@ main() {
     
     # Final confirmation
     echo -e "${YELLOW}This will:${NC}"
-    echo "1. Generate a new changelog"
+    echo "1. Use the generated changelog (already created)"
     echo "2. Update version to $new_version"
     echo "3. Commit the changes" 
     echo "4. Create git tag v$new_version"
@@ -263,9 +321,6 @@ main() {
     trap 'rollback_changes "$new_version"; exit 1' ERR
     
     log_info "Starting release process..."
-    
-    # Step 1: Generate changelog
-    generate_changelog
     
     # Step 2: Update version
     update_version "$new_version"

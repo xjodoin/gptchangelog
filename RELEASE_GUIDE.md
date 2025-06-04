@@ -57,9 +57,9 @@ Before running the release script, ensure you have:
    ```
 
 3. **Follow the interactive prompts:**
-   - Enter the new version number (semantic versioning: X.Y.Z)
-   - Review the changelog generation (interactive mode)
-   - Confirm the release summary
+   - The script automatically detects the next version from changelog generation
+   - Review the changelog generation (interactive mode) 
+   - Confirm the release summary with auto-detected version
    - Approve the final deployment
 
 ### Example Session
@@ -70,22 +70,25 @@ $ ./release.sh
 [INFO] Starting gptchangelog release process...
 [INFO] Current version: 0.8.2
 
-Please enter the new version number (current: 0.8.2):
-New version: 0.9.0
+[STEP] Generating changelog and extracting next version using gptchangelog...
+[SUCCESS] Suggested next version: 0.9.0
+
+[STEP] Generating final changelog interactively...
+# Interactive changelog generation with quality analysis...
 
 ============================================
            RELEASE SUMMARY
 ============================================
 Project: gptchangelog
 Current version: 0.8.2
-New version: 0.9.0
+New version: 0.9.0 (auto-detected)
 Release date: 2025-06-04
 Git branch: main
 Git status: Clean
 ============================================
 
 This will:
-1. Generate a new changelog
+1. Use the generated changelog (already created)
 2. Update version to 0.9.0
 3. Commit the changes
 4. Create git tag v0.9.0
@@ -94,7 +97,6 @@ This will:
 
 Do you want to proceed? (y/N): y
 
-[STEP] Generating changelog using gptchangelog...
 [STEP] Updating version to 0.9.0 in gptchangelog/__init__.py
 [STEP] Committing changes...
 [STEP] Creating git tag v0.9.0...
@@ -152,10 +154,11 @@ The script provides color-coded output for better readability:
 - 🔷 **STEP**: Current operation being performed
 
 ### 🔄 Interactive Mode
-- Prompts for version number input
-- Shows comprehensive release summary
+- Automatically detects next version from changelog generation
+- Shows comprehensive release summary with auto-detected version
 - Requires explicit confirmation before proceeding
 - Allows changelog review and editing
+- Offers fallback to manual version input if needed
 
 ### 📊 Enhanced Changelog Features
 The script uses gptchangelog's enhanced mode with:
