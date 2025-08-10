@@ -53,8 +53,6 @@ extra_javascript:
 plugins:
   - search:
       lang: en
-  - minify:
-      minify_html: true
   - git-revision-date-localized:
       enable_creation_date: true
   - mkdocstrings:
