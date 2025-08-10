@@ -5,7 +5,7 @@ import logging
 import json
 import re
 import time
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 try:
     from importlib.metadata import version, PackageNotFoundError
@@ -81,6 +81,47 @@ def render_prompt(template_path, context):
                 fallback += f"\n{key}: {value}"
 
         return fallback
+
+
+def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanced: bool = True) -> str:
+    """
+    Resolve a template path with i18n and enhanced fallbacks.
+
+    Args:
+        base_name: Base template name without prefixes/suffixes (e.g., "changelog_prompt", "commits_prompt", "version_prompt")
+        language: ISO language code (e.g., "en", "fr", "es")
+        enhanced: If True, prefers enhanced template variants
+
+    Returns:
+        Relative template path to use with render_prompt (e.g., "templates/enhanced_changelog_prompt.txt")
+    """
+    lang = (language or "en").lower()
+
+    # Build candidate relative paths in priority order
+    candidates: List[str] = []
+
+    if enhanced:
+        if lang != "en":
+            candidates.append(f"templates/{lang}_enhanced_{base_name}.txt")
+            candidates.append(f"templates/{lang}_{base_name}.txt")  # fallback to non-enhanced localized
+        candidates.append(f"templates/enhanced_{base_name}.txt")
+    else:
+        if lang != "en":
+            candidates.append(f"templates/{lang}_{base_name}.txt")
+        candidates.append(f"templates/{base_name}.txt")
+
+    # Check existence in project and package locations
+    project_templates_dir = os.path.join(os.getcwd(), ".gptchangelog", "templates")
+    package_dir = os.path.dirname(os.path.abspath(__file__))
+
+    for rel_path in candidates:
+        project_candidate = os.path.join(project_templates_dir, os.path.basename(rel_path))
+        package_candidate = os.path.join(package_dir, rel_path)
+        if os.path.exists(project_candidate) or os.path.exists(package_candidate):
+            return rel_path
+
+    # Final fallback to English defaults
+    return f"templates/enhanced_{base_name}.txt" if enhanced else f"templates/{base_name}.txt"
 
 
 def estimate_tokens(text, model="gpt-4o"):

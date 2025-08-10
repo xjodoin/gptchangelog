@@ -3,13 +3,13 @@
 import logging
 import re
 from datetime import datetime
-from typing import Tuple, Dict, List, Any, Optional
+from typing import Tuple, Dict, List, Any, Optional, cast
 from collections import defaultdict
 
 import openai
 from openai import OpenAIError
 
-from .utils import render_prompt, estimate_tokens
+from .utils import render_prompt, estimate_tokens, resolve_template_path
 from .enhanced_git_utils import CommitInfo, format_commits_for_ai
 
 logger = logging.getLogger(__name__)
@@ -18,12 +18,13 @@ logger = logging.getLogger(__name__)
 class EnhancedChangelogGenerator:
     """Enhanced changelog generator with better AI integration."""
     
-    def __init__(self, model: str = "gpt-4o", max_tokens: int = 80000):
+    def __init__(self, model: str = "gpt-4o", max_tokens: int = 80000, language: str = "en"):
         self.model = model
         self.max_tokens = max_tokens
+        self.language = (language or "en").lower()
         
         # Changelog templates for different types
-        self.changelog_categories = {
+        self.changelog_categories: Dict[str, Dict[str, Any]] = {
             'feat': {'title': '✨ Features', 'emoji': '✨', 'priority': 1},
             'fix': {'title': '🐛 Bug Fixes', 'emoji': '🐛', 'priority': 2},
             'perf': {'title': '⚡ Performance', 'emoji': '⚡', 'priority': 3},
@@ -45,7 +46,7 @@ class EnhancedChangelogGenerator:
             commits_by_type[commit.commit_type].append(commit)
         
         # Create component impact summary
-        component_impact = {}
+        component_impact: Dict[str, Dict[str, Any]] = {}
         for commit in commits:
             for component in commit.components:
                 if component not in component_impact:
@@ -53,9 +54,11 @@ class EnhancedChangelogGenerator:
                 component_impact[component]['commits'] += 1
                 component_impact[component]['types'].add(commit.commit_type)
         
-        # Convert types to lists for JSON serialization
-        for component in component_impact:
-            component_impact[component]['types'] = list(component_impact[component]['types'])
+        # Build a serializable copy for JSON (convert sets to lists)
+        component_impact_serializable = {
+            comp: {'commits': data['commits'], 'types': list(data['types'])}
+            for comp, data in component_impact.items()
+        }
         
         return {
             'project_name': project_name,
@@ -68,7 +71,7 @@ class EnhancedChangelogGenerator:
             'insertions': stats['total_insertions'],
             'deletions': stats['total_deletions'],
             'main_components': [comp for comp, count in stats['most_changed_components']],
-            'component_impact': component_impact,
+            'component_impact': component_impact_serializable,
             'commits_by_type': {k: len(v) for k, v in commits_by_type.items()},
             'date_range': f"{stats['date_range'][0].strftime('%Y-%m-%d')} to {stats['date_range'][1].strftime('%Y-%m-%d')}" if stats['date_range'] else None,
         }
@@ -138,7 +141,9 @@ class EnhancedChangelogGenerator:
             }
         }
         
-        prompt = render_prompt("templates/enhanced_commits_prompt.txt", enhanced_context)
+        # i18n-aware template resolution for enhanced commits prompt
+        commits_template = resolve_template_path("commits_prompt", self.language, enhanced=True)
+        prompt = render_prompt(commits_template, enhanced_context)
         
         try:
             response = openai.chat.completions.create(
@@ -160,7 +165,8 @@ class EnhancedChangelogGenerator:
                 temperature=0.3,
                 max_tokens=4000,
             )
-            return response.choices[0].message.content
+            content = response.choices[0].message.content
+            return content if isinstance(content, str) and content else formatted_commits
         except OpenAIError as e:
             logger.error(f"OpenAI API error in commit processing: {e}")
             return formatted_commits  # Fallback to original formatting
@@ -183,7 +189,9 @@ class EnhancedChangelogGenerator:
             'current_version': current_version,
         }
         
-        prompt = render_prompt("templates/enhanced_version_prompt.txt", version_context)
+        # i18n-aware template resolution for enhanced version prompt
+        version_template = resolve_template_path("version_prompt", self.language, enhanced=True)
+        prompt = render_prompt(version_template, version_context)
         
         try:
             response = openai.chat.completions.create(
@@ -206,7 +214,7 @@ class EnhancedChangelogGenerator:
                 max_tokens=1000,
             )
             
-            response_text = response.choices[0].message.content
+            response_text = response.choices[0].message.content or ""
             
             # Extract version from response
             version_pattern = r'(?:Version:\s*)?v?(\d+\.\d+\.\d+)'
@@ -270,7 +278,9 @@ class EnhancedChangelogGenerator:
             'categories': self.changelog_categories,
         }
         
-        prompt = render_prompt("templates/enhanced_changelog_prompt.txt", changelog_context)
+        # i18n-aware template resolution for enhanced changelog prompt
+        changelog_template = resolve_template_path("changelog_prompt", self.language, enhanced=True)
+        prompt = render_prompt(changelog_template, changelog_context)
         
         try:
             response = openai.chat.completions.create(
@@ -294,7 +304,7 @@ class EnhancedChangelogGenerator:
                 max_tokens=6000,
             )
             
-            changelog = response.choices[0].message.content
+            changelog = response.choices[0].message.content or ""
             
             # Post-process the changelog
             return self._post_process_changelog(changelog, next_version, context)
@@ -304,30 +314,165 @@ class EnhancedChangelogGenerator:
             return self._generate_fallback_changelog(commits, next_version, context)
 
     def _post_process_changelog(self, changelog: str, next_version: str, context: Dict[str, Any]) -> str:
-        """Post-process the generated changelog for consistency and quality."""
-        lines = changelog.split('\n')
-        processed_lines = []
-        
-        for line in lines:
-            # Ensure proper header format
-            if line.startswith('##') and next_version in line:
-                if not re.search(r'## \[.*\] - \d{4}-\d{2}-\d{2}', line):
-                    line = f"## [{next_version}] - {context.get('current_date', datetime.now().strftime('%Y-%m-%d'))}"
-            
-            # Clean up bullet points
-            line = re.sub(r'^[-*]\s+', '- ', line)
-            
-            # Ensure consistent emoji usage
-            for commit_type, category in self.changelog_categories.items():
-                if line.startswith(f"### {category['title']}"):
-                    break
-                elif line.startswith(f"### {category['title'].split(' ', 1)[1]}"):
-                    line = f"### {category['title']}"
-                    break
-            
-            processed_lines.append(line)
-        
-        return '\n'.join(processed_lines)
+        """Post-process the generated changelog: fix header, enforce section order, remove empty sections, dedupe bullets, synthesize summary."""
+        # Normalize line endings and bullet prefix
+        raw_lines = re.sub(r'^[-*]\s+', '- ', changelog, flags=re.MULTILINE).splitlines()
+
+        # Ensure header
+        date_str = context.get('current_date', datetime.now().strftime('%Y-%m-%d'))
+        header_line = f"## [{next_version}] - {date_str}"
+
+        lines: List[str] = [ln for ln in raw_lines if ln is not None]
+        if not lines or not lines[0].startswith('##'):
+            lines = [header_line, ""] + lines
+        else:
+            # Replace header with canonical format
+            if re.search(r'## \[.*\]', lines[0]):
+                lines[0] = header_line
+            else:
+                lines[0] = header_line
+
+        # Parse sections
+        sections: Dict[str, List[str]] = {}
+        current_section: Optional[str] = None
+        bullet_seen: Dict[str, set] = {}
+
+        def norm_bullet(b: str) -> str:
+            return re.sub(r'\s+', ' ', b.strip().lower())
+
+        for ln in lines[1:]:  # skip header
+            if ln.startswith('### '):
+                current_section = ln.strip()[4:]
+                if current_section not in sections:
+                    sections[current_section] = []
+                    bullet_seen[current_section] = set()
+            elif ln.startswith('- '):
+                if current_section is None:
+                    # Create a generic section if bullets appear before any header
+                    current_section = '🔧 Maintenance'  # default bucket
+                    if current_section not in sections:
+                        sections[current_section] = []
+                        bullet_seen[current_section] = set()
+                key = norm_bullet(ln)
+                if key not in bullet_seen[current_section]:
+                    sections[current_section].append(ln.strip())
+                    bullet_seen[current_section].add(key)
+            else:
+                # Ignore free text for now; summary will be handled separately
+                continue
+
+        # Remove empty sections (no bullets)
+        sections = {title: bullets for title, bullets in sections.items() if any(bullets)}
+
+        # Map possible headings without emojis to canonical with emojis
+        title_map: Dict[str, str] = {}
+        for key, meta in self.changelog_categories.items():
+            title_map[meta['title']] = meta['title']
+            # Allow mapping of titles without emoji to canonical title
+            no_emoji = meta['title'].split(' ', 1)[1] if ' ' in meta['title'] else meta['title']
+            title_map[no_emoji] = meta['title']
+        title_map["Breaking Changes"] = "⚠️ Breaking Changes"
+        title_map["Removed"] = "🗑️ Removed"
+        title_map["Deprecated"] = "⚠️ Deprecated"
+
+        # Default canonical section order
+        default_order: List[str] = [
+            "⚠️ Breaking Changes",
+            "✨ Features",
+            "🐛 Bug Fixes",
+            "⚡ Performance",
+            "🔄 Changes",
+            "🗑️ Removed",
+            "⚠️ Deprecated",
+            "📚 Documentation",
+            "🔧 Maintenance",
+        ]
+
+        # Prepare custom order from context if provided
+        order_input = context.get('section_order')
+        custom_order: List[str] = []
+        if isinstance(order_input, str):
+            custom_order = [s.strip() for s in order_input.split(',') if s.strip()]
+        elif isinstance(order_input, list):
+            custom_order = [str(s).strip() for s in order_input if str(s).strip()]
+
+        # Map custom titles to canonical (with emoji) if possible
+        mapped_custom: List[str] = []
+        for t in custom_order:
+            mapped_custom.append(title_map.get(t, t))
+        order: List[str] = mapped_custom if mapped_custom else default_order
+
+        # Normalize section titles to canonical
+        norm_sections: Dict[str, List[str]] = {}
+        for title, bullets in sections.items():
+            canonical = title_map.get(title, title)
+            norm_sections.setdefault(canonical, [])
+            norm_sections[canonical].extend(bullets)
+        sections = norm_sections
+
+        # Build final content
+        out: List[str] = [header_line]
+
+        # Add or synthesize a brief summary after header
+        if len(lines) < 2 or lines[1].startswith('###'):
+            total = context.get('total_commits', 0) or 0
+            by_type = context.get('commit_types', {}) or {}
+            feats = by_type.get('feat', 0) if isinstance(by_type, dict) else 0
+            fixes = by_type.get('fix', 0) if isinstance(by_type, dict) else 0
+            comps = context.get('main_components', []) or []
+            comp_str = ', '.join(comps[:3]) if comps else 'general'
+            summary = f"{total} commits including {feats} features and {fixes} fixes; main components: {comp_str}."
+            out.extend(["", summary])
+        else:
+            out.append("")  # ensure a blank line before sections
+
+        # Optional compare link and contributors
+        compare_url = context.get('compare_url')
+        if compare_url:
+            out.extend([f"[Compare changes]({compare_url})"])
+        contributors = context.get('contributors')
+        if contributors:
+            if isinstance(contributors, list):
+                names = ', '.join([str(n) for n in contributors][:10])
+                out.extend([f"Contributors: {names}"])
+        # Blank line before sections
+        out.append("")
+
+        # Emit sections in canonical or custom order, skipping empties
+        use_emojis = bool(context.get('use_emojis', True))
+        for sec in order:
+            bullets = sections.get(sec, [])
+            if not bullets:
+                continue
+            title_to_emit = sec if use_emojis else re.sub(r'^[^\w\s]\s*', '', sec)
+            out.append(f"### {title_to_emit}")
+            out.extend([f"- {b.lstrip('- ').strip()}" for b in bullets])
+            out.append("")
+
+        # Include any extra sections not covered by canonical order
+        for sec, bullets in sections.items():
+            if sec in order or not bullets:
+                continue
+            out.append(f"### {sec}")
+            out.extend([f"- {b.lstrip('- ').strip()}" for b in bullets])
+            out.append("")
+
+        # Collapse multiple blank lines
+        final_lines: List[str] = []
+        prev_blank = False
+        for ln in out:
+            is_blank = (ln.strip() == "")
+            if is_blank and prev_blank:
+                continue
+            final_lines.append(ln.rstrip())
+            prev_blank = is_blank
+
+        return '\n'.join(final_lines)
+
+    def _priority(self, commit_type: str) -> int:
+        """Return sorting priority for a commit type."""
+        meta = self.changelog_categories.get(commit_type)
+        return meta['priority'] if meta else 999
 
     def _generate_fallback_changelog(self, commits: List[CommitInfo], next_version: str, 
                                    context: Dict[str, Any]) -> str:
@@ -341,7 +486,7 @@ class EnhancedChangelogGenerator:
             by_type[commit.commit_type].append(commit)
         
         # Add sections for each type with commits
-        for commit_type in sorted(by_type.keys(), key=lambda x: self.changelog_categories.get(x, {}).get('priority', 999)):
+        for commit_type in sorted(by_type.keys(), key=self._priority):
             if commit_type in self.changelog_categories:
                 section_title = self.changelog_categories[commit_type]['title']
                 changelog.append(f"### {section_title}")
@@ -363,14 +508,19 @@ def generate_enhanced_changelog_and_version(
     project_name: str,
     stats: Dict[str, Any],
     model: str = "gpt-4o",
-    max_tokens: int = 80000
+    max_tokens: int = 80000,
+    language: str = "en",
+    extra_context: Optional[Dict[str, Any]] = None
 ) -> Tuple[str, str]:
     """Generate enhanced changelog and version using the new system."""
     
-    generator = EnhancedChangelogGenerator(model, max_tokens)
+    generator = EnhancedChangelogGenerator(model, max_tokens, language)
     
     # Create enhanced context
     context = generator._create_enhanced_context(commits, current_version, project_name, stats)
+    if extra_context:
+        # Merge optional extras such as compare_url, contributors, use_emojis, section_order
+        context = {**context, **extra_context}
     
     # Determine next version
     next_version = generator.determine_smart_version(commits, current_version, context)
@@ -392,7 +542,7 @@ def analyze_changelog_quality(changelog: str) -> Dict[str, Any]:
         'has_emojis': len(re.findall(r'[^\w\s]', changelog)) > 0,
         'line_count': len([line for line in lines if line.strip()]),
         'empty_sections': len(re.findall(r'###[^\n]*\n\s*###', changelog)),
-        'avg_bullet_length': 0,
+        'avg_bullet_length': 0.0,
         'has_breaking_changes': 'breaking' in changelog.lower() or '⚠️' in changelog,
     }
     

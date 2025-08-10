@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 import re
-from typing import Tuple, Dict, List, Any
+from typing import Tuple, Dict, List, Any, Optional
 
 import openai
 from openai import OpenAIError
@@ -189,7 +189,8 @@ def generate_changelog(
         commit_messages: str,
         next_version: str,
         model: str,
-        context: Dict[str, Any] = None
+        context: Dict[str, Any] = None,
+        language: Optional[str] = "en"
 ) -> str:
     """
     Generate a changelog from the processed commit messages.
@@ -216,8 +217,15 @@ def generate_changelog(
         "current_date": context.get("current_date", datetime.today().strftime("%Y-%m-%d")),
     }
 
+    template_path = "templates/changelog_prompt.txt"
+    if language and language.lower() != "en":
+        lang = language.lower()
+        if lang == "fr":
+            template_path = "templates/fr_changelog_prompt.txt"
+        elif lang == "es":
+            template_path = "templates/es_changelog_prompt.txt"
     prompt = render_prompt(
-        "templates/changelog_prompt.txt",
+        template_path,
         changelog_context,
     )
 
@@ -261,7 +269,8 @@ def generate_changelog_and_next_version(
         current_version: str,
         model: str,
         max_context_tokens: int,
-        context: Dict[str, Any] = None
+        context: Dict[str, Any] = None,
+        language: Optional[str] = "en"
 ) -> Tuple[str, str]:
     """
     Generate a changelog and determine the next version based on commit messages.
@@ -300,7 +309,8 @@ def generate_changelog_and_next_version(
         processed_commits,
         next_version,
         model,
-        context
+        context,
+        language=language
     )
 
     return changelog, next_version

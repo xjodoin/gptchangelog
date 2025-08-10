@@ -125,16 +125,6 @@ def run_gptchangelog(args):
                 # Handle language setting for multi-language support
                 language = args.language
                 if language != "en":
-                    # Prepare context for multi-language support
-                    lang_context = {
-                        **context,
-                        "language": language,
-                    }
-
-                    # Override template paths for language-specific templates
-                    os.environ["GPTCHANGELOG_TEMPLATE_PATH"] = f"templates/{language}_changelog_prompt.txt"
-
-                    # Log the language being used
                     console.print(f"[blue]Generating changelog in {language}[/blue]")
 
                 changelog, next_version = generate_changelog_and_next_version(
@@ -142,7 +132,8 @@ def run_gptchangelog(args):
                     current_version,
                     model,
                     max_tokens,
-                    context
+                    context,
+                    language=language
                 )
                 progress.update(task, advance=75)
             except Exception as e:
@@ -196,13 +187,48 @@ def run_gptchangelog(args):
                 if language != "en":
                     console.print(f"[blue]Generating changelog in {language}[/blue]")
 
+                # Optional compare URL (GitHub)
+                compare_url = None
+                if not args.no_compare_link:
+                    try:
+                        remote_url = repo.remotes.origin.url
+                        path = None
+                        if remote_url.startswith("git@github.com:"):
+                            path = remote_url[len("git@github.com:"):]
+                        elif "github.com/" in remote_url:
+                            path = remote_url.split("github.com/")[1]
+                        if path:
+                            if path.endswith(".git"):
+                                path = path[:-4]
+                            compare_url = f"https://github.com/{path}/compare/{from_commit}...{to_commit}"
+                    except Exception:
+                        compare_url = None
+
+                # Contributors summary
+                contributors = None
+                if not args.no_contributors:
+                    try:
+                        contributors = sorted({c.author for c in commits})
+                    except Exception:
+                        contributors = None
+
+                extra_context = {
+                    "compare_url": compare_url,
+                    "contributors": contributors,
+                    "use_emojis": not args.no_emojis,
+                }
+                if args.section_order:
+                    extra_context["section_order"] = args.section_order
+
                 changelog, next_version = generate_enhanced_changelog_and_version(
                     commits,
                     current_version,
                     repo_name,
                     stats,
                     model,
-                    max_tokens
+                    max_tokens,
+                    language=language,
+                    extra_context=extra_context
                 )
                 progress.update(task, advance=100)
             except Exception as e:
@@ -377,6 +403,27 @@ def app():
         "--stats",
         action="store_true",
         help="Display detailed commit statistics and analysis."
+    )
+    generate_parser.add_argument(
+        "--no-compare-link",
+        action="store_true",
+        help="Do not include a compare link in the changelog header."
+    )
+    generate_parser.add_argument(
+        "--no-contributors",
+        action="store_true",
+        help="Do not include a contributors summary."
+    )
+    generate_parser.add_argument(
+        "--section-order",
+        type=str,
+        default=None,
+        help="Custom section order as a comma-separated list (e.g., '⚠️ Breaking Changes,✨ Features,🐛 Bug Fixes')."
+    )
+    generate_parser.add_argument(
+        "--no-emojis",
+        action="store_true",
+        help="Do not include emojis in section titles."
     )
 
     # Set generate as the default command
