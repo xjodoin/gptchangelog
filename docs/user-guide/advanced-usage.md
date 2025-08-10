@@ -1,3 +1,19 @@
+---
+title: Advanced Usage | GPTChangelog
+description: Advanced techniques for GPTChangelog including interactive mode, custom commit ranges, CI/CD integration, performance optimization, and troubleshooting.
+keywords:
+  - gptchangelog
+  - advanced usage
+  - interactive mode
+  - custom commit range
+  - ci/cd
+  - performance
+  - token limits
+  - troubleshooting
+  - semantic versioning
+  - release notes
+---
+
 # Advanced Usage
 
 This guide covers advanced usage scenarios and techniques for GPTChangelog.

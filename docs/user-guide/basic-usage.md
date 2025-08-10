@@ -1,3 +1,16 @@
+---
+title: Basic Usage | GPTChangelog
+description: Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.
+keywords:
+  - gptchangelog
+  - basic usage
+  - generate changelog
+  - git commits
+  - semantic versioning
+  - openai
+  - python cli
+---
+
 # Basic Usage
 
 This page covers the basic usage of GPTChangelog for generating changelogs from your git commits.

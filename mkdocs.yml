@@ -3,11 +3,16 @@ site_description: Automatically generate detailed changelogs from git commit his
 site_url: https://xjodoin.github.io/gptchangelog/
 repo_url: https://github.com/xjodoin/gptchangelog
 repo_name: xjodoin/gptchangelog
+site_author: xjodoin
+edit_uri: edit/main/docs/
+copyright: Copyright (c) 2025 Xavier Jodoin
+strict: true
 
 theme:
   name: material
+  custom_dir: docs/overrides
   palette:
-    primary: indigoq
+    primary: indigo
     accent: blue
   features:
     - navigation.instant
@@ -20,11 +25,12 @@ theme:
     - content.code.copy
   icon:
     repo: fontawesome/brands/github
+  logo: assets/images/logo.svg
+  favicon: assets/images/logo.png
 
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.tabbed:
@@ -33,19 +39,23 @@ markdown_extensions:
       custom_checkbox: true
   - admonition
   - footnotes
+  - meta
   - toc:
       permalink: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
 
 extra_javascript:
   - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 plugins:
-  - search
+  - search:
+      lang: en
+  - sitemap
+  - minify:
+      minify_html: true
   - git-revision-date-localized:
       enable_creation_date: true
   - mkdocstrings:
@@ -71,8 +81,10 @@ nav:
   - Changelog: changelog.md
 
 extra:
+  version: 0.9.0
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/xjodoin/gptchangelog
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/gptchangelog/
+  social_image: assets/images/logo.png

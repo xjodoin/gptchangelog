@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+
+  {# Canonical URL #}
+  {% if page.canonical_url %}
+  <link rel="canonical" href="{{ page.canonical_url }}">
+  {% endif %}
+
+  {# Basic meta #}
+  <meta name="description" content="{{ page.meta.description or config.site_description }}">
+  {% if config.site_author %}<meta name="author" content="{{ config.site_author }}">{% endif %}
+  {% if page.meta and page.meta.keywords %}
+  {% set keywords = page.meta.keywords %}
+  <meta name="keywords" content="{{ keywords | join(', ') }}">
+  {% else %}
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
+  {% endif %}
+  <meta name="robots" content="index,follow">
+
+  {# Open Graph #}
+  {% set og_title = (page.title ~ " - " ~ config.site_name) if page.title else config.site_name %}
+  {% if page.is_homepage %}
+  <meta property="og:type" content="website">
+  {% else %}
+  <meta property="og:type" content="article">
+  {% endif %}
+  <meta property="og:title" content="{{ og_title | striptags }}">
+  <meta property="og:description" content="{{ page.meta.description or config.site_description }}">
+  {% if page.canonical_url %}<meta property="og:url" content="{{ page.canonical_url }}">{% endif %}
+  {% if config.extra and config.extra.social_image %}
+    {% if config.site_url and not config.extra.social_image.startswith('http') %}
+      <meta property="og:image" content="{{ config.site_url ~ config.extra.social_image }}">
+    {% else %}
+      <meta property="og:image" content="{{ config.extra.social_image }}">
+    {% endif %}
+    {% if config.site_name %}<meta property="og:image:alt" content="{{ config.site_name }} logo">{% endif %}
+  {% endif %}
+  {% if page.meta.git_creation_date_localized %}<meta property="article:published_time" content="{{ page.meta.git_creation_date_localized }}">{% endif %}
+  {% if page.meta.git_revision_date_localized %}<meta property="article:modified_time" content="{{ page.meta.git_revision_date_localized }}">{% endif %}
+
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ og_title | striptags }}">
+  <meta name="twitter:description" content="{{ page.meta.description or config.site_description }}">
+  {% if config.extra and config.extra.social_image %}
+    {% if config.site_url and not config.extra.social_image.startswith('http') %}
+      <meta name="twitter:image" content="{{ config.site_url ~ config.extra.social_image }}">
+    {% else %}
+      <meta name="twitter:image" content="{{ config.extra.social_image }}">
+    {% endif %}
+  {% endif %}
+
+  {# JSON-LD: WebSite with SearchAction #}
+  {% if config.site_url %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ config.site_name }}",
+    "url": "{{ config.site_url }}",
+    "description": "{{ config.site_description }}",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ config.site_url }}search/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  {% endif %}
+
+  {# JSON-LD: SoftwareApplication #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GPTChangelog",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "description": "{{ page.meta.description or config.site_description }}",
+    "url": "{{ page.canonical_url or config.site_url }}",
+    "downloadUrl": "https://pypi.org/project/gptchangelog/",
+    "softwareVersion": "",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "sameAs": [
+      "https://github.com/xjodoin/gptchangelog",
+      "https://pypi.org/project/gptchangelog/"
+    ]
+  }
+  </script>
+{% endblock %}

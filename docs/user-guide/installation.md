@@ -1,3 +1,16 @@
+---
+title: Install GPTChangelog
+description: Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.
+keywords:
+  - gptchangelog
+  - install
+  - pip
+  - python
+  - openai
+  - git
+  - cli
+---
+
 # Installation
 
 This page provides detailed installation instructions for GPTChangelog.
@@ -23,7 +36,7 @@ This will install GPTChangelog and all its dependencies.
 If you prefer to install from source, you can clone the repository and install it:
 
 ```bash
-git clone https://github.com/username/gptchangelog.git
+git clone https://github.com/xjodoin/gptchangelog.git
 cd gptchangelog
 pip install -e .
 ```
@@ -96,5 +109,5 @@ If you get an error about Git not being found, make sure Git is installed and in
 
 If you continue to experience issues, please:
 
-1. Check the [GitHub issues](https://github.com/username/gptchangelog/issues) to see if your problem has been reported
+1. Check the [GitHub issues](https://github.com/xjodoin/gptchangelog/issues) to see if your problem has been reported
 2. Open a new issue if needed, providing details about your environment and the error messages

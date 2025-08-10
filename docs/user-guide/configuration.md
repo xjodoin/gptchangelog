@@ -1,3 +1,16 @@
+---
+title: GPTChangelog Configuration Guide
+description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and OpenAI settings like model and token limits.
+keywords:
+  - gptchangelog
+  - configuration
+  - config file
+  - environment variables
+  - openai model
+  - max tokens
+  - semantic versioning
+---
+
 # Configuration
 
 GPTChangelog can be configured at both the global and project levels. This page explains all available configuration options and how to manage them.

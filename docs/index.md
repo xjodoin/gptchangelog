@@ -1,3 +1,18 @@
+---
+title: AI-Powered Changelog Generator for Git | GPTChangelog
+description: Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI. Supports Conventional Commits and semantic versioning with a powerful Python CLI.
+keywords:
+  - changelog generator
+  - AI changelog
+  - git changelog
+  - conventional commits
+  - semantic versioning
+  - release notes
+  - python cli
+  - openai
+  - gptchangelog
+---
+
 # GPTChangelog
 
 **Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI's GPT models.**

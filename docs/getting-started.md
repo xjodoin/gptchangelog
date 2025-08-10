@@ -1,3 +1,17 @@
+---
+title: Getting Started with GPTChangelog
+description: Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.
+keywords:
+  - gptchangelog
+  - getting started
+  - installation
+  - configuration
+  - generate changelog
+  - openai
+  - python
+  - release notes
+---
+
 # Getting Started
 
 This guide will help you get up and running with GPTChangelog quickly.

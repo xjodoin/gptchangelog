@@ -1,3 +1,18 @@
+---
+title: Examples and Recipes | GPTChangelog
+description: Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.
+keywords:
+  - gptchangelog
+  - examples
+  - recipes
+  - ci/cd
+  - github releases
+  - conventional commits
+  - templates
+  - release notes
+  - python cli
+---
+
 # Examples
 
 This page provides practical examples of using GPTChangelog in different scenarios.

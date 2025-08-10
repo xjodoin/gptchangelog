@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xjodoin.github.io/gptchangelog/sitemap.xml

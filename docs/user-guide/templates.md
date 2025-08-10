@@ -1,3 +1,16 @@
+---
+title: Prompt Templates | GPTChangelog
+description: Learn how GPTChangelog uses customizable prompt templates to process commits, determine the next version, and format changelogs. Create project-specific templates to control the AI output.
+keywords:
+  - gptchangelog templates
+  - prompt templates
+  - changelog template
+  - version template
+  - commits template
+  - customization
+  - semantic versioning
+---
+
 # Prompt Templates
 
 GPTChangelog uses customizable prompt templates to guide the AI in generating high-quality changelogs. This page explains how these templates work and how you can customize them.
