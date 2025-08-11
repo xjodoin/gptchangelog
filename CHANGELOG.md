@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ```markdown
 ```markdown
+## [v0.10.0] - 2025-08-11
+
+[Compare changes](https://github.com/xjodoin/gptchangelog/compare/v0.9.0...HEAD)
+Contributors: Xavier Jodoin
+
+### ✨ Features
+- **Enhanced Changelog Generation**: Now supports internationalization (i18n) and additional customization options. Users can generate changelogs with GitHub compare URLs and contributors lists, improving transparency and collaboration. New CLI flags allow toggling features like emojis and custom section orders, providing greater flexibility in presentation.
+
+### 📚 Documentation
+- **SEO and Structure Improvements**: Enhanced documentation with improved metadata and structure to boost searchability and organization, making it easier for users to find and navigate content.
+- **Template Resilience**: Improved robustness of documentation templates to prevent errors on pages lacking context, such as 404 pages, ensuring a smoother user experience.
+
+### 🔧 Maintenance
+- **Build Process Simplification**: Streamlined the build process by removing unnecessary plugins, reducing potential build issues and maintenance overhead.
+- **Dependency Management**: Updated and cleaned up dependencies, contributing to a leaner and more efficient build environment, enhancing system stability and performance.
+
+
 ## [v0.9.0] - 2025-06-04
 
 This release of GPTChangelog introduces significant enhancements to the changelog generation process, making it more user-friendly and efficient. Users will benefit from improved automation, documentation, and visualization capabilities.
