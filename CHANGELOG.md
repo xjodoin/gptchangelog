@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ```markdown
 ```markdown
+## [v0.10.1] - 2025-10-01
+
+[Compare changes](https://github.com/xjodoin/gptchangelog/compare/v0.10.0...HEAD)
+Contributors: Xavier Jodoin
+
+### 🔄 Changes
+- Migrate CLI tooling to "uv" / "uvx": standardize how the project is run, tested, and built from the command line to give more consistent behavior across shells and environments.
+- Improve command-line UI and prompts: present clearer, more consistent messages and command names so developers can run and debug the project with less guesswork.
+- Advise verifying scripts and CI: recommend checking any custom scripts, CI pipelines, or automation that call previous run commands to confirm compatibility with the new "uv"/"uvx" invocations.
+
+### 📚 Documentation
+- Expand installation section in README to cover both "uv" and "uvx" usage: make setup instructions clearer and provide recommended invocations per environment and shell.
+- Add cross-cutting developer docs: provide more onboarding material and usage guidance across backend, frontend, build, and config areas to reduce setup friction for new contributors and maintainers.
+- Centralize build/config instructions: consolidate guidance so developers can find a single, consistent place for build and configuration steps.
+
+### 🔧 Maintenance
+- Clean up multi-component build/config details: align small configuration and build details across backend, frontend, and build scripts to improve long-term maintainability.
+- Make non-user-facing adjustments that support the "uv"/"uvx" migration and documentation improvements.
+- No breaking changes detected; most users do not need to take any action.
+- Action recommended for CI / scripts: if you have custom automation that invokes the project directly, quickly verify and update those commands to the "uv"/"uvx" style described in the README. Migration effort is typically low (edit of an invocation or two).
+- Where to look: see the updated README and docs for the exact command examples and environment-specific notes.
+
+
 ## [v0.10.0] - 2025-08-11
 
 [Compare changes](https://github.com/xjodoin/gptchangelog/compare/v0.9.0...HEAD)
