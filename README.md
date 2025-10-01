@@ -17,11 +17,27 @@ Automatically generate detailed, well-structured changelogs from your git commit
 
 ## Installation
 
+Install from PyPI with your preferred toolchain:
+
 ```bash
 pip install gptchangelog
 ```
 
+Or run it directly with [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv tool run gptchangelog --help
+```
+
+Or use `uvx` for an ephemeral execution without pre-installing the tool:
+
+```bash
+uvx gptchangelog --help
+```
+
 ## Quick Start
+
+### Using pip or a virtual environment
 
 1. Initialize the configuration (only needed once):
 
@@ -41,6 +57,17 @@ The tool will:
 - Determine the next version number based on semantic versioning
 - Generate a well-structured changelog
 - Prepend it to your CHANGELOG.md file
+
+### Using uv (no manual virtualenv required)
+
+```bash
+uv tool run gptchangelog config init
+uv tool run gptchangelog generate
+
+# or, for one-off runs, use uvx
+uvx gptchangelog config init
+uvx gptchangelog generate
+```
 
 ## Command Line Usage
 
@@ -89,6 +116,15 @@ gptchangelog generate --stats --quality-analysis
 Launch the Textual TUI review experience:
 ```bash
 gptchangelog generate --ui textual
+```
+
+With uv you can mirror the same commands by replacing `gptchangelog` with `uv tool run gptchangelog`, for example:
+
+```bash
+uv tool run gptchangelog generate --repo ../another-project --stats --quality-analysis
+
+# or run ad-hoc with uvx
+uvx gptchangelog generate --repo ../another-project --stats --quality-analysis
 ```
 
 ## Configuration
@@ -161,11 +197,11 @@ To develop GPTChangelog locally, use [uv](https://docs.astral.sh/uv/) to manage 
 git clone https://github.com/xjodoin/gptchangelog.git
 cd gptchangelog
 uv sync --dev --extra docs --extra release
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv run gptchangelog config init  # optional: seeds local config
 uv run gptchangelog generate --dry-run
 ```
 
-`uv sync` creates a managed virtual environment with the editable package and all tooling needed for docs, testing, and releases.
+`uv sync` creates a managed virtual environment with the editable package and all tooling needed for docs, testing, and releases. `uv run ...` executes commands inside that environment, so there is no need to activate the virtualenv manually.
 
 ## License
 
