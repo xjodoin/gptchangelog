@@ -7,7 +7,7 @@ name = "gptchangelog"
 description = "Automatically generate a changelog using AI"
 readme = "README.md"
 requires-python = ">=3.12"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
   { name = "Xavier Jodoin", email = "python@jodoin.me" },
 ]
@@ -17,7 +17,6 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Environment :: Console",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Topic :: Software Development",
   "Topic :: Terminals",
   "Topic :: Text Processing",
