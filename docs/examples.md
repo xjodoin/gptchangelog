@@ -41,7 +41,7 @@ Example output:
 - Fix token counting logic for large repositories
 
 ### 🔄 Changes
-- Update default model to gpt-4o
+- Update default model to gpt-5-mini
 - Improve commit message grouping algorithm
 ```
 
@@ -54,6 +54,16 @@ gptchangelog generate --interactive
 ```
 
 This will show you the generated changelog and prompt you to edit it before saving.
+
+### Exploring Results with the Textual UI
+
+For a richer review experience, launch the Textual interface:
+
+```bash
+gptchangelog generate --ui textual
+```
+
+Press `q` to exit the TUI once you're done reviewing.
 
 ### Generating a Changelog Between Tags
 
@@ -98,7 +108,7 @@ PREV_TAG=$(git describe --tags --abbrev=0 --match "v*" HEAD^)
 CURRENT_TAG=$(git describe --tags --abbrev=0)
 
 # Generate release notes
-gptchangelog generate --since $PREV_TAG --to $CURRENT_TAG --output RELEASE_NOTES.md
+gptchangelog generate --since $PREV_TAG --to $CURRENT_TAG --output RELEASE_NOTES.md --ui plain
 
 # Create GitHub release (using gh CLI)
 gh release create $CURRENT_TAG --notes-file RELEASE_NOTES.md
@@ -120,7 +130,7 @@ PREV_TAG=$(git describe --tags --abbrev=0 --match "v*" HEAD^)
 CURRENT_TAG=$(git describe --tags --abbrev=0)
 
 # Generate changelog
-gptchangelog generate --since $PREV_TAG --to $CURRENT_TAG
+gptchangelog generate --since $PREV_TAG --to $CURRENT_TAG --ui plain
 
 # Commit and push the updated changelog
 git add CHANGELOG.md
@@ -431,7 +441,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          gptchangelog generate --since ${{ env.PREVIOUS_TAG }} --to ${{ github.ref_name }} --output RELEASE_NOTES.md
+          gptchangelog generate --since ${{ env.PREVIOUS_TAG }} --to ${{ github.ref_name }} --output RELEASE_NOTES.md --ui plain
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

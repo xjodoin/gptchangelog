@@ -42,8 +42,8 @@ This will prompt you for:
 
 1. Configuration type (global or project-specific)
 2. Your OpenAI API key
-3. The model to use (default: gpt-4o)
-4. Maximum context tokens (default: 80000)
+3. The model to use (default: gpt-5-mini)
+4. Maximum context tokens (default: 200000)
 
 ### Global vs. Project Configuration
 

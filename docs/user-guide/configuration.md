@@ -53,8 +53,8 @@ The configuration file uses the INI format:
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-4o
-max_context_tokens = 80000
+model = gpt-5-mini
+max_context_tokens = 200000
 ```
 
 ## Configuration Options
@@ -64,8 +64,8 @@ max_context_tokens = 80000
 | Option | Description | Default | 
 |--------|-------------|---------|
 | `api_key` | Your OpenAI API key | (Required) |
-| `model` | The OpenAI model to use | `gpt-4o` |
-| `max_context_tokens` | Maximum tokens to use in each API call | `80000` |
+| `model` | The OpenAI model to use | `gpt-5-mini` |
+| `max_context_tokens` | Maximum tokens to use in each API call | `200000` |
 
 ### Environment Variables
 
@@ -83,7 +83,7 @@ Environment variables take precedence over configuration file settings.
 
 ### Using Different Models
 
-GPTChangelog works best with GPT-4 variants, but you can use other models:
+GPTChangelog works best with GPT-5 family models, but you can use other options:
 
 ```ini
 [openai]
@@ -124,8 +124,8 @@ api_key = your-api-key-here
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-4o
-max_context_tokens = 80000
+model = gpt-5-mini
+max_context_tokens = 200000
 ```
 
 ### Configuration for Large Repositories
@@ -133,7 +133,7 @@ max_context_tokens = 80000
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-4o
+model = gpt-5-mini
 max_context_tokens = 120000
 ```
 

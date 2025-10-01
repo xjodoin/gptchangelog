@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class EnhancedChangelogGenerator:
     """Enhanced changelog generator with better AI integration."""
     
-    def __init__(self, model: str = "gpt-4o", max_tokens: int = 80000, language: str = "en"):
+    def __init__(self, model: str = "gpt-5-mini", max_tokens: int = 200000, language: str = "en"):
         self.model = model
         self.max_tokens = max_tokens
         self.language = (language or "en").lower()
@@ -162,8 +162,6 @@ class EnhancedChangelogGenerator:
                         "content": prompt,
                     },
                 ],
-                temperature=0.3,
-                max_tokens=4000,
             )
             content = response.choices[0].message.content
             return content if isinstance(content, str) and content else formatted_commits
@@ -210,8 +208,6 @@ class EnhancedChangelogGenerator:
                         "content": prompt,
                     },
                 ],
-                temperature=0.2,
-                max_tokens=1000,
             )
             
             response_text = response.choices[0].message.content or ""
@@ -300,8 +296,6 @@ class EnhancedChangelogGenerator:
                         "content": prompt,
                     },
                 ],
-                temperature=0.4,
-                max_tokens=6000,
             )
             
             changelog = response.choices[0].message.content or ""
@@ -417,12 +411,50 @@ class EnhancedChangelogGenerator:
         if len(lines) < 2 or lines[1].startswith('###'):
             total = context.get('total_commits', 0) or 0
             by_type = context.get('commit_types', {}) or {}
-            feats = by_type.get('feat', 0) if isinstance(by_type, dict) else 0
-            fixes = by_type.get('fix', 0) if isinstance(by_type, dict) else 0
+
+            def fmt_count(count: int, singular: str) -> Optional[str]:
+                if not count:
+                    return None
+                label = singular if count == 1 else f"{singular}s"
+                return f"{count} {label}"
+
+            # Build summary segments for relevant stats only
+            summary_segments: List[str] = []
+            total_text = fmt_count(total, "commit")
+            if total_text:
+                summary_segments.append(total_text)
+
+            detail_parts: List[str] = []
+            if isinstance(by_type, dict):
+                for key, label in (("feat", "feature"), ("fix", "fix"), ("perf", "performance update")):
+                    part = fmt_count(int(by_type.get(key, 0) or 0), label)
+                    if part:
+                        detail_parts.append(part)
+
+            summary_line = ""
+            if summary_segments:
+                summary_line = summary_segments[0]
+                if detail_parts:
+                    if len(detail_parts) == 1:
+                        summary_line += f" including {detail_parts[0]}"
+                    else:
+                        summary_line += " including " + ", ".join(detail_parts[:-1]) + f" and {detail_parts[-1]}"
+                summary_line += "."
+
             comps = context.get('main_components', []) or []
-            comp_str = ', '.join(comps[:3]) if comps else 'general'
-            summary = f"{total} commits including {feats} features and {fixes} fixes; main components: {comp_str}."
-            out.extend(["", summary])
+            component_line = ""
+            if comps:
+                displayed = ", ".join(str(c) for c in comps[:3])
+                if len(comps) > 3:
+                    displayed += ", …"
+                component_line = f"Key areas: {displayed}."
+
+            summary_text = " ".join(filter(None, [summary_line, component_line]))
+
+            if summary_text:
+                out.extend(["", summary_text])
+            else:
+                out.append("")  # still ensure blank line separator
         else:
             out.append("")  # ensure a blank line before sections
 
@@ -507,8 +539,8 @@ def generate_enhanced_changelog_and_version(
     current_version: str,
     project_name: str,
     stats: Dict[str, Any],
-    model: str = "gpt-4o",
-    max_tokens: int = 80000,
+    model: str = "gpt-5-mini",
+    max_tokens: int = 200000,
     language: str = "en",
     extra_context: Optional[Dict[str, Any]] = None
 ) -> Tuple[str, str]:

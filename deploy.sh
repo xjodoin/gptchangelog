@@ -3,6 +3,14 @@
 # Ensure the script stops on the first error
 set -e
 
+if ! command -v uv >/dev/null 2>&1; then
+    echo "uv is required to run this deployment script." >&2
+    exit 1
+fi
+
+echo "Ensuring release dependencies are installed..."
+uv sync --dev --extra release
+
 # Variables
 #VERSION=$1
 
@@ -21,20 +29,16 @@ set -e
 #echo "Installing twine..."
 #pip install --upgrade twine
 
-# Install required tools
-echo "Installing build dependencies..."
-pip install --upgrade build twine
-
 # Clean previous builds
 echo "Cleaning previous builds..."
 rm -rf dist
 
 # Build the package
-echo "Building the package..."
-python -m build
+echo "Building the package with uv..."
+uv build
 
 # Upload to PyPI
 echo "Uploading the package to PyPI..."
-twine upload dist/*
+uv run twine upload dist/*
 
 echo "Deployment complete. Version $VERSION has been uploaded to PyPI."

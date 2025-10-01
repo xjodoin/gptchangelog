@@ -47,7 +47,8 @@ Here's what a generated changelog might look like:
 - Fix token counting logic for large repositories
 
 ### 🔄 Changes
-- Update default model to gpt-4o
+- Update default model to gpt-5-mini
+- Add Textual-powered terminal UI for reviewing generated changelogs
 - Improve commit message grouping algorithm
 
 ### 🔧 Maintenance

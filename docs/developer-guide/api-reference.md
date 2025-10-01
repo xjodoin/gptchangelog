@@ -190,7 +190,7 @@ Renders a prompt template with provided context.
 **Returns:**
 - `str`: Rendered prompt
 
-#### `estimate_tokens(text, model="gpt-4o")`
+#### `estimate_tokens(text, model="gpt-5-mini")`
 
 Estimates the number of tokens in a text for a given model.
 
@@ -201,7 +201,7 @@ Estimates the number of tokens in a text for a given model.
 **Returns:**
 - `int`: Estimated number of tokens
 
-#### `split_commit_messages(commit_messages, max_tokens, model="gpt-4o")`
+#### `split_commit_messages(commit_messages, max_tokens, model="gpt-5-mini")`
 
 Splits commit messages into batches that fit within token limits.
 

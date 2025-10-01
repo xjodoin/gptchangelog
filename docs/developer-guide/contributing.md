@@ -13,24 +13,16 @@ Thank you for your interest in contributing to GPTChangelog! This guide will hel
    cd gptchangelog
    ```
 
-### Create a Virtual Environment
+### Sync Dependencies with uv
 
-It's recommended to use a virtual environment for development:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-### Install Development Dependencies
-
-Install the package in development mode:
+GPTChangelog now uses [uv](https://docs.astral.sh/uv/) for dependency management. After installing uv, run:
 
 ```bash
-pip install -e ".[dev]"
+uv sync --dev --extra docs --extra release
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-This will install the package and all development dependencies.
+The `uv sync` command creates a managed `.venv` and installs the core package together with the development, documentation, and release tooling declared in `pyproject.toml`.
 
 ## Development Workflow
 
@@ -39,13 +31,13 @@ This will install the package and all development dependencies.
 Run tests using pytest:
 
 ```bash
-pytest
+uv run pytest
 ```
 
 For coverage information:
 
 ```bash
-pytest --cov=gptchangelog
+uv run pytest --cov=gptchangelog
 ```
 
 ### Code Style
@@ -53,8 +45,8 @@ pytest --cov=gptchangelog
 GPTChangelog follows the PEP 8 style guide. We use Black for code formatting and isort for import sorting:
 
 ```bash
-black gptchangelog tests
-isort gptchangelog tests
+uv run black gptchangelog tests
+uv run isort gptchangelog tests
 ```
 
 ### Type Checking
@@ -62,7 +54,7 @@ isort gptchangelog tests
 We use mypy for type checking:
 
 ```bash
-mypy gptchangelog
+uv run mypy gptchangelog
 ```
 
 ### Running the CLI in Development
@@ -70,7 +62,7 @@ mypy gptchangelog
 When developing, you can run the CLI directly:
 
 ```bash
-python -m gptchangelog generate
+uv run python -m gptchangelog generate
 ```
 
 ## Making Contributions
@@ -144,11 +136,7 @@ gptchangelog/
 We use MkDocs for documentation:
 
 ```bash
-# Install MkDocs and plugins
-pip install mkdocs-material mkdocstrings[python] mkdocs-git-revision-date-localized-plugin
-
-# Serve documentation locally
-mkdocs serve
+uv run mkdocs serve
 ```
 
 ### Documentation Structure

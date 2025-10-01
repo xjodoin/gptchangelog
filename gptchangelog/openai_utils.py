@@ -64,7 +64,6 @@ def process_commit_messages(
                         "content": prompt,
                     },
                 ],
-                temperature=0.3,  # Lower temperature for more consistent output
             )
             refined_message = response.choices[0].message.content
             refined_commit_messages.append(refined_message)
@@ -137,7 +136,6 @@ def determine_next_version(
                     "content": prompt,
                 },
             ],
-            temperature=0.2,  # Lower temperature for more consistent output
         )
 
         # Extract the version number from the response
@@ -246,7 +244,6 @@ def generate_changelog(
                     "content": prompt,
                 },
             ],
-            temperature=0.4,  # Slightly higher temperature for more natural text
         )
         changelog = response.choices[0].message.content
     except OpenAIError as e:

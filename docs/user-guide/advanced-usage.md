@@ -51,6 +51,16 @@ gptchangelog generate --since 8a7d3b9
 gptchangelog generate --since v1.0.0 --to feature/new-feature
 ```
 
+### Running Against Another Repository
+
+You can generate a changelog for a different git repository without leaving your current directory:
+
+```bash
+gptchangelog generate --repo /path/to/other/project --since v3.2.0 --to HEAD
+```
+
+For CI/CD jobs or other non-interactive environments, add `--ui plain` to skip the Textual interface.
+
 ### Generating Changelog for a Single Release
 
 To generate a changelog for a specific release:
@@ -124,7 +134,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          gptchangelog generate --since ${{ env.PREVIOUS_TAG }} --to ${{ github.ref_name }} --output RELEASE_NOTES.md
+          gptchangelog generate --since ${{ env.PREVIOUS_TAG }} --to ${{ github.ref_name }} --output RELEASE_NOTES.md --ui plain
       
       - name: Create release
         uses: softprops/action-gh-release@v1
@@ -146,7 +156,7 @@ generate_changelog:
   script:
     - pip install gptchangelog
     - PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match "v*" HEAD^ || git rev-list --max-parents=0 HEAD)
-    - gptchangelog generate --since $PREVIOUS_TAG --output RELEASE_NOTES.md
+    - gptchangelog generate --since $PREVIOUS_TAG --output RELEASE_NOTES.md --ui plain
   artifacts:
     paths:
       - RELEASE_NOTES.md

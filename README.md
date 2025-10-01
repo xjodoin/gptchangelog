@@ -12,6 +12,8 @@ Automatically generate detailed, well-structured changelogs from your git commit
 - 🖋️ Interactive editing mode
 - 📋 Customizable templates
 - 🛠️ Project-specific or global configuration
+- 🗂️ Run against any repo path with a single command (`--repo`)
+- 🖥️ Optional Textual TUI for exploring results (`--ui textual`)
 
 ## Installation
 
@@ -50,10 +52,12 @@ gptchangelog generate [OPTIONS]
 
 - `--since <ref>`: Starting point (commit hash, tag, or reference)
 - `--to <ref>`: Ending point (commit hash, tag, or reference, defaults to HEAD)
+- `--repo <path>`: Run against a different git repository without changing directories
 - `--output <file>`, `-o <file>`: Output file (defaults to CHANGELOG.md)
 - `--current-version <version>`: Override the current version
 - `--dry-run`: Generate changelog but don't save it
 - `--interactive`, `-i`: Review and edit before saving
+- `--ui {auto,textual,plain}`: Choose between the Textual TUI and plain console output (default: auto)
 
 ### Examples
 
@@ -70,6 +74,21 @@ gptchangelog generate --since v1.0.0 --to v2.0.0
 Generate changelog with interactive editing:
 ```bash
 gptchangelog generate -i
+```
+
+Run against another repository without leaving your current directory:
+```bash
+gptchangelog generate --repo ../another-project
+```
+
+Add commit statistics and quality checks to the output:
+```bash
+gptchangelog generate --stats --quality-analysis
+```
+
+Launch the Textual TUI review experience:
+```bash
+gptchangelog generate --ui textual
 ```
 
 ## Configuration
@@ -94,8 +113,8 @@ gptchangelog config init
 ### Configuration Options
 
 - `api_key`: Your OpenAI API key
-- `model`: The OpenAI model to use (default: gpt-4o)
-- `max_context_tokens`: Maximum tokens to use in each API call (default: 80000)
+- `model`: The OpenAI model to use (default: gpt-5-mini)
+- `max_context_tokens`: Maximum tokens to use in each API call (default: 200000)
 
 ## Integrating with CI/CD
 
@@ -131,8 +150,22 @@ jobs:
       - name: Generate changelog
         run: |
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > .env
-          gptchangelog generate --since $(git describe --tags --abbrev=0 --match "v*" HEAD^) --to ${{ github.ref_name }}
+          gptchangelog generate --since $(git describe --tags --abbrev=0 --match "v*" HEAD^) --to ${{ github.ref_name }} --ui plain
 ```
+
+## Working from Source
+
+To develop GPTChangelog locally, use [uv](https://docs.astral.sh/uv/) to manage dependencies:
+
+```bash
+git clone https://github.com/xjodoin/gptchangelog.git
+cd gptchangelog
+uv sync --dev --extra docs --extra release
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv run gptchangelog generate --dry-run
+```
+
+`uv sync` creates a managed virtual environment with the editable package and all tooling needed for docs, testing, and releases.
 
 ## License
 

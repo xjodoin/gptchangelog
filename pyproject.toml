@@ -1,3 +1,83 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "gptchangelog"
+description = "Automatically generate a changelog using AI"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "Xavier Jodoin", email = "python@jodoin.me" },
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Software Development",
+  "Topic :: Terminals",
+  "Topic :: Text Processing",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "openai>=1.52.0",
+  "gitpython>=3.1.40",
+  "configparser>=6.0.0",
+  "tiktoken>=0.8.0",
+  "rich>=13.9.0",
+  "textual>=0.58.0",
+  "importlib_metadata>=1.0.0; python_version < '3.8'",
+]
+dynamic = ["version"]
+
+[project.urls]
+"GitHub" = "https://github.com/xjodoin/gptchangelog"
+
+[project.scripts]
+gptchangelog = "gptchangelog.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "black",
+  "isort",
+  "mypy",
+]
+docs = [
+  "mkdocs-material",
+  "mkdocstrings[python]",
+  "mkdocs-git-revision-date-localized-plugin",
+]
+release = [
+  "build",
+  "twine",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "gptchangelog.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["gptchangelog", "gptchangelog.*"]
+
+[tool.setuptools.package-data]
+gptchangelog = ["templates/*.txt"]
+
+[tool.uv]
+dev-dependencies = [
+  "pytest",
+  "pytest-cov",
+  "black",
+  "isort",
+  "mypy",
+  "mkdocs-material",
+  "mkdocstrings[python]",
+  "mkdocs-git-revision-date-localized-plugin",
+  "build",
+  "twine",
+  "textual",
+]

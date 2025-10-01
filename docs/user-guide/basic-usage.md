@@ -65,7 +65,7 @@ The generated changelog will look something like this:
 - Fix token counting logic for large repositories
 
 ### 🔄 Changes
-- Update default model to gpt-4o
+- Update default model to gpt-5-mini
 - Improve commit message grouping algorithm
 ```
 
@@ -94,6 +94,24 @@ By default, the changelog is prepended to `CHANGELOG.md`, but you can specify a 
 ```bash
 gptchangelog generate --output docs/CHANGES.md
 ```
+
+### Analyze Another Repository
+
+Pass the `--repo` flag to run GPTChangelog against a different project without leaving your current directory:
+
+```bash
+gptchangelog generate --repo ../another-project
+```
+
+### Switching UI Modes
+
+Launch the Textual interface for a richer review experience:
+
+```bash
+gptchangelog generate --ui textual
+```
+
+Use `--ui plain` if you prefer the traditional console output or are running in an environment without full terminal capabilities.
 
 ### Current Version Override
 

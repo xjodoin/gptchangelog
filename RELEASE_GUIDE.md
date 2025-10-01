@@ -19,7 +19,7 @@ Before running the release script, ensure you have:
 - [x] **Valid git repository** - Script must be run from the project root
 - [x] **OpenAI API key configured** - Required for changelog generation
 - [x] **PyPI credentials configured** - Required for deployment (via twine)
-- [x] **Development dependencies installed** - `pip install -e .`
+- [x] **Development dependencies installed** - `uv sync --dev --extra release`
 
 ### Environment Setup
 
@@ -33,13 +33,12 @@ Before running the release script, ensure you have:
 2. **Configure PyPI credentials:**
    ```bash
    # Create ~/.pypirc or use environment variables
-   pip install twine
+   uv run twine --version  # Ensures twine is available from the synced environment
    ```
 
 3. **Install development dependencies:**
    ```bash
-   pip install -e .
-   pip install build twine
+   uv sync --dev --extra release
    ```
 
 ## Usage
@@ -118,7 +117,7 @@ Do you want to proceed? (y/N): y
 - Checks that new version differs from current version
 
 ### 2. Changelog Generation
-- Uses `gptchangelog generate --interactive --quality-analysis --stats`
+- Uses `gptchangelog generate --interactive --quality-analysis --stats --ui plain`
 - Provides enhanced commit analysis and quality metrics
 - Allows interactive editing of the generated changelog
 - Shows detailed statistics about commits and changes
@@ -134,8 +133,8 @@ Do you want to proceed? (y/N): y
 - Pushes commits and tags to remote repository
 
 ### 5. Deployment
-- Builds the package using `python -m build`
-- Uploads to PyPI using `twine upload`
+- Builds the package using `uv build`
+- Uploads to PyPI using `uv run twine upload`
 - Verifies successful deployment
 
 ### 6. Error Handling & Rollback
@@ -183,8 +182,8 @@ You can customize the script behavior using environment variables:
 ```bash
 # OpenAI Configuration
 export OPENAI_API_KEY="your-key"
-export GPTCHANGELOG_MODEL="gpt-4"
-export GPTCHANGELOG_MAX_TOKENS="80000"
+export GPTCHANGELOG_MODEL="gpt-5-mini"
+export GPTCHANGELOG_MAX_TOKENS="200000"
 
 # Custom Editor for Interactive Mode
 export EDITOR="code"  # VS Code
@@ -266,8 +265,8 @@ If a release fails partway through:
 ## Best Practices
 
 1. **Test Before Release**
-   - Run tests locally: `python -m pytest`
-   - Verify functionality with development install: `pip install -e .`
+   - Run tests locally: `uv run pytest`
+   - Ensure the editable install is current: `uv sync --dev --extra release`
 
 2. **Review Generated Changelog**
    - Always review the AI-generated changelog

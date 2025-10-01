@@ -90,17 +90,11 @@ update_version() {
 generate_changelog_and_version() {
     log_step "Generating changelog and extracting next version using gptchangelog..."
     
-    # Check if gptchangelog is available
-    if ! command -v gptchangelog &> /dev/null; then
-        log_warning "gptchangelog not found in PATH. Installing in development mode..."
-        pip install -e .
-    fi
-    
     # Create temporary file to capture output
     local temp_output=$(mktemp)
     
     # Generate actual changelog with enhanced mode and quality analysis, capture output
-    if ! gptchangelog generate --interactive --quality-analysis --stats 2>&1 | tee "$temp_output"; then
+    if ! uv run gptchangelog generate --interactive --quality-analysis --stats --ui plain 2>&1 | tee "$temp_output"; then
         log_error "Failed to generate changelog"
         rm -f "$temp_output"
         return 1
@@ -236,6 +230,14 @@ rollback_changes() {
 # Main function
 main() {
     log_info "Starting gptchangelog release process..."
+
+    if ! command -v uv >/dev/null 2>&1; then
+        log_error "uv CLI is required to run the release script."
+        exit 1
+    fi
+
+    log_step "Syncing release dependencies with uv..."
+    uv sync --dev --extra release
     
     # Pre-flight checks
     check_git_repo

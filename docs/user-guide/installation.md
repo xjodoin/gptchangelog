@@ -17,7 +17,7 @@ This page provides detailed installation instructions for GPTChangelog.
 
 ## Requirements
 
-- Python 3.8 or higher
+- Python 3.7 or higher
 - Git (installed and in your PATH)
 - OpenAI API key
 
@@ -31,17 +31,18 @@ pip install gptchangelog
 
 This will install GPTChangelog and all its dependencies.
 
-## Installing from Source
+## Installing from Source with uv
 
-If you prefer to install from source, you can clone the repository and install it:
+If you prefer to work from source, clone the repository and use uv to manage the environment:
 
 ```bash
 git clone https://github.com/xjodoin/gptchangelog.git
 cd gptchangelog
-pip install -e .
+uv sync --dev
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-The `-e` flag installs the package in "editable" mode, which is useful if you plan to modify the source code.
+The `uv sync` command creates a managed virtual environment and installs GPTChangelog in editable mode along with the development extras declared in `pyproject.toml`.
 
 ## Dependencies
 
@@ -49,9 +50,10 @@ GPTChangelog depends on the following packages:
 
 - `openai`: For interacting with OpenAI's API
 - `gitpython`: For accessing git repository information
+- `configparser`: For configuration handling on older Python versions
 - `tiktoken`: For token counting and management
 - `rich`: For beautiful terminal output
-- `setuptools`: For packaging utilities
+- `textual`: For the optional terminal UI experience
 
 These dependencies are automatically installed when you install GPTChangelog using pip.
 
@@ -93,13 +95,7 @@ If you get a "command not found" error after installation, make sure your Python
 
 **Dependency conflicts**
 
-If you encounter dependency conflicts, try installing in a virtual environment:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install gptchangelog
-```
+If you encounter dependency conflicts while working from source, rerun `uv sync` to recreate the environment from the lock file. For PyPI installs, try installing inside a virtual environment.
 
 **Git not found**
 

@@ -124,7 +124,7 @@ def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanc
     return f"templates/enhanced_{base_name}.txt" if enhanced else f"templates/{base_name}.txt"
 
 
-def estimate_tokens(text, model="gpt-4o"):
+def estimate_tokens(text, model="gpt-5-mini"):
     """
     Estimate the number of tokens in a text for a given model.
 
@@ -144,7 +144,7 @@ def estimate_tokens(text, model="gpt-4o"):
         return len(text) // 4  # Rough average for English text
 
 
-def split_commit_messages(commit_messages, max_tokens, model="gpt-4o"):
+def split_commit_messages(commit_messages, max_tokens, model="gpt-5-mini"):
     """
     Split commit messages into batches that fit within the max token limit.
 
