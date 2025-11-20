@@ -1,11 +1,14 @@
 """Enhanced Git utilities for better commit analysis and changelog generation."""
 
 import git
+import logging
 import os
 import re
 from typing import Tuple, List, Optional, Dict, Any, Set, DefaultDict
 from datetime import datetime
 from collections import defaultdict, namedtuple
+
+logger = logging.getLogger(__name__)
 
 CommitInfo = namedtuple('CommitInfo', [
     'hash', 'message', 'author', 'date', 'files_changed', 
@@ -20,6 +23,20 @@ class EnhancedCommitAnalyzer:
     def __init__(self, repo_path: str = "."):
         self.repo = git.Repo(repo_path)
         self.repo_name = self._get_repository_name()
+        self.short_commit_length_threshold = 6
+        self.generic_commit_keywords = {
+            'wip', 'tmp', 'temp', 'minor', 'misc', 'change', 'changes', 'fix',
+            'fixes', 'cleanup', 'clean', 'typo', 'update', 'updates', 'bump',
+            'sync', 'chore', 'todo', 'tests', 'test'
+        }
+        self.generic_commit_patterns = [
+            r'^(wip|draft|temp|tmp)\b',
+            r'^(minor|small)\s+(fix|changes?)\b',
+            r'^(quick|just)\s+(fix|change)',
+            r'^bump(ing)?( deps?)?$',
+            r'^sync(ing)?( submodules?)?$',
+        ]
+        self.skipped_commits: List[str] = []
         
         # Component patterns for better categorization
         self.component_patterns = {
@@ -226,15 +243,51 @@ class EnhancedCommitAnalyzer:
             components=components
         )
 
+    def _is_noise_commit(self, message: str) -> bool:
+        """Return True if a commit message is too short or generic to be useful."""
+        if not message:
+            return True
+
+        first_line = message.strip().split('\n', 1)[0]
+        if not first_line:
+            return True
+
+        normalized = re.sub(r'\s+', ' ', first_line.strip().lower())
+
+        # Preserve explicit conventional commit prefixes regardless of length
+        if re.match(r'^\w+(?:\([^)]+\))?!?:', normalized):
+            return False
+
+        tokens = [re.sub(r'[^a-z0-9]+', '', token) for token in normalized.split()]
+        tokens = [tok for tok in tokens if tok]
+
+        if not tokens:
+            return True
+
+        if len(tokens) <= 2 and all(tok in self.generic_commit_keywords for tok in tokens):
+            return True
+
+        for pattern in self.generic_commit_patterns:
+            if re.match(pattern, normalized):
+                return True
+
+        if len(normalized) <= self.short_commit_length_threshold and len(tokens) == 1:
+            return True
+
+        return False
+
     def get_enhanced_commits(self, from_ref: str, to_ref: str = "HEAD") -> List[CommitInfo]:
         """Get detailed commit information for the specified range."""
         commits = []
+        self.skipped_commits = []
         
         try:
             for commit in self.repo.iter_commits(f"{from_ref}..{to_ref}", no_merges=True):
-                # Previously we skipped <10 char messages, which hid valid conventional
-                # commits like "fix: ui". Keep everything except empty messages.
                 if not commit.message.strip():
+                    continue
+
+                if self._is_noise_commit(commit.message):
+                    self.skipped_commits.append(commit.hexsha[:8])
                     continue
 
                 commit_info = self.analyze_commit(commit)
@@ -242,6 +295,16 @@ class EnhancedCommitAnalyzer:
         except Exception as e:
             print(f"Error analyzing commits: {e}")
         
+        if self.skipped_commits:
+            preview = ', '.join(self.skipped_commits[:5])
+            if len(self.skipped_commits) > 5:
+                preview += ', …'
+            logger.info(
+                "Skipped %d short or generic commits before analysis: %s",
+                len(self.skipped_commits),
+                preview,
+            )
+
         return commits
 
     def group_related_commits(self, commits: List[CommitInfo]) -> Dict[str, List[CommitInfo]]:

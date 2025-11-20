@@ -1,13 +1,12 @@
 ---
 title: GPTChangelog Configuration Guide
-description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and OpenAI settings like model and token limits.
+description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and OpenAI settings like API keys and models.
 keywords:
   - gptchangelog
   - configuration
   - config file
   - environment variables
   - openai model
-  - max tokens
   - semantic versioning
 ---
 
@@ -34,7 +33,7 @@ To create a new configuration file:
 gptchangelog config init
 ```
 
-You'll be prompted to choose between global or project-specific configuration and enter your OpenAI API key and other settings.
+You'll be prompted to choose between global or project-specific configuration and enter your OpenAI API key and preferred model.
 
 ### Viewing Current Configuration
 
@@ -54,7 +53,6 @@ The configuration file uses the INI format:
 [openai]
 api_key = your-api-key-here
 model = gpt-5-mini
-max_context_tokens = 200000
 ```
 
 ## Configuration Options
@@ -65,7 +63,6 @@ max_context_tokens = 200000
 |--------|-------------|---------|
 | `api_key` | Your OpenAI API key | (Required) |
 | `model` | The OpenAI model to use | `gpt-5-mini` |
-| `max_context_tokens` | Maximum tokens to use in each API call | `200000` |
 
 ### Environment Variables
 
@@ -75,7 +72,6 @@ You can also use environment variables to override configuration settings:
 |----------|----------------------------|
 | `OPENAI_API_KEY` | `[openai] api_key` |
 | `GPTCHANGELOG_MODEL` | `[openai] model` |
-| `GPTCHANGELOG_MAX_TOKENS` | `[openai] max_context_tokens` |
 
 Environment variables take precedence over configuration file settings.
 
@@ -90,18 +86,7 @@ GPTChangelog works best with GPT-5 family models, but you can use other options:
 model = gpt-3.5-turbo
 ```
 
-Smaller models may produce less comprehensive results but use fewer tokens.
-
-### Token Management
-
-The `max_context_tokens` setting controls how many tokens are used in each API call. If you have a large repository with many commits, you might need to adjust this:
-
-```ini
-[openai]
-max_context_tokens = 120000
-```
-
-Keep in mind that larger values use more API tokens and may be more expensive.
+Smaller models may produce less comprehensive results but can be more cost-efficient.
 
 ### Multiple Configurations
 
@@ -125,7 +110,6 @@ api_key = your-api-key-here
 [openai]
 api_key = your-api-key-here
 model = gpt-5-mini
-max_context_tokens = 200000
 ```
 
 ### Configuration for Large Repositories
@@ -134,7 +118,6 @@ max_context_tokens = 200000
 [openai]
 api_key = your-api-key-here
 model = gpt-5-mini
-max_context_tokens = 120000
 ```
 
 ### Configuration for Lower Cost
@@ -143,5 +126,4 @@ max_context_tokens = 120000
 [openai]
 api_key = your-api-key-here
 model = gpt-3.5-turbo
-max_context_tokens = 60000
 ```

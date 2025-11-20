@@ -7,7 +7,6 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 import git
-import openai
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.progress import Progress
@@ -52,31 +51,26 @@ def run_gptchangelog(args):
     try:
         api_key = os.environ.get("OPENAI_API_KEY")
         model = os.environ.get("GPTCHANGELOG_MODEL")
-        max_tokens = os.environ.get("GPTCHANGELOG_MAX_TOKENS")
 
-        if not api_key or not model or not max_tokens:
+        if not api_key or not model:
             try:
-                config_api_key, config_model, config_max_tokens = load_openai_config()
+                config_api_key, config_model = load_openai_config()
                 api_key = api_key or config_api_key
                 model = model or config_model
-                max_tokens = max_tokens or config_max_tokens
             except FileNotFoundError as exc:
                 logger.error(exc)
                 return 1
 
         if args.model:
             model = args.model
-        if args.max_tokens:
-            max_tokens = args.max_tokens
 
         model = model or "gpt-5-mini"
-        max_tokens = int(max_tokens or 200000)
 
         if not api_key:
             logger.error("No OpenAI API key found. Set it in config or use OPENAI_API_KEY environment variable.")
             return 1
 
-        openai.api_key = api_key
+        os.environ["OPENAI_API_KEY"] = api_key
 
         try:
             repo = git.Repo(".")
@@ -147,7 +141,6 @@ def run_gptchangelog(args):
                         commit_messages,
                         current_version,
                         model,
-                        max_tokens,
                         context,
                         language=language,
                     )
@@ -238,7 +231,6 @@ def run_gptchangelog(args):
                         repo_name,
                         stats_raw,
                         model=model,
-                        max_tokens=max_tokens,
                         language=language,
                         extra_context=extra_context,
                     )
@@ -496,12 +488,6 @@ def app():
         type=str,
         default=None,
         help="OpenAI model to use (overrides the one in config).",
-    )
-    generate_parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=None,
-        help="Maximum context tokens to use (overrides the one in config).",
     )
     generate_parser.add_argument(
         "--language",

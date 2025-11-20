@@ -51,7 +51,6 @@ GPTChangelog depends on the following packages:
 - `openai`: For interacting with OpenAI's API
 - `gitpython`: For accessing git repository information
 - `configparser`: For configuration handling on older Python versions
-- `tiktoken`: For token counting and management
 - `rich`: For beautiful terminal output
 - `textual`: For the optional terminal UI experience
 

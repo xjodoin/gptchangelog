@@ -3,10 +3,10 @@ from datetime import datetime
 import re
 from typing import Tuple, Dict, List, Any, Optional
 
-import openai
 from openai import OpenAIError
 
-from .utils import render_prompt, split_commit_messages
+from .openai_client import get_openai_client, extract_response_text
+from .utils import render_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 def process_commit_messages(
         raw_commit_messages: str,
         model: str,
-        max_context_tokens: int,
         context: Dict[str, Any] = None
 ) -> str:
     """
@@ -23,7 +22,6 @@ def process_commit_messages(
     Args:
         raw_commit_messages: The raw commit messages to process
         model: The OpenAI model to use
-        max_context_tokens: Maximum number of tokens to use in each API call
         context: Additional context information for the prompts
 
     Returns:
@@ -32,46 +30,32 @@ def process_commit_messages(
     if not context:
         context = {}
 
-    commit_messages_list = raw_commit_messages.strip().split("\n")
-    prompt_batches = split_commit_messages(commit_messages_list, max_context_tokens, model)
+    commit_text = raw_commit_messages.strip()
+    if not commit_text:
+        return ""
 
-    refined_commit_messages = []
-    for i, batch in enumerate(prompt_batches):
-        logger.info(f"Processing commit batch {i + 1}/{len(prompt_batches)}...")
+    prompt_context = {**context, "commit_messages": commit_text}
 
-        # Add batch to context
-        batch_context = {**context, "commit_messages": batch}
+    prompt = render_prompt(
+        "templates/commits_prompt.txt",
+        prompt_context,
+    )
 
-        prompt = render_prompt(
-            "templates/commits_prompt.txt",
-            batch_context,
+    try:
+        client = get_openai_client()
+        response = client.responses.create(
+            model=model,
+            instructions=(
+                "You are an assistant that analyzes and refines git commit messages to prepare them for "
+                "changelog generation. You categorize commits by type, identify breaking changes, and "
+                "improve clarity and consistency."
+            ),
+            input=prompt,
         )
-
-        try:
-            response = openai.chat.completions.create(
-                model=model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are an assistant that analyzes and refines git commit messages to prepare them for "
-                            "changelog generation. You categorize commits by type, identify breaking changes, and "
-                            "improve clarity and consistency."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-            )
-            refined_message = response.choices[0].message.content
-            refined_commit_messages.append(refined_message)
-        except OpenAIError as e:
-            logger.error(f"OpenAI API error: {e}")
-            refined_commit_messages.append(batch)  # Fall back to using the original batch
-
-    return "\n".join(refined_commit_messages)
+        return extract_response_text(response)
+    except OpenAIError as e:
+        logger.error(f"OpenAI API error: {e}")
+        return commit_text  # Fall back to the original text
 
 
 def determine_next_version(
@@ -120,26 +104,19 @@ def determine_next_version(
     )
 
     try:
-        response = openai.chat.completions.create(
+        client = get_openai_client()
+        response = client.responses.create(
             model=model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an assistant that determines the next software version based on semantic versioning "
-                        "principles. You analyze commit messages to identify breaking changes, new features, and bug fixes "
-                        "to determine whether to increment the major, minor, or patch version."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": prompt,
-                },
-            ],
+            instructions=(
+                "You are an assistant that determines the next software version based on semantic versioning "
+                "principles. You analyze commit messages to identify breaking changes, new features, and bug fixes "
+                "to determine whether to increment the major, minor, or patch version."
+            ),
+            input=prompt,
         )
 
         # Extract the version number from the response
-        raw_response = response.choices[0].message.content
+        raw_response = extract_response_text(response)
         # Look for a version pattern (with or without 'v' prefix)
         version_match = re.search(r'(?:Version:\s*)(v?\d+\.\d+\.\d+)', raw_response)
 
@@ -228,24 +205,17 @@ def generate_changelog(
     )
 
     try:
-        response = openai.chat.completions.create(
+        client = get_openai_client()
+        response = client.responses.create(
             model=model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an assistant that generates detailed, well-structured changelogs in markdown format. "
-                        "You organize changes by type (features, fixes, etc.) and ensure the changelog is clear and useful "
-                        "for users to understand what has changed in the new version."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": prompt,
-                },
-            ],
+            instructions=(
+                "You are an assistant that generates detailed, well-structured changelogs in markdown format. "
+                "You organize changes by type (features, fixes, etc.) and ensure the changelog is clear and useful "
+                "for users to understand what has changed in the new version."
+            ),
+            input=prompt,
         )
-        changelog = response.choices[0].message.content
+        changelog = extract_response_text(response)
     except OpenAIError as e:
         logger.error(f"OpenAI API error: {e}")
 
@@ -265,7 +235,6 @@ def generate_changelog_and_next_version(
         raw_commit_messages: str,
         current_version: str,
         model: str,
-        max_context_tokens: int,
         context: Dict[str, Any] = None,
         language: Optional[str] = "en"
 ) -> Tuple[str, str]:
@@ -276,7 +245,6 @@ def generate_changelog_and_next_version(
         raw_commit_messages: The raw commit messages
         current_version: The current version string
         model: The OpenAI model to use
-        max_context_tokens: Maximum number of tokens to use in each API call
         context: Additional context information for the prompts
 
     Returns:
@@ -289,7 +257,6 @@ def generate_changelog_and_next_version(
     processed_commits = process_commit_messages(
         raw_commit_messages,
         model,
-        max_context_tokens,
         context
     )
 

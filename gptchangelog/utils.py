@@ -1,6 +1,5 @@
 import os
 from string import Template
-import tiktoken
 import logging
 import json
 import re
@@ -122,66 +121,6 @@ def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanc
 
     # Final fallback to English defaults
     return f"templates/enhanced_{base_name}.txt" if enhanced else f"templates/{base_name}.txt"
-
-
-def estimate_tokens(text, model="gpt-5-mini"):
-    """
-    Estimate the number of tokens in a text for a given model.
-
-    Args:
-        text: The text to estimate tokens for
-        model: The OpenAI model to use for token estimation
-
-    Returns:
-        Estimated number of tokens
-    """
-    try:
-        encoding = tiktoken.encoding_for_model(model)
-        return len(encoding.encode(text))
-    except Exception as e:
-        logger.warning(f"Error estimating tokens: {e}")
-        # Fallback estimation: rough approximation
-        return len(text) // 4  # Rough average for English text
-
-
-def split_commit_messages(commit_messages, max_tokens, model="gpt-5-mini"):
-    """
-    Split commit messages into batches that fit within the max token limit.
-
-    Args:
-        commit_messages: List of commit message strings
-        max_tokens: Maximum number of tokens per batch
-        model: The OpenAI model to use for token estimation
-
-    Returns:
-        List of batches, where each batch is a string of commit messages
-    """
-    # Reserve tokens for the prompt template and response
-    prompt_reserve = 1000  # Reserve tokens for the prompt text
-    response_reserve = 1000  # Reserve tokens for the response
-    effective_max = max(max_tokens - prompt_reserve - response_reserve, 1000)
-
-    message_batches = []
-    current_batch = []
-    current_tokens = 0
-
-    for message in commit_messages:
-        message_tokens = estimate_tokens(message, model)
-
-        # If this message would put us over the limit, start a new batch
-        if current_batch and current_tokens + message_tokens > effective_max:
-            message_batches.append("\n".join(current_batch))
-            current_batch = [message]
-            current_tokens = message_tokens
-        else:
-            current_batch.append(message)
-            current_tokens += message_tokens
-
-    # Add the final batch if it's not empty
-    if current_batch:
-        message_batches.append("\n".join(current_batch))
-
-    return message_batches
 
 
 def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):

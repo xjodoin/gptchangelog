@@ -8,6 +8,7 @@ This document describes the comprehensive improvements made to the changelog gen
 - **Smart Commit Classification**: Automatically detects and improves conventional commit format recognition
 - **Component Detection**: Identifies affected system components from file paths and commit messages
 - **Breaking Change Detection**: Enhanced detection of breaking changes beyond conventional markers
+- **Noise Filtering**: Skips short or generic commits so the AI only sees meaningful history
 - **Issue/PR Extraction**: Automatically extracts and links issue and pull request references
 - **Commit Grouping**: Intelligently groups related commits for better organization
 
@@ -15,6 +16,7 @@ This document describes the comprehensive improvements made to the changelog gen
 - **Context-Rich Prompts**: Provides AI with comprehensive project context and statistics
 - **Smart Version Determination**: Enhanced semantic versioning logic with justification
 - **Quality-Focused Generation**: Emphasis on user impact and clear communication
+- **Data-Driven Release Summary**: Ensures every changelog starts with a stats-backed overview
 - **Fallback Mechanisms**: Robust error handling with graceful degradation
 
 ### Enhanced CLI Experience

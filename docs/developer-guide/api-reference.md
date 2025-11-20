@@ -39,7 +39,7 @@ Loads the OpenAI configuration from the config file.
 - `config_file_name` (str): Name of the configuration file
 
 **Returns:**
-- `tuple`: (api_key, model, max_context_tokens)
+- `tuple`: (api_key, model)
 
 **Raises:**
 - `FileNotFoundError`: If the configuration file is not found
@@ -113,14 +113,13 @@ The OpenAI utilities module interacts with the OpenAI API.
 
 ### Functions
 
-#### `process_commit_messages(raw_commit_messages, model, max_context_tokens, context=None)`
+#### `process_commit_messages(raw_commit_messages, model, context=None)`
 
 Processes and refines commit messages using the OpenAI API.
 
 **Parameters:**
 - `raw_commit_messages` (str): Raw commit messages
 - `model` (str): OpenAI model to use
-- `max_context_tokens` (int): Maximum tokens for context
 - `context` (dict, optional): Additional context for prompts
 
 **Returns:**
@@ -152,7 +151,7 @@ Generates a changelog from processed commit messages.
 **Returns:**
 - `str`: Generated changelog in markdown format
 
-#### `generate_changelog_and_next_version(raw_commit_messages, current_version, model, max_context_tokens, context=None)`
+#### `generate_changelog_and_next_version(raw_commit_messages, current_version, model, context=None)`
 
 Complete process to generate a changelog and determine the next version.
 
@@ -160,7 +159,6 @@ Complete process to generate a changelog and determine the next version.
 - `raw_commit_messages` (str): Raw commit messages
 - `current_version` (str): Current version string
 - `model` (str): OpenAI model to use
-- `max_context_tokens` (int): Maximum tokens for context
 - `context` (dict, optional): Additional context for prompts
 
 **Returns:**
@@ -189,29 +187,6 @@ Renders a prompt template with provided context.
 
 **Returns:**
 - `str`: Rendered prompt
-
-#### `estimate_tokens(text, model="gpt-5-mini")`
-
-Estimates the number of tokens in a text for a given model.
-
-**Parameters:**
-- `text` (str): Text to estimate tokens for
-- `model` (str): Model to use for estimation
-
-**Returns:**
-- `int`: Estimated number of tokens
-
-#### `split_commit_messages(commit_messages, max_tokens, model="gpt-5-mini")`
-
-Splits commit messages into batches that fit within token limits.
-
-**Parameters:**
-- `commit_messages` (list): List of commit message strings
-- `max_tokens` (int): Maximum tokens per batch
-- `model` (str): Model to use for estimation
-
-**Returns:**
-- `list`: List of batches, each a string of commit messages
 
 #### `prepend_changelog_to_file(changelog, filepath="CHANGELOG.md")`
 
@@ -249,21 +224,20 @@ You can use GPTChangelog programmatically in your own Python code:
 from gptchangelog.openai_utils import generate_changelog_and_next_version
 from gptchangelog.git_utils import get_commit_messages_since
 from gptchangelog.config import load_openai_config
-import openai
+import os
 
 # Load configuration
-api_key, model, max_tokens = load_openai_config()
-openai.api_key = api_key
+api_key, model = load_openai_config()
+os.environ["OPENAI_API_KEY"] = api_key
 
 # Get commit messages
 from_ref, commit_messages = get_commit_messages_since("v1.0.0")
 
 # Generate changelog
 changelog, next_version = generate_changelog_and_next_version(
-    commit_messages, 
-    from_ref, 
-    model, 
-    max_tokens,
+    commit_messages,
+    from_ref,
+    model,
     {"project_name": "My Project"}
 )
 

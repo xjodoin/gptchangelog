@@ -26,9 +26,8 @@ def load_openai_config(config_file_name="config.ini"):
 
     api_key = config["openai"]["api_key"]
     model = config["openai"].get("model", "gpt-5-mini")
-    max_context_tokens = int(config["openai"].get("max_context_tokens", "200000"))
 
-    return api_key, model, max_context_tokens
+    return api_key, model
 
 
 def init_config():
@@ -58,17 +57,14 @@ def init_config():
         print("API key is required.")
         return
 
-    # Use defaults for model and max_context_tokens, but allow the user to change them
+    # Use default model but allow the user to change it
     default_model = "gpt-5-mini"
-    default_max_tokens = "200000"
 
     model = input(f"Enter the model to use [default: {default_model}]: ").strip() or default_model
-    max_context_tokens = input(f"Enter max context tokens [default: {default_max_tokens}]: ").strip() or default_max_tokens
 
     config['openai'] = {
         'api_key': api_key,
         'model': model,
-        'max_context_tokens': max_context_tokens,
     }
 
     with open(config_file, 'w') as configfile:

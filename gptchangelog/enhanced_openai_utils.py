@@ -6,10 +6,10 @@ from datetime import datetime
 from typing import Tuple, Dict, List, Any, Optional, cast
 from collections import defaultdict
 
-import openai
 from openai import OpenAIError
 
-from .utils import render_prompt, estimate_tokens, resolve_template_path
+from .openai_client import get_openai_client, extract_response_text
+from .utils import render_prompt, resolve_template_path
 from .enhanced_git_utils import CommitInfo, format_commits_for_ai
 
 logger = logging.getLogger(__name__)
@@ -18,9 +18,8 @@ logger = logging.getLogger(__name__)
 class EnhancedChangelogGenerator:
     """Enhanced changelog generator with better AI integration."""
     
-    def __init__(self, model: str = "gpt-5-mini", max_tokens: int = 200000, language: str = "en"):
+    def __init__(self, model: str = "gpt-5-mini", language: str = "en"):
         self.model = model
-        self.max_tokens = max_tokens
         self.language = (language or "en").lower()
         
         # Changelog templates for different types
@@ -77,43 +76,16 @@ class EnhancedChangelogGenerator:
         }
 
     # --- OpenAI helpers -------------------------------------------------
-    def _max_response_tokens(self) -> int:
-        """Cap response tokens to a reasonable size while honoring global max."""
-        # keep headroom for prompt; most changelogs fit in 800-1200 tokens
-        return max(300, min(1200, self.max_tokens // 4))
-
-    def _trim_text_to_tokens(self, text: str, budget: int) -> str:
-        """Trim text so prompt stays under the model context budget."""
-        if estimate_tokens(text, self.model) <= budget:
-            return text
-
-        # simple line-wise trim from the start to keep the most recent items
-        lines = text.splitlines()
-        out_lines: List[str] = []
-        total = 0
-        # work from the end (latest commits are more relevant)
-        for line in reversed(lines):
-            total += estimate_tokens(line + "\n", self.model)
-            if total > budget:
-                break
-            out_lines.append(line)
-        out_lines.reverse()
-        return "\n".join(out_lines)
-
     def _chat_complete(self, prompt: str, system: str) -> str:
-        """Centralized OpenAI call with safe defaults and token limits."""
+        """Centralized OpenAI call with safe defaults and no forced output cap."""
         try:
-            response = openai.chat.completions.create(
+            client = get_openai_client()
+            response = client.responses.create(
                 model=self.model,
-                messages=[
-                    {"role": "system", "content": system},
-                    {"role": "user", "content": prompt},
-                ],
-                max_tokens=self._max_response_tokens(),
-                temperature=0.2,
-                seed=1,
+                instructions=system,
+                input=prompt,
             )
-            return response.choices[0].message.content or ""
+            return extract_response_text(response)
         except OpenAIError as e:
             logger.error(f"OpenAI API error: {e}")
             return ""
@@ -173,9 +145,7 @@ class EnhancedChangelogGenerator:
         # Format commits for AI with enhanced context
         formatted_commits = format_commits_for_ai(commits, include_stats=True)
 
-        # Trim commit text to fit context window
-        prompt_budget = max(1000, self.max_tokens - self._max_response_tokens() - 1500)
-        formatted_commits = self._trim_text_to_tokens(formatted_commits, prompt_budget)
+        # Use the entire formatted commit set without artificial trimming
         
         # Prepare enhanced context for the AI prompt
         commit_analysis = {
@@ -246,7 +216,7 @@ class EnhancedChangelogGenerator:
                 "You consider breaking changes, new features, and bug fixes to make version decisions."
             ),
         )
-            
+        try:
             # Extract version from response
             version_pattern = r'(?:Version:\s*)?v?(\d+\.\d+\.\d+)'
             match = re.search(version_pattern, response_text)
@@ -445,55 +415,65 @@ class EnhancedChangelogGenerator:
         out: List[str] = [header_line]
 
         # Add or synthesize a brief summary after header
+        def _fmt_count(count: int, singular: str) -> Optional[str]:
+            if not count:
+                return None
+            label = singular if count == 1 else f"{singular}s"
+            return f"{count} {label}"
+
+        def _serial_join(items: List[str]) -> str:
+            if not items:
+                return ""
+            if len(items) == 1:
+                return items[0]
+            if len(items) == 2:
+                return f"{items[0]} and {items[1]}"
+            return ", ".join(items[:-1]) + f", and {items[-1]}"
+
+        def _build_auto_summary() -> List[str]:
+            total = int(context.get('total_commits') or 0)
+            if total <= 0:
+                return []
+
+            sentences: List[str] = []
+            date_range = context.get('date_range')
+            comps = [str(c) for c in (context.get('main_components') or []) if c]
+
+            first = f"Shipped {total} {'commit' if total == 1 else 'commits'}"
+            if date_range:
+                first += f" between {str(date_range).replace(' to ', ' – ')}"
+            if comps:
+                focus = _serial_join(comps[:3])
+                first += f", touching {focus}"
+                if len(comps) > 3:
+                    first += " and other areas"
+            first += "."
+            sentences.append(first)
+
+            by_type = context.get('commit_types') or {}
+            highlight_parts: List[str] = []
+            breaking = _fmt_count(int(context.get('breaking_changes') or 0), "breaking change")
+            if breaking:
+                highlight_parts.append(breaking)
+
+            for key, label in (("feat", "feature"), ("fix", "fix"), ("perf", "performance update"), ("docs", "documentation update")):
+                part = _fmt_count(int(by_type.get(key, 0) or 0), label)
+                if part:
+                    highlight_parts.append(part)
+
+            if highlight_parts:
+                sentences.append(f"Highlights: {_serial_join(highlight_parts)}.")
+
+            return sentences
+
+        auto_summary: List[str] = []
+        if not summary_lines:
+            auto_summary = _build_auto_summary()
+
         if summary_lines:
             out.extend(["", *summary_lines])
-        elif len(lines) < 2 or lines[1].startswith('###'):
-            total = context.get('total_commits', 0) or 0
-            by_type = context.get('commit_types', {}) or {}
-
-            def fmt_count(count: int, singular: str) -> Optional[str]:
-                if not count:
-                    return None
-                label = singular if count == 1 else f"{singular}s"
-                return f"{count} {label}"
-
-            # Build summary segments for relevant stats only
-            summary_segments: List[str] = []
-            total_text = fmt_count(total, "commit")
-            if total_text:
-                summary_segments.append(total_text)
-
-            detail_parts: List[str] = []
-            if isinstance(by_type, dict):
-                for key, label in (("feat", "feature"), ("fix", "fix"), ("perf", "performance update")):
-                    part = fmt_count(int(by_type.get(key, 0) or 0), label)
-                    if part:
-                        detail_parts.append(part)
-
-            summary_line = ""
-            if summary_segments:
-                summary_line = summary_segments[0]
-                if detail_parts:
-                    if len(detail_parts) == 1:
-                        summary_line += f" including {detail_parts[0]}"
-                    else:
-                        summary_line += " including " + ", ".join(detail_parts[:-1]) + f" and {detail_parts[-1]}"
-                summary_line += "."
-
-            comps = context.get('main_components', []) or []
-            component_line = ""
-            if comps:
-                displayed = ", ".join(str(c) for c in comps[:3])
-                if len(comps) > 3:
-                    displayed += ", …"
-                component_line = f"Key areas: {displayed}."
-
-            summary_text = " ".join(filter(None, [summary_line, component_line]))
-
-            if summary_text:
-                out.extend(["", summary_text])
-            else:
-                out.append("")  # still ensure blank line separator
+        elif auto_summary:
+            out.extend(["", *auto_summary])
         else:
             out.append("")  # ensure a blank line before sections
 
@@ -587,13 +567,12 @@ def generate_enhanced_changelog_and_version(
     project_name: str,
     stats: Dict[str, Any],
     model: str = "gpt-5-mini",
-    max_tokens: int = 200000,
     language: str = "en",
     extra_context: Optional[Dict[str, Any]] = None
 ) -> Tuple[str, str]:
     """Generate enhanced changelog and version using the new system."""
     
-    generator = EnhancedChangelogGenerator(model, max_tokens, language)
+    generator = EnhancedChangelogGenerator(model, language)
     
     # Create enhanced context
     context = generator._create_enhanced_context(commits, current_version, project_name, stats)

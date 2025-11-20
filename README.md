@@ -9,6 +9,7 @@ Automatically generate detailed, well-structured changelogs from your git commit
 - 🏷️ Support for conventional commits
 - ✨ Beautiful formatting with Markdown
 - 🧠 Smart categorization of changes
+- 🧹 Filters noisy commits so release notes stay focused
 - 🖋️ Interactive editing mode
 - 📋 Customizable templates
 - 🛠️ Project-specific or global configuration
@@ -150,7 +151,6 @@ gptchangelog config init
 
 - `api_key`: Your OpenAI API key
 - `model`: The OpenAI model to use (default: gpt-5-mini)
-- `max_context_tokens`: Maximum tokens to use in each API call (default: 200000)
 
 ## Integrating with CI/CD
 

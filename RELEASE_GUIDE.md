@@ -183,7 +183,6 @@ You can customize the script behavior using environment variables:
 # OpenAI Configuration
 export OPENAI_API_KEY="your-key"
 export GPTCHANGELOG_MODEL="gpt-5-mini"
-export GPTCHANGELOG_MAX_TOKENS="200000"
 
 # Custom Editor for Interactive Mode
 export EDITOR="code"  # VS Code

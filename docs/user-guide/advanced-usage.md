@@ -166,24 +166,20 @@ generate_changelog:
 
 ## Performance Optimization
 
-### Managing Token Usage
+### Model Selection
 
-For large repositories with many commits, you may need to optimize token usage:
+For large repositories with many commits, you can pick a smaller or lower-cost model:
 
 ```bash
-# Set a lower token limit for cheaper processing
-gptchangelog generate --max-tokens 40000
-
 # Use a smaller model for faster processing
 gptchangelog generate --model gpt-3.5-turbo
 ```
 
-You can also set these in your configuration:
+You can also set this in your configuration:
 
 ```ini
 [openai]
 model = gpt-3.5-turbo
-max_context_tokens = 40000
 ```
 
 ### Batch Processing
