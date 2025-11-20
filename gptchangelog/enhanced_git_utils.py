@@ -232,10 +232,11 @@ class EnhancedCommitAnalyzer:
         
         try:
             for commit in self.repo.iter_commits(f"{from_ref}..{to_ref}", no_merges=True):
-                # Skip very small commits (likely typos or trivial changes)
-                if len(commit.message.strip()) < 10:
+                # Previously we skipped <10 char messages, which hid valid conventional
+                # commits like "fix: ui". Keep everything except empty messages.
+                if not commit.message.strip():
                     continue
-                
+
                 commit_info = self.analyze_commit(commit)
                 commits.append(commit_info)
         except Exception as e:

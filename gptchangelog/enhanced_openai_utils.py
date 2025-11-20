@@ -76,6 +76,48 @@ class EnhancedChangelogGenerator:
             'date_range': f"{stats['date_range'][0].strftime('%Y-%m-%d')} to {stats['date_range'][1].strftime('%Y-%m-%d')}" if stats['date_range'] else None,
         }
 
+    # --- OpenAI helpers -------------------------------------------------
+    def _max_response_tokens(self) -> int:
+        """Cap response tokens to a reasonable size while honoring global max."""
+        # keep headroom for prompt; most changelogs fit in 800-1200 tokens
+        return max(300, min(1200, self.max_tokens // 4))
+
+    def _trim_text_to_tokens(self, text: str, budget: int) -> str:
+        """Trim text so prompt stays under the model context budget."""
+        if estimate_tokens(text, self.model) <= budget:
+            return text
+
+        # simple line-wise trim from the start to keep the most recent items
+        lines = text.splitlines()
+        out_lines: List[str] = []
+        total = 0
+        # work from the end (latest commits are more relevant)
+        for line in reversed(lines):
+            total += estimate_tokens(line + "\n", self.model)
+            if total > budget:
+                break
+            out_lines.append(line)
+        out_lines.reverse()
+        return "\n".join(out_lines)
+
+    def _chat_complete(self, prompt: str, system: str) -> str:
+        """Centralized OpenAI call with safe defaults and token limits."""
+        try:
+            response = openai.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=self._max_response_tokens(),
+                temperature=0.2,
+                seed=1,
+            )
+            return response.choices[0].message.content or ""
+        except OpenAIError as e:
+            logger.error(f"OpenAI API error: {e}")
+            return ""
+
     def _determine_version_impact(self, commits: List[CommitInfo]) -> Tuple[str, str]:
         """Determine version impact level and justification."""
         has_breaking = any(commit.is_breaking for commit in commits)
@@ -127,47 +169,52 @@ class EnhancedChangelogGenerator:
         """Process commits with intelligent grouping and analysis."""
         if not commits:
             return "No commits to process."
-        
+
         # Format commits for AI with enhanced context
         formatted_commits = format_commits_for_ai(commits, include_stats=True)
+
+        # Trim commit text to fit context window
+        prompt_budget = max(1000, self.max_tokens - self._max_response_tokens() - 1500)
+        formatted_commits = self._trim_text_to_tokens(formatted_commits, prompt_budget)
         
         # Prepare enhanced context for the AI prompt
+        commit_analysis = {
+            'grouped_commits': self._group_similar_commits(commits),
+            'version_impact': self._determine_version_impact(commits),
+        }
+
+        def _summarize_commit_analysis() -> str:
+            summary: List[str] = []
+            vi = commit_analysis['version_impact']
+            summary.append(f"Version impact: {vi[0]} ({vi[1]})")
+
+            groups = commit_analysis['grouped_commits']
+            if groups:
+                summary.append("Grouped highlights:")
+                for key, group in list(groups.items())[:8]:
+                    summary.append(f"- {key}: {len(group)} commits")
+            return "\n".join(summary)
+
         enhanced_context = {
             **context,
             'commit_messages': formatted_commits,
-            'commit_analysis': {
-                'grouped_commits': self._group_similar_commits(commits),
-                'version_impact': self._determine_version_impact(commits),
-            }
+            'commit_analysis': commit_analysis,
+            'commit_analysis_text': _summarize_commit_analysis(),
         }
         
         # i18n-aware template resolution for enhanced commits prompt
         commits_template = resolve_template_path("commits_prompt", self.language, enhanced=True)
         prompt = render_prompt(commits_template, enhanced_context)
         
-        try:
-            response = openai.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are an expert software analyst specializing in commit analysis and changelog generation. "
-                            "You excel at understanding code changes, grouping related modifications, identifying "
-                            "breaking changes, and creating clear, user-focused descriptions of software updates."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-            )
-            content = response.choices[0].message.content
-            return content if isinstance(content, str) and content else formatted_commits
-        except OpenAIError as e:
-            logger.error(f"OpenAI API error in commit processing: {e}")
-            return formatted_commits  # Fallback to original formatting
+        content = self._chat_complete(
+            prompt,
+            (
+                "You are an expert software analyst specializing in commit analysis and changelog generation. "
+                "You excel at understanding code changes, grouping related modifications, identifying breaking "
+                "changes, and creating clear, user-focused descriptions of software updates."
+            ),
+        )
+        return content if isinstance(content, str) and content else formatted_commits
 
     def determine_smart_version(self, commits: List[CommitInfo], current_version: str, 
                               context: Dict[str, Any]) -> str:
@@ -191,26 +238,14 @@ class EnhancedChangelogGenerator:
         version_template = resolve_template_path("version_prompt", self.language, enhanced=True)
         prompt = render_prompt(version_template, version_context)
         
-        try:
-            response = openai.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a semantic versioning expert. You analyze software changes to determine "
-                            "the appropriate version increment following semantic versioning principles. "
-                            "You consider breaking changes, new features, and bug fixes to make version decisions."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-            )
-            
-            response_text = response.choices[0].message.content or ""
+        response_text = self._chat_complete(
+            prompt,
+            (
+                "You are a semantic versioning expert. You analyze software changes to determine "
+                "the appropriate version increment following semantic versioning principles. "
+                "You consider breaking changes, new features, and bug fixes to make version decisions."
+            ),
+        )
             
             # Extract version from response
             version_pattern = r'(?:Version:\s*)?v?(\d+\.\d+\.\d+)'
@@ -226,8 +261,8 @@ class EnhancedChangelogGenerator:
             # Fallback to manual version increment
             return self._fallback_version_increment(current_version, version_impact)
             
-        except OpenAIError as e:
-            logger.error(f"OpenAI API error in version determination: {e}")
+        except Exception:
+            logger.error("Failed to parse version from model response; falling back.")
             return self._fallback_version_increment(current_version, version_impact)
 
     def _fallback_version_increment(self, current_version: str, impact: str) -> str:
@@ -278,34 +313,20 @@ class EnhancedChangelogGenerator:
         changelog_template = resolve_template_path("changelog_prompt", self.language, enhanced=True)
         prompt = render_prompt(changelog_template, changelog_context)
         
-        try:
-            response = openai.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a technical writer specializing in software changelogs. You create "
-                            "clear, well-organized, and user-friendly changelogs that help users understand "
-                            "what has changed in software releases. You focus on impact and benefits rather "
-                            "than technical implementation details."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-            )
-            
-            changelog = response.choices[0].message.content or ""
-            
-            # Post-process the changelog
+        changelog = self._chat_complete(
+            prompt,
+            (
+                "You are a technical writer specializing in software changelogs. You create "
+                "clear, well-organized, and user-friendly changelogs that help users understand "
+                "what has changed in software releases. You focus on impact and benefits rather "
+                "than technical implementation details."
+            ),
+        )
+
+        if changelog:
             return self._post_process_changelog(changelog, next_version, context)
-            
-        except OpenAIError as e:
-            logger.error(f"OpenAI API error in changelog generation: {e}")
-            return self._generate_fallback_changelog(commits, next_version, context)
+
+        return self._generate_fallback_changelog(commits, next_version, context)
 
     def _post_process_changelog(self, changelog: str, next_version: str, context: Dict[str, Any]) -> str:
         """Post-process the generated changelog: fix header, enforce section order, remove empty sections, dedupe bullets, synthesize summary."""
@@ -330,17 +351,28 @@ class EnhancedChangelogGenerator:
         sections: Dict[str, List[str]] = {}
         current_section: Optional[str] = None
         bullet_seen: Dict[str, set] = {}
+        summary_lines: List[str] = []
+        seen_section = False
 
         def norm_bullet(b: str) -> str:
             return re.sub(r'\s+', ' ', b.strip().lower())
 
         for ln in lines[1:]:  # skip header
             if ln.startswith('### '):
+                seen_section = True
                 current_section = ln.strip()[4:]
                 if current_section not in sections:
                     sections[current_section] = []
                     bullet_seen[current_section] = set()
-            elif ln.startswith('- '):
+                continue
+
+            if not seen_section:
+                # Preserve user-written summary paragraphs under the header
+                if ln.strip():
+                    summary_lines.append(ln.rstrip())
+                continue
+
+            if ln.startswith('- '):
                 if current_section is None:
                     # Create a generic section if bullets appear before any header
                     current_section = '🔧 Maintenance'  # default bucket
@@ -352,8 +384,13 @@ class EnhancedChangelogGenerator:
                     sections[current_section].append(ln.strip())
                     bullet_seen[current_section].add(key)
             else:
-                # Ignore free text for now; summary will be handled separately
-                continue
+                # Keep free-form text inside sections (notes/migration guidance)
+                if current_section is None:
+                    current_section = '🔧 Maintenance'
+                    sections.setdefault(current_section, [])
+                    bullet_seen.setdefault(current_section, set())
+                if ln.strip():
+                    sections[current_section].append(ln.rstrip())
 
         # Remove empty sections (no bullets)
         sections = {title: bullets for title, bullets in sections.items() if any(bullets)}
@@ -408,7 +445,9 @@ class EnhancedChangelogGenerator:
         out: List[str] = [header_line]
 
         # Add or synthesize a brief summary after header
-        if len(lines) < 2 or lines[1].startswith('###'):
+        if summary_lines:
+            out.extend(["", *summary_lines])
+        elif len(lines) < 2 or lines[1].startswith('###'):
             total = context.get('total_commits', 0) or 0
             by_type = context.get('commit_types', {}) or {}
 
@@ -478,7 +517,11 @@ class EnhancedChangelogGenerator:
                 continue
             title_to_emit = sec if use_emojis else re.sub(r'^[^\w\s]\s*', '', sec)
             out.append(f"### {title_to_emit}")
-            out.extend([f"- {b.lstrip('- ').strip()}" for b in bullets])
+            for b in bullets:
+                if b.lstrip().startswith('- '):
+                    out.append(f"- {b.lstrip('- ').strip()}")
+                else:
+                    out.append(b)
             out.append("")
 
         # Include any extra sections not covered by canonical order
@@ -486,7 +529,11 @@ class EnhancedChangelogGenerator:
             if sec in order or not bullets:
                 continue
             out.append(f"### {sec}")
-            out.extend([f"- {b.lstrip('- ').strip()}" for b in bullets])
+            for b in bullets:
+                if b.lstrip().startswith('- '):
+                    out.append(f"- {b.lstrip('- ').strip()}")
+                else:
+                    out.append(b)
             out.append("")
 
         # Collapse multiple blank lines
@@ -566,38 +613,84 @@ def generate_enhanced_changelog_and_version(
 def analyze_changelog_quality(changelog: str) -> Dict[str, Any]:
     """Analyze the quality of a generated changelog."""
     lines = changelog.split('\n')
-    
+
+    def _emoji_present(text: str) -> bool:
+        # Basic emoji range check (covers common symbols)
+        return bool(re.search(r'[\U0001F300-\U0001FAFF]', text))
+
+    # Parse structure for empty sections and duplicates
+    headings: List[str] = []
+    bullets_by_heading: Dict[str, List[str]] = {}
+    current = None
+    summary_present = False
+
+    for idx, ln in enumerate(lines[1:], start=1):  # after header
+        if ln.startswith('### '):
+            current = ln[4:].strip()
+            headings.append(current)
+            bullets_by_heading.setdefault(current, [])
+        elif ln.startswith('- '):
+            if current is None:
+                current = 'Uncategorized'
+                headings.append(current)
+                bullets_by_heading.setdefault(current, [])
+            bullets_by_heading[current].append(re.sub(r'\s+', ' ', ln[2:].strip().lower()))
+        elif ln.strip() and current is None and idx == 1:
+            # text directly after header counts as summary
+            summary_present = True
+
+    empty_sections = [h for h, b in bullets_by_heading.items() if not b]
+
+    # Duplicate bullet detection per section
+    duplicate_bullets = 0
+    for vals in bullets_by_heading.values():
+        seen = set()
+        for b in vals:
+            if b in seen:
+                duplicate_bullets += 1
+            seen.add(b)
+
+    bullet_matches = re.findall(r'^- (.+)$', changelog, re.MULTILINE)
+
     quality_metrics = {
         'has_proper_header': bool(re.search(r'## \[.*\] - \d{4}-\d{2}-\d{2}', changelog)),
-        'has_categories': len(re.findall(r'### ', changelog)) > 0,
-        'has_bullet_points': len(re.findall(r'^- ', changelog, re.MULTILINE)) > 0,
-        'has_emojis': len(re.findall(r'[^\w\s]', changelog)) > 0,
+        'has_categories': len(headings) > 0,
+        'has_bullet_points': len(bullet_matches) > 0,
+        'has_emojis': _emoji_present(changelog),
         'line_count': len([line for line in lines if line.strip()]),
-        'empty_sections': len(re.findall(r'###[^\n]*\n\s*###', changelog)),
+        'empty_sections': len(empty_sections),
+        'duplicate_bullets': duplicate_bullets,
         'avg_bullet_length': 0.0,
         'has_breaking_changes': 'breaking' in changelog.lower() or '⚠️' in changelog,
+        'has_summary': summary_present,
     }
-    
+
     # Calculate average bullet point length
-    bullets = re.findall(r'^- (.+)$', changelog, re.MULTILINE)
+    bullets = bullet_matches
     if bullets:
         quality_metrics['avg_bullet_length'] = sum(len(bullet) for bullet in bullets) / len(bullets)
-    
+
     # Overall quality score (0-100)
     score = 0
     if quality_metrics['has_proper_header']:
-        score += 20
-    if quality_metrics['has_categories']:
-        score += 20
-    if quality_metrics['has_bullet_points']:
-        score += 20
-    if quality_metrics['line_count'] > 5:
         score += 15
+    if quality_metrics['has_summary']:
+        score += 10
+    if quality_metrics['has_categories']:
+        score += 15
+    if quality_metrics['has_bullet_points']:
+        score += 15
+    if quality_metrics['line_count'] > 5:
+        score += 10
     if quality_metrics['avg_bullet_length'] > 20:
         score += 15
     if quality_metrics['empty_sections'] == 0:
         score += 10
-    
+    if quality_metrics['duplicate_bullets'] == 0:
+        score += 10
+    if quality_metrics['has_emojis']:
+        score += 5
+
     quality_metrics['quality_score'] = score
-    
+
     return quality_metrics

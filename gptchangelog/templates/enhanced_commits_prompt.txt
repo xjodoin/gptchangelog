@@ -13,6 +13,11 @@ Raw Commit Data:
 $commit_messages
 ```
 
+Precomputed Insights:
+```
+$commit_analysis_text
+```
+
 Analysis Objective:
 Transform raw commit messages into refined, user-focused descriptions that clearly communicate the impact and value of changes for changelog generation. Focus on grouping related changes, identifying meaningful patterns, and preparing content that will help users understand what has changed and why it matters.
 
