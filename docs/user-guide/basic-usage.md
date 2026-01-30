@@ -65,7 +65,7 @@ The generated changelog will look something like this:
 - Fix token counting logic for large repositories
 
 ### 🔄 Changes
-- Update default model to gpt-5-mini
+- Update default model to gpt-5.2
 - Improve commit message grouping algorithm
 ```
 

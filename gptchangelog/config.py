@@ -25,7 +25,7 @@ def load_openai_config(config_file_name="config.ini"):
     config.read(config_file)
 
     api_key = config["openai"]["api_key"]
-    model = config["openai"].get("model", "gpt-5-mini")
+    model = config["openai"].get("model", "gpt-5.2")
 
     return api_key, model
 
@@ -58,7 +58,7 @@ def init_config():
         return
 
     # Use default model but allow the user to change it
-    default_model = "gpt-5-mini"
+    default_model = "gpt-5.2"
 
     model = input(f"Enter the model to use [default: {default_model}]: ").strip() or default_model
 

@@ -17,7 +17,7 @@ This page provides detailed installation instructions for GPTChangelog.
 
 ## Requirements
 
-- Python 3.7 or higher
+- Python 3.12 or higher
 - Git (installed and in your PATH)
 - OpenAI API key
 
@@ -43,6 +43,20 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 The `uv sync` command creates a managed virtual environment and installs GPTChangelog in editable mode along with the development extras declared in `pyproject.toml`.
+
+## One-Off Runs with uvx
+
+To run GPTChangelog without installing it, use `uvx`:
+
+```bash
+uvx gptchangelog --help
+```
+
+To run directly from a local checkout without creating a virtual environment:
+
+```bash
+uvx --from . gptchangelog --help
+```
 
 ## Dependencies
 

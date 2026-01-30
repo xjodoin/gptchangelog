@@ -36,6 +36,12 @@ Or use `uvx` for an ephemeral execution without pre-installing the tool:
 uvx gptchangelog --help
 ```
 
+If you want to run the local checkout without creating a virtual environment:
+
+```bash
+uvx --from . gptchangelog --help
+```
+
 ## Quick Start
 
 ### Using pip or a virtual environment
@@ -68,6 +74,10 @@ uv tool run gptchangelog generate
 # or, for one-off runs, use uvx
 uvx gptchangelog config init
 uvx gptchangelog generate
+
+# or run the local checkout with uvx
+uvx --from . gptchangelog config init
+uvx --from . gptchangelog generate
 ```
 
 ## Command Line Usage
@@ -150,7 +160,7 @@ gptchangelog config init
 ### Configuration Options
 
 - `api_key`: Your OpenAI API key
-- `model`: The OpenAI model to use (default: gpt-5-mini)
+- `model`: The OpenAI model to use (default: gpt-5.2)
 
 ## Integrating with CI/CD
 

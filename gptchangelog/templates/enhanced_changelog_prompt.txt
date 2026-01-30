@@ -33,6 +33,10 @@ Enhanced Generation Framework:
    - Group related changes to tell a coherent story
    - Use consistent categorization and formatting
    - Ensure breaking changes are prominently featured and explained
+   - When a fix or refactor is clearly part of delivering a new feature, fold it into the feature’s description rather than listing it as a separate fix/change
+   - Do not list bug fixes that only exist to finish or stabilize a brand-new feature; include them inside that feature’s bullet instead
+   - Avoid duplicated content across sections; each change should appear only once in the most appropriate section
+   - Merge documentation updates into the related feature/change bullet when docs only exist to support new features
 
 3. **Content Quality Standards**:
    - Write clear, concise descriptions that capture the essence of each change
@@ -51,6 +55,7 @@ Enhanced Generation Framework:
    - Maintain a professional yet friendly tone
    - Ensure proper markdown formatting for readability
    - Create scannable content with clear section headers
+   - Keep bullets to 1–2 concise sentences; avoid multi-line sub-bullets like "What users see/Why it matters"
 
 Changelog Structure Template:
 
@@ -110,6 +115,9 @@ Content Generation Guidelines:
 - Describe practical use cases
 - Mention any configuration or setup required
 - Include relevant documentation links in issue references
+- If a related bug fix or refactor is required for the feature, incorporate it into the same bullet (e.g., “Includes follow-up stability fixes…”)
+- Use a single bullet per feature; fold impact and notes into the same sentence
+- Avoid internal function/class names unless they are user-visible terms
 
 **Bug Fixes Section:**
 - Describe the problem that was solved
@@ -127,6 +135,8 @@ Content Generation Guidelines:
 - Be specific about what changed and why it matters
 - Keep entries concise but informative (1-2 lines typically)
 - Ensure consistency in tone and formatting across all sections
+- Avoid call-to-action text like "If you'd like, I can..." or section-ending advice
+- Prefer impact over implementation details; avoid internal code symbols unless user-visible
 
 **Quality Assurance:**
 - Every entry should answer "How does this help users?"

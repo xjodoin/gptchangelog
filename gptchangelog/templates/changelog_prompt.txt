@@ -22,6 +22,10 @@ Instructions:
    - Look for conventional commit prefixes like "feat:", "fix:", "chore:", etc.
    - If a commit doesn't have a prefix, analyze its content to determine the most appropriate category
    - Group related commits together under the same bullet point
+   - If a bug fix or refactor is clearly part of delivering a new feature, merge it into the feature bullet instead of listing it separately
+   - Avoid listing fixes that only stabilize a brand-new feature as standalone bug fixes
+   - Avoid duplicated content across sections; each change should appear only once
+   - Merge documentation updates into the related feature/change bullet when docs only exist to support new features
 
 3. Categorize Changes:
    - Use these primary categories:
@@ -45,6 +49,8 @@ Instructions:
    - Be specific about what changed and why it matters
    - Keep entries concise but informative
    - Ensure consistent formatting across all entries
+   - Avoid multi-line sub-bullets like "What users see/Why it matters"; keep each bullet 1–2 sentences
+   - Prefer impact over implementation details; avoid internal function/class names unless user-visible
 
 6. Organization:
    - List the most significant changes first within each category

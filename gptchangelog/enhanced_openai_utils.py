@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class EnhancedChangelogGenerator:
     """Enhanced changelog generator with better AI integration."""
     
-    def __init__(self, model: str = "gpt-5-mini", language: str = "en"):
+    def __init__(self, model: str = "gpt-5.2", language: str = "en"):
         self.model = model
         self.language = (language or "en").lower()
         
@@ -566,7 +566,7 @@ def generate_enhanced_changelog_and_version(
     current_version: str,
     project_name: str,
     stats: Dict[str, Any],
-    model: str = "gpt-5-mini",
+    model: str = "gpt-5.2",
     language: str = "en",
     extra_context: Optional[Dict[str, Any]] = None
 ) -> Tuple[str, str]:

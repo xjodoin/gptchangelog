@@ -64,7 +64,7 @@ def run_gptchangelog(args):
         if args.model:
             model = args.model
 
-        model = model or "gpt-5-mini"
+        model = model or "gpt-5.2"
 
         if not api_key:
             logger.error("No OpenAI API key found. Set it in config or use OPENAI_API_KEY environment variable.")

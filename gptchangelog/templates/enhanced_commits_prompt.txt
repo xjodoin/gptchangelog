@@ -28,18 +28,25 @@ Enhanced Analysis Instructions:
    - Consolidate multiple small commits into coherent change descriptions
    - Identify commits that are part of a larger feature implementation
    - Merge related documentation, testing, and implementation commits where appropriate
+   - If bug fixes or refactors are clearly part of delivering a new feature, merge them into the feature description instead of listing them separately
+   - Avoid listing fixes that only stabilize a new feature as standalone bug fixes
 
 2. **Impact-Focused Refinement**:
    - Transform technical commit messages into user-benefit focused descriptions
    - Explain WHAT changed and WHY it matters to users, not just HOW it was implemented
    - Highlight performance improvements, usability enhancements, and reliability fixes
    - Convert technical jargon into accessible language while maintaining accuracy
+   - Keep each item to 1–2 concise sentences; do not add nested sub-bullets
+   - Prefer impact over implementation details; avoid internal function/class names unless user-visible
 
 3. **Enhanced Categorization**:
    - Validate and improve commit type classifications
    - Ensure breaking changes are properly identified and highlighted
    - Group commits by their impact level (major features, improvements, fixes, maintenance)
    - Identify cross-cutting changes that affect multiple components
+   - Reclassify fixes/refactors that directly enable or stabilize a new feature as part of that feature
+   - Avoid duplicating the same change across multiple categories
+   - Merge documentation-only updates into the related feature/improvement when docs exist to support a new feature
 
 4. **Quality Enhancement**:
    - Expand on vague or minimal commit messages with meaningful context
@@ -67,6 +74,7 @@ Provide a refined analysis organized by impact and component. Use this structure
 
 **MAJOR FEATURES:**
 - [Significant new capabilities that add substantial value]
+  - Include any related fixes/refactors that are required for the feature to work reliably
 
 **IMPROVEMENTS:**
 - [Enhancements to existing functionality, performance gains, usability improvements]

@@ -35,6 +35,20 @@ You can verify the installation by running the `gptchangelog` command:
 uv run gptchangelog --help
 ```
 
+### One-Off Runs with uvx (No Install)
+
+If you just want to run GPTChangelog without installing it, you can use `uvx`:
+
+```sh
+uvx gptchangelog --help
+```
+
+To run directly from a local checkout without creating a virtual environment:
+
+```sh
+uvx --from . gptchangelog --help
+```
+
 ### Additional Information
 
 - **Running Tests:** (if applicable)

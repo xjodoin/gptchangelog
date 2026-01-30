@@ -52,7 +52,7 @@ The configuration file uses the INI format:
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-5-mini
+model = gpt-5.2
 ```
 
 ## Configuration Options
@@ -62,7 +62,7 @@ model = gpt-5-mini
 | Option | Description | Default | 
 |--------|-------------|---------|
 | `api_key` | Your OpenAI API key | (Required) |
-| `model` | The OpenAI model to use | `gpt-5-mini` |
+| `model` | The OpenAI model to use | `gpt-5.2` |
 
 ### Environment Variables
 
@@ -109,7 +109,7 @@ api_key = your-api-key-here
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-5-mini
+model = gpt-5.2
 ```
 
 ### Configuration for Large Repositories
@@ -117,7 +117,7 @@ model = gpt-5-mini
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-5-mini
+model = gpt-5.2
 ```
 
 ### Configuration for Lower Cost
