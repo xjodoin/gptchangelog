@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -94,7 +94,7 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 30, 2026 16:36:49 UTC">January 30, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 14, 2026 19:45:00 UTC">April 14, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
@@ -1146,23 +1146,26 @@
 <ul>
 <li>Python 3.8 or higher</li>
 <li>Git repository</li>
-<li>OpenAI API key</li>
+<li>Either an OpenAI API key or a local <code>codex login</code> session</li>
 </ul>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>Install GPTChangelog using pip:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>gptchangelog
 </code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>Before using GPTChangelog, you need to configure it with your OpenAI API key:</p>
+<p>Before using GPTChangelog, initialize configuration:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
 </code></pre></div>
 <p>This will prompt you for:</p>
 <ol>
 <li>Configuration type (global or project-specific)</li>
-<li>Your OpenAI API key</li>
+<li>Provider choice (<code>openai</code> API key or <code>codex</code> ChatGPT subscription)</li>
 <li>The model to use (default: gpt-5.2)</li>
-<li>Maximum context tokens (default: 200000)</li>
 </ol>
+<p>If you want to use your Codex subscription, sign in once before initialization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>codex<span class="w"> </span>login
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
+</code></pre></div>
 <h3 id="global-vs-project-configuration">Global vs. Project Configuration<a class="headerlink" href="#global-vs-project-configuration" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Global configuration</strong> is stored in <code>~/.config/gptchangelog/config.ini</code> and applies to all projects</li>
@@ -1172,7 +1175,7 @@
 <h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
 <h3 id="generate-a-changelog">Generate a Changelog<a class="headerlink" href="#generate-a-changelog" title="Permanent link">&para;</a></h3>
 <p>To generate a changelog from your latest tag to the current HEAD:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gptchangelog<span class="w"> </span>generate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate
 </code></pre></div>
 <p>This will:</p>
 <ol>
@@ -1185,20 +1188,20 @@
 </ol>
 <h3 id="interactive-mode">Interactive Mode<a class="headerlink" href="#interactive-mode" title="Permanent link">&para;</a></h3>
 <p>For more control, use interactive mode:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--interactive
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--interactive
 </code></pre></div>
 <p>This allows you to review and edit the changelog before saving it.</p>
 <h3 id="custom-commit-range">Custom Commit Range<a class="headerlink" href="#custom-commit-range" title="Permanent link">&para;</a></h3>
 <p>You can specify a custom range of commits:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v2.0.0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v2.0.0
 </code></pre></div>
 <h3 id="output-to-a-different-file">Output to a Different File<a class="headerlink" href="#output-to-a-different-file" title="Permanent link">&para;</a></h3>
 <p>By default, the changelog is prepended to <code>CHANGELOG.md</code>, but you can specify a different file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>docs/CHANGES.md
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>docs/CHANGES.md
 </code></pre></div>
 <h3 id="dry-run">Dry Run<a class="headerlink" href="#dry-run" title="Permanent link">&para;</a></h3>
 <p>To preview the changelog without saving it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
 </code></pre></div>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1228,7 +1231,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 30, 2026 16:36:49 UTC">January 30, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 14, 2026 19:45:00 UTC">April 14, 2026</span>
   </span>
 
     
