@@ -20,7 +20,7 @@ This guide will help you get up and running with GPTChangelog quickly.
 
 - Python 3.8 or higher
 - Git repository
-- OpenAI API key
+- Either an OpenAI API key or a local `codex login` session
 
 ## Installation
 
@@ -32,7 +32,7 @@ pip install gptchangelog
 
 ## Configuration
 
-Before using GPTChangelog, you need to configure it with your OpenAI API key:
+Before using GPTChangelog, initialize configuration:
 
 ```bash
 gptchangelog config init
@@ -41,9 +41,15 @@ gptchangelog config init
 This will prompt you for:
 
 1. Configuration type (global or project-specific)
-2. Your OpenAI API key
+2. Provider choice (`openai` API key or `codex` ChatGPT subscription)
 3. The model to use (default: gpt-5.2)
-4. Maximum context tokens (default: 200000)
+
+If you want to use your Codex subscription, sign in once before initialization:
+
+```bash
+codex login
+gptchangelog config init
+```
 
 ### Global vs. Project Configuration
 

@@ -5,7 +5,7 @@ from typing import Tuple, Dict, List, Any, Optional
 
 from openai import OpenAIError
 
-from .openai_client import get_openai_client, extract_response_text
+from .openai_client import create_text_response
 from .utils import render_prompt
 
 logger = logging.getLogger(__name__)
@@ -42,18 +42,16 @@ def process_commit_messages(
     )
 
     try:
-        client = get_openai_client()
-        response = client.responses.create(
+        return create_text_response(
             model=model,
             instructions=(
                 "You are an assistant that analyzes and refines git commit messages to prepare them for "
                 "changelog generation. You categorize commits by type, identify breaking changes, and "
                 "improve clarity and consistency."
             ),
-            input=prompt,
+            prompt=prompt,
         )
-        return extract_response_text(response)
-    except OpenAIError as e:
+    except (OpenAIError, RuntimeError) as e:
         logger.error(f"OpenAI API error: {e}")
         return commit_text  # Fall back to the original text
 
@@ -104,19 +102,17 @@ def determine_next_version(
     )
 
     try:
-        client = get_openai_client()
-        response = client.responses.create(
+        raw_response = create_text_response(
             model=model,
             instructions=(
                 "You are an assistant that determines the next software version based on semantic versioning "
                 "principles. You analyze commit messages to identify breaking changes, new features, and bug fixes "
                 "to determine whether to increment the major, minor, or patch version."
             ),
-            input=prompt,
+            prompt=prompt,
         )
 
         # Extract the version number from the response
-        raw_response = extract_response_text(response)
         # Look for a version pattern (with or without 'v' prefix)
         version_match = re.search(r'(?:Version:\s*)(v?\d+\.\d+\.\d+)', raw_response)
 
@@ -136,7 +132,7 @@ def determine_next_version(
             if has_prefix and not next_version.startswith('v'):
                 next_version = f"{version_prefix}{next_version}"
 
-    except OpenAIError as e:
+    except (OpenAIError, RuntimeError) as e:
         logger.error(f"OpenAI API error: {e}")
         logger.warning("Falling back to incrementing patch version")
 
@@ -205,18 +201,16 @@ def generate_changelog(
     )
 
     try:
-        client = get_openai_client()
-        response = client.responses.create(
+        changelog = create_text_response(
             model=model,
             instructions=(
                 "You are an assistant that generates detailed, well-structured changelogs in markdown format. "
                 "You organize changes by type (features, fixes, etc.) and ensure the changelog is clear and useful "
                 "for users to understand what has changed in the new version."
             ),
-            input=prompt,
+            prompt=prompt,
         )
-        changelog = extract_response_text(response)
-    except OpenAIError as e:
+    except (OpenAIError, RuntimeError) as e:
         logger.error(f"OpenAI API error: {e}")
 
         # Create a basic fallback changelog

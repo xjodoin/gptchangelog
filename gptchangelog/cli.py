@@ -16,6 +16,15 @@ from .config import init_config, load_openai_config, show_config
 from .enhanced_git_utils import get_enhanced_commit_data
 from .enhanced_openai_utils import analyze_changelog_quality, generate_enhanced_changelog_and_version
 from .git_utils import get_commit_messages_since, get_latest_tag, get_repository_name
+from .openai_client import (
+    CODEX_PROVIDER,
+    OPENAI_PROVIDER,
+    ProviderSettings,
+    configure_provider,
+    get_default_model,
+    has_codex_auth,
+    normalize_provider,
+)
 from .openai_utils import generate_changelog_and_next_version
 from .utils import get_package_version, prepend_changelog_to_file
 
@@ -38,6 +47,40 @@ class GenerationResult:
     contributors: Optional[List[str]] = None
 
 
+def resolve_provider_configuration(args) -> tuple[ProviderSettings, str]:
+    env_api_key = os.environ.get("OPENAI_API_KEY")
+    env_model = os.environ.get("GPTCHANGELOG_MODEL")
+    env_provider = os.environ.get("GPTCHANGELOG_PROVIDER")
+
+    config: Dict[str, Optional[str]] = {}
+    try:
+        config = load_openai_config()
+    except FileNotFoundError:
+        config = {}
+
+    provider = normalize_provider(
+        args.provider
+        or env_provider
+        or config.get("provider")
+        or (OPENAI_PROVIDER if (env_api_key or config.get("api_key")) else CODEX_PROVIDER if has_codex_auth() else None)
+    )
+    model = args.model or env_model or config.get("model") or get_default_model(provider)
+    api_key = env_api_key or config.get("api_key")
+
+    if provider == OPENAI_PROVIDER:
+        if not api_key:
+            raise RuntimeError(
+                "No OpenAI API key found. Set OPENAI_API_KEY, configure api_key, or switch to --provider codex."
+            )
+        return ProviderSettings(provider=provider, api_key=api_key), model
+
+    if not has_codex_auth():
+        raise RuntimeError(
+            "No Codex login found. Run `codex login` or `codex`, choose 'Sign in with ChatGPT', then retry."
+        )
+    return ProviderSettings(provider=provider), model
+
+
 def run_gptchangelog(args):
     repo_path = os.path.abspath(os.path.expanduser(getattr(args, "repo", ".")))
     original_cwd = os.getcwd()
@@ -49,28 +92,19 @@ def run_gptchangelog(args):
         return 1
 
     try:
-        api_key = os.environ.get("OPENAI_API_KEY")
-        model = os.environ.get("GPTCHANGELOG_MODEL")
-
-        if not api_key or not model:
-            try:
-                config_api_key, config_model = load_openai_config()
-                api_key = api_key or config_api_key
-                model = model or config_model
-            except FileNotFoundError as exc:
-                logger.error(exc)
-                return 1
-
-        if args.model:
-            model = args.model
-
-        model = model or "gpt-5.2"
-
-        if not api_key:
-            logger.error("No OpenAI API key found. Set it in config or use OPENAI_API_KEY environment variable.")
+        try:
+            provider_settings, model = resolve_provider_configuration(args)
+        except RuntimeError as exc:
+            logger.error(exc)
             return 1
 
-        os.environ["OPENAI_API_KEY"] = api_key
+        configure_provider(provider_settings)
+        if provider_settings.provider == OPENAI_PROVIDER and provider_settings.api_key:
+            os.environ["OPENAI_API_KEY"] = provider_settings.api_key
+
+        console.print(
+            f"[cyan]Provider:[/cyan] {provider_settings.provider}  [cyan]Model:[/cyan] {model}"
+        )
 
         try:
             repo = git.Repo(".")
@@ -488,6 +522,12 @@ def app():
         type=str,
         default=None,
         help="OpenAI model to use (overrides the one in config).",
+    )
+    generate_parser.add_argument(
+        "--provider",
+        choices=[OPENAI_PROVIDER, CODEX_PROVIDER],
+        default=None,
+        help="LLM provider to use: OpenAI API (`openai`) or Codex ChatGPT subscription (`codex`).",
     )
     generate_parser.add_argument(
         "--language",

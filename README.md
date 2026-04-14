@@ -1,6 +1,6 @@
 # GPTChangelog
 
-Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI's GPT models.
+Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI models or an OpenAI Codex ChatGPT subscription.
 
 ## Features
 
@@ -13,6 +13,7 @@ Automatically generate detailed, well-structured changelogs from your git commit
 - 🖋️ Interactive editing mode
 - 📋 Customizable templates
 - 🛠️ Project-specific or global configuration
+- 🔐 Supports both OpenAI API keys and local Codex ChatGPT sign-in reuse
 - 🗂️ Run against any repo path with a single command (`--repo`)
 - 🖥️ Optional Textual TUI for exploring results (`--ui textual`)
 
@@ -49,6 +50,13 @@ uvx --from . gptchangelog --help
 1. Initialize the configuration (only needed once):
 
 ```bash
+gptchangelog config init
+```
+
+If you want to use your OpenAI Codex subscription instead of an API key, sign in once first:
+
+```bash
+codex login
 gptchangelog config init
 ```
 
@@ -95,6 +103,7 @@ gptchangelog generate [OPTIONS]
 - `--current-version <version>`: Override the current version
 - `--dry-run`: Generate changelog but don't save it
 - `--interactive`, `-i`: Review and edit before saving
+- `--provider {openai,codex}`: Use the OpenAI API or reuse a local Codex ChatGPT login
 - `--ui {auto,textual,plain}`: Choose between the Textual TUI and plain console output (default: auto)
 
 ### Examples
@@ -129,6 +138,11 @@ Launch the Textual TUI review experience:
 gptchangelog generate --ui textual
 ```
 
+Force the Codex subscription backend for a one-off run:
+```bash
+gptchangelog generate --provider codex --model gpt-5.4-mini
+```
+
 With uv you can mirror the same commands by replacing `gptchangelog` with `uv tool run gptchangelog`, for example:
 
 ```bash
@@ -159,8 +173,9 @@ gptchangelog config init
 
 ### Configuration Options
 
-- `api_key`: Your OpenAI API key
-- `model`: The OpenAI model to use (default: gpt-5.2)
+- `provider`: `openai` for API keys or `codex` to reuse `~/.codex/auth.json`
+- `api_key`: Your OpenAI API key when `provider = openai`
+- `model`: The model to use. Defaults to `gpt-5.2` for `openai` and `gpt-5.4-mini` for `codex`
 
 ## Integrating with CI/CD
 

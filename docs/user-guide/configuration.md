@@ -1,6 +1,6 @@
 ---
 title: GPTChangelog Configuration Guide
-description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and OpenAI settings like API keys and models.
+description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.
 keywords:
   - gptchangelog
   - configuration
@@ -33,7 +33,7 @@ To create a new configuration file:
 gptchangelog config init
 ```
 
-You'll be prompted to choose between global or project-specific configuration and enter your OpenAI API key and preferred model.
+You'll be prompted to choose between global or project-specific configuration, then select either the OpenAI API or a local Codex ChatGPT subscription.
 
 ### Viewing Current Configuration
 
@@ -51,6 +51,7 @@ The configuration file uses the INI format:
 
 ```ini
 [openai]
+provider = openai
 api_key = your-api-key-here
 model = gpt-5.2
 ```
@@ -61,8 +62,9 @@ model = gpt-5.2
 
 | Option | Description | Default | 
 |--------|-------------|---------|
-| `api_key` | Your OpenAI API key | (Required) |
-| `model` | The OpenAI model to use | `gpt-5.2` |
+| `provider` | `openai` for API keys or `codex` to reuse `~/.codex/auth.json` | Auto-detected |
+| `api_key` | Your OpenAI API key when `provider = openai` | (Required for `openai`) |
+| `model` | The model to use | `gpt-5.2` for `openai`, `gpt-5.4-mini` for `codex` |
 
 ### Environment Variables
 
@@ -70,12 +72,30 @@ You can also use environment variables to override configuration settings:
 
 | Variable | Corresponding Config Option |
 |----------|----------------------------|
+| `GPTCHANGELOG_PROVIDER` | `[openai] provider` |
 | `OPENAI_API_KEY` | `[openai] api_key` |
 | `GPTCHANGELOG_MODEL` | `[openai] model` |
 
 Environment variables take precedence over configuration file settings.
 
 ## Advanced Configuration
+
+### Using a Codex Subscription
+
+If you already use `codex` with ChatGPT, GPTChangelog can reuse that login instead of requiring an API key:
+
+```bash
+codex login
+gptchangelog generate --provider codex
+```
+
+Equivalent config:
+
+```ini
+[openai]
+provider = codex
+model = gpt-5.4-mini
+```
 
 ### Using Different Models
 
@@ -101,6 +121,7 @@ You can maintain different configurations for different projects:
 
 ```ini
 [openai]
+provider = openai
 api_key = your-api-key-here
 ```
 
@@ -108,8 +129,17 @@ api_key = your-api-key-here
 
 ```ini
 [openai]
+provider = openai
 api_key = your-api-key-here
 model = gpt-5.2
+```
+
+### Codex Subscription Configuration
+
+```ini
+[openai]
+provider = codex
+model = gpt-5.4-mini
 ```
 
 ### Configuration for Large Repositories

@@ -8,7 +8,7 @@ from collections import defaultdict
 
 from openai import OpenAIError
 
-from .openai_client import get_openai_client, extract_response_text
+from .openai_client import create_text_response
 from .utils import render_prompt, resolve_template_path
 from .enhanced_git_utils import CommitInfo, format_commits_for_ai
 
@@ -79,14 +79,12 @@ class EnhancedChangelogGenerator:
     def _chat_complete(self, prompt: str, system: str) -> str:
         """Centralized OpenAI call with safe defaults and no forced output cap."""
         try:
-            client = get_openai_client()
-            response = client.responses.create(
+            return create_text_response(
                 model=self.model,
                 instructions=system,
-                input=prompt,
+                prompt=prompt,
             )
-            return extract_response_text(response)
-        except OpenAIError as e:
+        except (OpenAIError, RuntimeError) as e:
             logger.error(f"OpenAI API error: {e}")
             return ""
 
