@@ -172,14 +172,14 @@ For large repositories with many commits, you can pick a smaller or lower-cost m
 
 ```bash
 # Use a smaller model for faster processing
-gptchangelog generate --model gpt-3.5-turbo
+gptchangelog generate --model gpt-5.4-mini
 ```
 
 You can also set this in your configuration:
 
 ```ini
 [openai]
-model = gpt-3.5-turbo
+model = gpt-5.4-mini
 ```
 
 ### Batch Processing

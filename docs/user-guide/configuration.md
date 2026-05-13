@@ -53,7 +53,7 @@ The configuration file uses the INI format:
 [openai]
 provider = openai
 api_key = your-api-key-here
-model = gpt-5.2
+model = gpt-5.5
 ```
 
 ## Configuration Options
@@ -64,7 +64,7 @@ model = gpt-5.2
 |--------|-------------|---------|
 | `provider` | `openai` for API keys or `codex` to reuse `~/.codex/auth.json` | Auto-detected |
 | `api_key` | Your OpenAI API key when `provider = openai` | (Required for `openai`) |
-| `model` | The model to use | `gpt-5.2` for `openai`, `gpt-5.4-mini` for `codex` |
+| `model` | The model to use | `gpt-5.5` for `openai`, `gpt-5.4-mini` for `codex` |
 
 ### Environment Variables
 
@@ -103,7 +103,7 @@ GPTChangelog works best with GPT-5 family models, but you can use other options:
 
 ```ini
 [openai]
-model = gpt-3.5-turbo
+model = gpt-5.4-mini
 ```
 
 Smaller models may produce less comprehensive results but can be more cost-efficient.
@@ -131,7 +131,7 @@ api_key = your-api-key-here
 [openai]
 provider = openai
 api_key = your-api-key-here
-model = gpt-5.2
+model = gpt-5.5
 ```
 
 ### Codex Subscription Configuration
@@ -147,7 +147,7 @@ model = gpt-5.4-mini
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-5.2
+model = gpt-5.5
 ```
 
 ### Configuration for Lower Cost
@@ -155,5 +155,5 @@ model = gpt-5.2
 ```ini
 [openai]
 api_key = your-api-key-here
-model = gpt-3.5-turbo
+model = gpt-5.4-mini
 ```

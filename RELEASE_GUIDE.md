@@ -182,7 +182,7 @@ You can customize the script behavior using environment variables:
 ```bash
 # OpenAI Configuration
 export OPENAI_API_KEY="your-key"
-export GPTCHANGELOG_MODEL="gpt-5-mini"
+export GPTCHANGELOG_MODEL="gpt-5.5"
 
 # Custom Editor for Interactive Mode
 export EDITOR="code"  # VS Code

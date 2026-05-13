@@ -1,16 +1,11 @@
-import os
-from string import Template
-import logging
 import json
+import logging
+import os
 import re
 import time
-from typing import List, Dict, Any, Optional
-
-try:
-    from importlib.metadata import version, PackageNotFoundError
-except ImportError:
-    # Python < 3.8 fallback
-    from importlib_metadata import version, PackageNotFoundError
+from importlib.metadata import PackageNotFoundError, version
+from string import Template
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +22,9 @@ def get_package_version():
         if os.path.exists(init_file):
             with open(init_file, "r") as f:
                 content = f.read()
-                version_match = re.search(r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]', content)
+                version_match = re.search(
+                    r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]', content
+                )
                 if version_match:
                     return version_match.group(1)
 
@@ -51,7 +48,9 @@ def render_prompt(template_path, context):
         template_path = env_template_path
 
     # First, check for project-specific template
-    project_template = os.path.join(os.getcwd(), ".gptchangelog", "templates", template_path)
+    project_template = os.path.join(
+        os.getcwd(), ".gptchangelog", "templates", template_path
+    )
 
     # Next, check for package template
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -82,7 +81,9 @@ def render_prompt(template_path, context):
         return fallback
 
 
-def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanced: bool = True) -> str:
+def resolve_template_path(
+    base_name: str, language: Optional[str] = "en", enhanced: bool = True
+) -> str:
     """
     Resolve a template path with i18n and enhanced fallbacks.
 
@@ -102,7 +103,9 @@ def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanc
     if enhanced:
         if lang != "en":
             candidates.append(f"templates/{lang}_enhanced_{base_name}.txt")
-            candidates.append(f"templates/{lang}_{base_name}.txt")  # fallback to non-enhanced localized
+            candidates.append(
+                f"templates/{lang}_{base_name}.txt"
+            )  # fallback to non-enhanced localized
         candidates.append(f"templates/enhanced_{base_name}.txt")
     else:
         if lang != "en":
@@ -114,13 +117,19 @@ def resolve_template_path(base_name: str, language: Optional[str] = "en", enhanc
     package_dir = os.path.dirname(os.path.abspath(__file__))
 
     for rel_path in candidates:
-        project_candidate = os.path.join(project_templates_dir, os.path.basename(rel_path))
+        project_candidate = os.path.join(
+            project_templates_dir, os.path.basename(rel_path)
+        )
         package_candidate = os.path.join(package_dir, rel_path)
         if os.path.exists(project_candidate) or os.path.exists(package_candidate):
             return rel_path
 
     # Final fallback to English defaults
-    return f"templates/enhanced_{base_name}.txt" if enhanced else f"templates/{base_name}.txt"
+    return (
+        f"templates/enhanced_{base_name}.txt"
+        if enhanced
+        else f"templates/{base_name}.txt"
+    )
 
 
 def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
@@ -142,7 +151,9 @@ def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
         if not os.path.exists(filepath):
             # Create a new file with header
             with open(filepath, "w") as file:
-                file.write("# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n")
+                file.write(
+                    "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n"
+                )
                 file.write(changelog)
         else:
             # Read existing content
@@ -150,12 +161,16 @@ def prepend_changelog_to_file(changelog, filepath="CHANGELOG.md"):
                 original_content = file.read()
 
             # Find the first entry in the changelog to insert after the header
-            header_match = re.search(r'^(#\s+Changelog.*?)(?=##\s+\[|\Z)', original_content, re.DOTALL | re.MULTILINE)
+            header_match = re.search(
+                r"^(#\s+Changelog.*?)(?=##\s+\[|\Z)",
+                original_content,
+                re.DOTALL | re.MULTILINE,
+            )
 
             if header_match:
                 # Insert the new changelog after the header
                 header = header_match.group(1)
-                rest = original_content[len(header):]
+                rest = original_content[len(header) :]
                 with open(filepath, "w") as file:
                     file.write(header + changelog + "\n\n" + rest)
             else:
@@ -218,11 +233,15 @@ def get_project_metadata():
 
                 # Only override version if we couldn't get it from package_version()
                 if metadata["version"] == "0.1.0":
-                    version_match = re.search(r'version\s*=\s*[\'"]([^\'"]*)[\'"]', content)
+                    version_match = re.search(
+                        r'version\s*=\s*[\'"]([^\'"]*)[\'"]', content
+                    )
                     if version_match:
                         metadata["version"] = version_match.group(1)
 
-                description_match = re.search(r'description\s*=\s*[\'"]([^\'"]*)[\'"]', content)
+                description_match = re.search(
+                    r'description\s*=\s*[\'"]([^\'"]*)[\'"]', content
+                )
                 if description_match:
                     metadata["description"] = description_match.group(1)
         except Exception:
@@ -246,7 +265,7 @@ def format_commit_for_changelog(commit_message):
         Formatted commit message suitable for changelog
     """
     # Handle conventional commit format
-    match = re.match(r'^(\w+)(\([^)]+\))?(!)?:\s+(.+)$', commit_message)
+    match = re.match(r"^(\w+)(\([^)]+\))?(!)?:\s+(.+)$", commit_message)
 
     if match:
         commit_type, scope, breaking, message = match.groups()

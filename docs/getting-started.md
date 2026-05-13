@@ -42,7 +42,7 @@ This will prompt you for:
 
 1. Configuration type (global or project-specific)
 2. Provider choice (`openai` API key or `codex` ChatGPT subscription)
-3. The model to use (default: gpt-5.2)
+3. The model to use (default: gpt-5.5)
 
 If you want to use your Codex subscription, sign in once before initialization:
 

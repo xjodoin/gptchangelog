@@ -1,6 +1,8 @@
 import argparse
 import logging
 import os
+import shlex
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import datetime
@@ -14,7 +16,10 @@ from rich.prompt import Confirm
 
 from .config import init_config, load_openai_config, show_config
 from .enhanced_git_utils import get_enhanced_commit_data
-from .enhanced_openai_utils import analyze_changelog_quality, generate_enhanced_changelog_and_version
+from .enhanced_openai_utils import (
+    analyze_changelog_quality,
+    generate_enhanced_changelog_and_version,
+)
 from .git_utils import get_commit_messages_since, get_latest_tag, get_repository_name
 from .openai_client import (
     CODEX_PROVIDER,
@@ -62,9 +67,15 @@ def resolve_provider_configuration(args) -> tuple[ProviderSettings, str]:
         args.provider
         or env_provider
         or config.get("provider")
-        or (OPENAI_PROVIDER if (env_api_key or config.get("api_key")) else CODEX_PROVIDER if has_codex_auth() else None)
+        or (
+            OPENAI_PROVIDER
+            if (env_api_key or config.get("api_key"))
+            else CODEX_PROVIDER if has_codex_auth() else None
+        )
     )
-    model = args.model or env_model or config.get("model") or get_default_model(provider)
+    model = (
+        args.model or env_model or config.get("model") or get_default_model(provider)
+    )
     api_key = env_api_key or config.get("api_key")
 
     if provider == OPENAI_PROVIDER:
@@ -124,7 +135,9 @@ def run_gptchangelog(args):
             except Exception as exc:
                 logger.error(f"Failed to get latest tag: {exc}")
                 from_commit = repo.git.rev_list("--max-parents=0", "HEAD")
-                console.print(f"[yellow]No tags found, using initial commit: {from_commit[:8]}...[/yellow]")
+                console.print(
+                    f"[yellow]No tags found, using initial commit: {from_commit[:8]}...[/yellow]"
+                )
 
         current_version = args.current_version or from_commit
 
@@ -152,7 +165,9 @@ def run_gptchangelog(args):
                         return 0
 
                     num_commits = len(commit_messages.strip().split("\n"))
-                    console.print(f"[green]Found {num_commits} commits in range {commit_range}[/green]")
+                    console.print(
+                        f"[green]Found {num_commits} commits in range {commit_range}[/green]"
+                    )
                     progress.update(task, advance=50)
                 except Exception as exc:
                     logger.error(f"Failed to fetch commit messages: {exc}")
@@ -169,7 +184,9 @@ def run_gptchangelog(args):
                 try:
                     language = args.language
                     if language != "en":
-                        console.print(f"[blue]Generating changelog in {language}[/blue]")
+                        console.print(
+                            f"[blue]Generating changelog in {language}[/blue]"
+                        )
 
                     changelog, next_version = generate_changelog_and_next_version(
                         commit_messages,
@@ -186,7 +203,9 @@ def run_gptchangelog(args):
             console.print("[cyan]Using enhanced changelog generation...[/cyan]")
 
             with Progress(transient=True, console=console) as progress:
-                task = progress.add_task("[cyan]Analyzing commits with enhanced parser...", total=100)
+                task = progress.add_task(
+                    "[cyan]Analyzing commits with enhanced parser...", total=100
+                )
                 progress.update(task, completed=20)
 
                 try:
@@ -197,26 +216,42 @@ def run_gptchangelog(args):
                     )
 
                     if not commits:
-                        console.print("[yellow]No commits found in the specified range.[/yellow]")
+                        console.print(
+                            "[yellow]No commits found in the specified range.[/yellow]"
+                        )
                         return 0
 
-                    console.print(f"[green]Analyzed {len(commits)} commits with enhanced parser[/green]")
+                    console.print(
+                        f"[green]Analyzed {len(commits)} commits with enhanced parser[/green]"
+                    )
                     progress.update(task, completed=60)
 
                     if args.stats:
                         console.print()
                         console.print("[bold cyan]📊 Commit Statistics:[/bold cyan]")
-                        console.print(f"[green]Total commits:[/green] {stats_raw['total_commits']}")
-                        console.print(f"[yellow]Breaking changes:[/yellow] {stats_raw['breaking_changes']}")
-                        console.print(f"[blue]Files changed:[/blue] {stats_raw['total_files_changed']}")
-                        console.print(f"[magenta]Code changes:[/magenta] +{stats_raw['total_insertions']} -{stats_raw['total_deletions']} lines")
+                        console.print(
+                            f"[green]Total commits:[/green] {stats_raw['total_commits']}"
+                        )
+                        console.print(
+                            f"[yellow]Breaking changes:[/yellow] {stats_raw['breaking_changes']}"
+                        )
+                        console.print(
+                            f"[blue]Files changed:[/blue] {stats_raw['total_files_changed']}"
+                        )
+                        console.print(
+                            f"[magenta]Code changes:[/magenta] +{stats_raw['total_insertions']} -{stats_raw['total_deletions']} lines"
+                        )
 
-                        if stats_raw['most_changed_components']:
+                        if stats_raw["most_changed_components"]:
                             components = [
                                 f"{component}({count})"
-                                for component, count in stats_raw['most_changed_components'][:5]
+                                for component, count in stats_raw[
+                                    "most_changed_components"
+                                ][:5]
                             ]
-                            console.print(f"[cyan]Main components:[/cyan] {', '.join(components)}")
+                            console.print(
+                                f"[cyan]Main components:[/cyan] {', '.join(components)}"
+                            )
                         console.print()
 
                     progress.update(task, completed=100)
@@ -228,14 +263,16 @@ def run_gptchangelog(args):
             if language != "en":
                 console.print(f"[blue]Generating changelog in {language}[/blue]")
 
-            with console.status("[cyan]Generating enhanced changelog...[/cyan]", spinner="dots"):
+            with console.status(
+                "[cyan]Generating enhanced changelog...[/cyan]", spinner="dots"
+            ):
                 try:
                     if not args.no_compare_link:
                         try:
                             remote_url = repo.remotes.origin.url
                             path = None
                             if remote_url.startswith("git@github.com:"):
-                                path = remote_url[len("git@github.com:"):]
+                                path = remote_url[len("git@github.com:") :]
                             elif "github.com/" in remote_url:
                                 path = remote_url.split("github.com/")[1]
                             if path:
@@ -247,7 +284,9 @@ def run_gptchangelog(args):
 
                     if not args.no_contributors:
                         try:
-                            contributor_names = sorted({str(commit.author) for commit in commits})
+                            contributor_names = sorted(
+                                {str(commit.author) for commit in commits}
+                            )
                         except Exception:
                             contributor_names = None
 
@@ -283,7 +322,7 @@ def run_gptchangelog(args):
 
                 editor = os.environ.get("EDITOR", "vim")
                 console.print("[dim]Opening editor...[/dim]")
-                os.system(f"{editor} {temp_file}")
+                subprocess.run(shlex.split(editor) + [temp_file], check=False)
 
                 with open(temp_file, "r") as file:
                     changelog = file.read()
@@ -399,15 +438,21 @@ def display_result(result: GenerationResult, ui_mode: str, args) -> str:
     if args.stats and result.stats:
         console.print()
         console.print("[bold cyan]📊 Commit Statistics:[/bold cyan]")
-        console.print(f"[green]Total commits:[/green] {result.stats.get('total_commits')}")
-        console.print(f"[yellow]Breaking changes:[/yellow] {result.stats.get('breaking_changes')}")
+        console.print(
+            f"[green]Total commits:[/green] {result.stats.get('total_commits')}"
+        )
+        console.print(
+            f"[yellow]Breaking changes:[/yellow] {result.stats.get('breaking_changes')}"
+        )
         by_type = result.stats.get("by_type") or {}
         if by_type:
             type_summary = ", ".join(f"{t} ({c})" for t, c in sorted(by_type.items()))
             console.print(f"[blue]Types:[/blue] {type_summary}")
         components = result.stats.get("most_changed_components") or []
         if components:
-            component_summary = ", ".join(f"{comp} ({count})" for comp, count in components[:5])
+            component_summary = ", ".join(
+                f"{comp} ({count})" for comp, count in components[:5]
+            )
             console.print(f"[magenta]Hot components:[/magenta] {component_summary}")
 
     if args.quality_analysis and result.quality_metrics:
@@ -427,11 +472,15 @@ def display_result(result: GenerationResult, ui_mode: str, args) -> str:
         if metrics.get("has_breaking_changes"):
             console.print("[red]⚠️ Contains breaking changes[/red]")
         if metrics.get("empty_sections"):
-            console.print(f"[orange]⚠️ {metrics['empty_sections']} empty sections detected[/orange]")
+            console.print(
+                f"[orange]⚠️ {metrics['empty_sections']} empty sections detected[/orange]"
+            )
 
         if metrics.get("quality_score", 100) < 70:
             console.print()
-            console.print("[bold yellow]💡 Quality Improvement Suggestions:[/bold yellow]")
+            console.print(
+                "[bold yellow]💡 Quality Improvement Suggestions:[/bold yellow]"
+            )
             if not metrics.get("has_proper_header"):
                 console.print("- Add proper version header with date")
             if not metrics.get("has_categories"):

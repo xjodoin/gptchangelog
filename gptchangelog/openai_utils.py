@@ -1,7 +1,7 @@
 import logging
-from datetime import datetime
 import re
-from typing import Tuple, Dict, List, Any, Optional
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
 
 from openai import OpenAIError
 
@@ -12,9 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def process_commit_messages(
-        raw_commit_messages: str,
-        model: str,
-        context: Dict[str, Any] = None
+    raw_commit_messages: str, model: str, context: Optional[Dict[str, Any]] = None
 ) -> str:
     """
     Process and refine commit messages using the OpenAI API.
@@ -57,10 +55,10 @@ def process_commit_messages(
 
 
 def determine_next_version(
-        current_version: str,
-        commit_messages: str,
-        model: str,
-        context: Dict[str, Any] = None
+    current_version: str,
+    commit_messages: str,
+    model: str,
+    context: Optional[Dict[str, Any]] = None,
 ) -> str:
     """
     Determine the next version number based on the commit messages.
@@ -82,8 +80,8 @@ def determine_next_version(
     # Extract version numbers if the current version has a prefix
     has_prefix = False
     version_prefix = ""
-    if current_version.startswith('v'):
-        version_prefix = 'v'
+    if current_version.startswith("v"):
+        version_prefix = "v"
         version_number = current_version[1:]
         has_prefix = True
     else:
@@ -114,22 +112,22 @@ def determine_next_version(
 
         # Extract the version number from the response
         # Look for a version pattern (with or without 'v' prefix)
-        version_match = re.search(r'(?:Version:\s*)(v?\d+\.\d+\.\d+)', raw_response)
+        version_match = re.search(r"(?:Version:\s*)(v?\d+\.\d+\.\d+)", raw_response)
 
         if version_match:
             next_version = version_match.group(1)
 
             # Handle version prefix consistency
-            if has_prefix and not next_version.startswith('v'):
+            if has_prefix and not next_version.startswith("v"):
                 next_version = f"v{next_version}"
-            elif not has_prefix and next_version.startswith('v'):
+            elif not has_prefix and next_version.startswith("v"):
                 next_version = next_version[1:]
         else:
             # Fallback: just return the response text (should be a version number)
             next_version = raw_response.strip()
 
             # Add prefix if needed for consistency
-            if has_prefix and not next_version.startswith('v'):
+            if has_prefix and not next_version.startswith("v"):
                 next_version = f"{version_prefix}{next_version}"
 
     except (OpenAIError, RuntimeError) as e:
@@ -138,7 +136,7 @@ def determine_next_version(
 
         # Extract version components
         try:
-            version_parts = list(map(int, re.findall(r'\d+', version_number)))
+            version_parts = list(map(int, re.findall(r"\d+", version_number)))
             while len(version_parts) < 3:
                 version_parts.append(0)
 
@@ -157,11 +155,11 @@ def determine_next_version(
 
 
 def generate_changelog(
-        commit_messages: str,
-        next_version: str,
-        model: str,
-        context: Dict[str, Any] = None,
-        language: Optional[str] = "en"
+    commit_messages: str,
+    next_version: str,
+    model: str,
+    context: Optional[Dict[str, Any]] = None,
+    language: Optional[str] = "en",
 ) -> str:
     """
     Generate a changelog from the processed commit messages.
@@ -185,7 +183,9 @@ def generate_changelog(
         **context,
         "commit_messages": commit_messages,
         "next_version": next_version,
-        "current_date": context.get("current_date", datetime.today().strftime("%Y-%m-%d")),
+        "current_date": context.get(
+            "current_date", datetime.today().strftime("%Y-%m-%d")
+        ),
     }
 
     template_path = "templates/changelog_prompt.txt"
@@ -226,11 +226,11 @@ _Note: This is a fallback changelog due to an error in generation._
 
 
 def generate_changelog_and_next_version(
-        raw_commit_messages: str,
-        current_version: str,
-        model: str,
-        context: Dict[str, Any] = None,
-        language: Optional[str] = "en"
+    raw_commit_messages: str,
+    current_version: str,
+    model: str,
+    context: Optional[Dict[str, Any]] = None,
+    language: Optional[str] = "en",
 ) -> Tuple[str, str]:
     """
     Generate a changelog and determine the next version based on commit messages.
@@ -248,27 +248,16 @@ def generate_changelog_and_next_version(
         context = {}
 
     # Process commit messages
-    processed_commits = process_commit_messages(
-        raw_commit_messages,
-        model,
-        context
-    )
+    processed_commits = process_commit_messages(raw_commit_messages, model, context)
 
     # Determine next version
     next_version = determine_next_version(
-        current_version,
-        processed_commits,
-        model,
-        context
+        current_version, processed_commits, model, context
     )
 
     # Generate changelog
     changelog = generate_changelog(
-        processed_commits,
-        next_version,
-        model,
-        context,
-        language=language
+        processed_commits, next_version, model, context, language=language
     )
 
     return changelog, next_version

@@ -29,7 +29,6 @@ dependencies = [
   "configparser>=6.0.0",
   "rich>=13.9.0",
   "textual>=0.58.0",
-  "importlib_metadata>=1.0.0; python_version < '3.8'",
 ]
 dynamic = ["version"]
 
@@ -66,8 +65,11 @@ include = ["gptchangelog", "gptchangelog.*"]
 [tool.setuptools.package-data]
 gptchangelog = ["templates/*.txt"]
 
-[tool.uv]
-dev-dependencies = [
+[tool.isort]
+profile = "black"
+
+[dependency-groups]
+dev = [
   "pytest",
   "pytest-cov",
   "black",

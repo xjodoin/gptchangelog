@@ -3,16 +3,16 @@ import os
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, Literal, Optional, Tuple
+from typing import Any, Iterable, Iterator, List, Literal, Mapping, Optional, Tuple
 
 import httpx
 from openai import OpenAI
 
 ProviderName = Literal["openai", "codex"]
 
-OPENAI_PROVIDER = "openai"
-CODEX_PROVIDER = "codex"
-OPENAI_DEFAULT_MODEL = "gpt-5.2"
+OPENAI_PROVIDER: ProviderName = "openai"
+CODEX_PROVIDER: ProviderName = "codex"
+OPENAI_DEFAULT_MODEL = "gpt-5.5"
 CODEX_DEFAULT_MODEL = "gpt-5.4-mini"
 CODEX_RESPONSES_URL = "https://chatgpt.com/backend-api/codex/responses"
 
@@ -56,9 +56,9 @@ def normalize_provider(provider: Optional[str]) -> ProviderName:
     return OPENAI_PROVIDER
 
 
-def resolve_codex_home(env: Optional[dict[str, str]] = None) -> Path:
-    env = env or os.environ
-    configured = (env.get("CODEX_HOME") or "").strip()
+def resolve_codex_home(env: Optional[Mapping[str, str]] = None) -> Path:
+    env_values: Mapping[str, str] = env or os.environ
+    configured = (env_values.get("CODEX_HOME") or "").strip()
     if not configured:
         return Path.home() / ".codex"
     if configured == "~":
@@ -68,7 +68,9 @@ def resolve_codex_home(env: Optional[dict[str, str]] = None) -> Path:
     return Path(configured).expanduser()
 
 
-def read_codex_auth(env: Optional[dict[str, str]] = None) -> Optional[CodexAuthState]:
+def read_codex_auth(
+    env: Optional[Mapping[str, str]] = None,
+) -> Optional[CodexAuthState]:
     auth_path = resolve_codex_home(env) / "auth.json"
     try:
         payload = json.loads(auth_path.read_text(encoding="utf-8"))
@@ -87,12 +89,20 @@ def read_codex_auth(env: Optional[dict[str, str]] = None) -> Optional[CodexAuthS
     account_id = tokens.get("account_id")
     return CodexAuthState(
         access_token=access_token.strip(),
-        refresh_token=refresh_token.strip() if isinstance(refresh_token, str) and refresh_token.strip() else None,
-        account_id=account_id.strip() if isinstance(account_id, str) and account_id.strip() else None,
+        refresh_token=(
+            refresh_token.strip()
+            if isinstance(refresh_token, str) and refresh_token.strip()
+            else None
+        ),
+        account_id=(
+            account_id.strip()
+            if isinstance(account_id, str) and account_id.strip()
+            else None
+        ),
     )
 
 
-def has_codex_auth(env: Optional[dict[str, str]] = None) -> bool:
+def has_codex_auth(env: Optional[Mapping[str, str]] = None) -> bool:
     return read_codex_auth(env) is not None
 
 
@@ -275,7 +285,11 @@ def _collect_codex_sse_text(lines: Iterable[str]) -> str:
             if isinstance(text, str):
                 fallback_text = text
         elif event_type == "response.failed":
-            detail = event.get("response", {}).get("error") if isinstance(event.get("response"), dict) else None
+            detail = (
+                event.get("response", {}).get("error")
+                if isinstance(event.get("response"), dict)
+                else None
+            )
             raise RuntimeError(f"Codex generation failed: {detail or event}")
 
     return "".join(chunks).strip() or (fallback_text or "").strip()
@@ -295,10 +309,10 @@ def _iter_sse_events(lines: Iterable[str]) -> Iterator[Tuple[Optional[str], str]
             continue
 
         if line.startswith("event:"):
-            event_name = line[len("event:"):].strip() or None
+            event_name = line[len("event:") :].strip() or None
             continue
         if line.startswith("data:"):
-            data_lines.append(line[len("data:"):].lstrip())
+            data_lines.append(line[len("data:") :].lstrip())
 
     if data_lines:
         yield event_name, "\n".join(data_lines)

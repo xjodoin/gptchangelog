@@ -5,6 +5,7 @@ from typing import Dict, Optional
 from .openai_client import (
     CODEX_PROVIDER,
     OPENAI_PROVIDER,
+    ProviderName,
     get_default_model,
     has_codex_auth,
     normalize_provider,
@@ -29,7 +30,9 @@ def _resolve_config_file(config_file_name: str = "config.ini") -> str:
     )
 
 
-def load_openai_config(config_file_name: str = "config.ini") -> Dict[str, Optional[str]]:
+def load_openai_config(
+    config_file_name: str = "config.ini",
+) -> Dict[str, Optional[str]]:
     config_file = _resolve_config_file(config_file_name)
 
     config = configparser.ConfigParser()
@@ -43,13 +46,19 @@ def load_openai_config(config_file_name: str = "config.ini") -> Dict[str, Option
     return {
         "provider": provider,
         "api_key": api_key.strip() if api_key and api_key.strip() else None,
-        "model": model.strip() if model and model.strip() else get_default_model(provider),
+        "model": (
+            model.strip() if model and model.strip() else get_default_model(provider)
+        ),
     }
 
 
 def init_config() -> None:
     while True:
-        config_type = input("Initialize configuration for (g)lobal or (p)roject? [G/p]: ").strip().lower()
+        config_type = (
+            input("Initialize configuration for (g)lobal or (p)roject? [G/p]: ")
+            .strip()
+            .lower()
+        )
         if config_type in {"", "g", "p"}:
             break
         print("Please enter 'g' for global or 'p' for project.")
@@ -68,7 +77,8 @@ def init_config() -> None:
     config = configparser.ConfigParser()
     config["openai"] = {
         "provider": provider,
-        "model": input(f"Enter the model to use [default: {default_model}]: ").strip() or default_model,
+        "model": input(f"Enter the model to use [default: {default_model}]: ").strip()
+        or default_model,
     }
 
     if provider == OPENAI_PROVIDER:
@@ -78,7 +88,9 @@ def init_config() -> None:
             return
         config["openai"]["api_key"] = api_key
     elif not has_codex_auth():
-        print("No Codex login detected. Run `codex login` first, then re-run `gptchangelog config init`.")
+        print(
+            "No Codex login detected. Run `codex login` first, then re-run `gptchangelog config init`."
+        )
         return
 
     with open(config_file, "w", encoding="utf-8") as configfile:
@@ -87,8 +99,10 @@ def init_config() -> None:
     print(f"Configuration saved to {config_file}")
 
 
-def _prompt_provider() -> str:
-    prompt = "Choose provider: (o)penai API key or (c)odex ChatGPT subscription? [O/c]: "
+def _prompt_provider() -> ProviderName:
+    prompt = (
+        "Choose provider: (o)penai API key or (c)odex ChatGPT subscription? [O/c]: "
+    )
     while True:
         choice = input(prompt).strip().lower()
         if choice in {"", "o"}:

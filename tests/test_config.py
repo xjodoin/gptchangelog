@@ -1,4 +1,5 @@
 from gptchangelog.config import load_openai_config
+from gptchangelog.openai_client import get_default_model
 
 
 def test_load_openai_config_reads_provider_and_model(tmp_path, monkeypatch):
@@ -25,3 +26,7 @@ def test_load_openai_config_reads_provider_and_model(tmp_path, monkeypatch):
         "api_key": None,
         "model": "gpt-5.4-mini",
     }
+
+
+def test_openai_default_model_is_current_flagship():
+    assert get_default_model("openai") == "gpt-5.5"

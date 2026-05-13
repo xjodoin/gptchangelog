@@ -175,7 +175,7 @@ gptchangelog config init
 
 - `provider`: `openai` for API keys or `codex` to reuse `~/.codex/auth.json`
 - `api_key`: Your OpenAI API key when `provider = openai`
-- `model`: The model to use. Defaults to `gpt-5.2` for `openai` and `gpt-5.4-mini` for `codex`
+- `model`: The model to use. Defaults to `gpt-5.5` for `openai` and `gpt-5.4-mini` for `codex`
 
 ## Integrating with CI/CD
 

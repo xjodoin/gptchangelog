@@ -41,7 +41,7 @@ Example output:
 - Fix token counting logic for large repositories
 
 ### 🔄 Changes
-- Update default model to gpt-5.2
+- Update default model to gpt-5.5
 - Improve commit message grouping algorithm
 ```
 
@@ -351,7 +351,7 @@ export GPTCHANGELOG_DEBUG=1
 gptchangelog generate
 
 # Try with a different model
-gptchangelog generate --model gpt-3.5-turbo
+gptchangelog generate --model gpt-5.4-mini
 
 # Process in smaller batches
 git tag v1.0.0-temp

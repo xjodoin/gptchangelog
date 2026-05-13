@@ -429,7 +429,6 @@ requires-dist = [
     { name = "configparser", specifier = ">=6.0.0" },
     { name = "gitpython", specifier = ">=3.1.40" },
     { name = "httpx", specifier = ">=0.27.0" },
-    { name = "importlib-metadata", marker = "python_full_version < '3.8'", specifier = ">=1.0.0" },
     { name = "isort", marker = "extra == 'dev'" },
     { name = "mkdocs-git-revision-date-localized-plugin", marker = "extra == 'docs'" },
     { name = "mkdocs-material", marker = "extra == 'docs'" },
