@@ -1,159 +1,75 @@
 ---
-title: Basic Usage | GPTChangelog
-description: Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.
-keywords:
-  - gptchangelog
-  - basic usage
-  - generate changelog
-  - git commits
-  - semantic versioning
-  - openai
-  - python cli
+title: Basic Usage
+description: Generate, preview, validate, and write changelogs safely.
 ---
 
 # Basic Usage
 
-This page covers the basic usage of GPTChangelog for generating changelogs from your git commits.
-
-## Command Line Interface
-
-GPTChangelog provides a command-line interface with several commands and options.
-
-### Main Commands
-
-- `gptchangelog generate`: Generate a changelog
-- `gptchangelog config`: Manage configuration
-  - `gptchangelog config init`: Initialize configuration
-  - `gptchangelog config show`: Show current configuration
-- `gptchangelog --version`: Show version information
-- `gptchangelog --help`: Show help information
-
-## Generating a Changelog
-
-The most common operation is generating a changelog from your git commit history.
-
-### Simple Usage
-
-To generate a changelog from your latest tag to the current HEAD:
+## Generate a release
 
 ```bash
 gptchangelog generate
 ```
 
-This will:
+Without `--since`, GPTChangelog finds the newest tag reachable from `--to`. In a repository without tags it includes the root commit and uses `0.0.0` as the version baseline.
 
-1. Find your latest git tag
-2. Fetch all commit messages since that tag
-3. Process them using OpenAI
-4. Determine the next version based on semantic versioning
-5. Generate a well-structured changelog
-6. Prepend it to your CHANGELOG.md file
-
-### Example Output
-
-The generated changelog will look something like this:
-
-```markdown
-## [1.2.0] - 2024-10-20
-
-### ✨ Features
-- Add support for interactive editing mode
-- Implement automatic conventional commit detection
-
-### 🐛 Bug Fixes
-- Resolve issue with version detection on Windows
-- Fix token counting logic for large repositories
-
-### 🔄 Changes
-- Update default model to gpt-5.5
-- Improve commit message grouping algorithm
-```
-
-## Common Options
-
-Here are some common options for the `generate` command:
-
-### Custom Commit Range
-
-You can specify a custom range of commits:
+## Select a range
 
 ```bash
-gptchangelog generate --since v1.0.0
+gptchangelog generate --since v1.0.0 --to v1.1.0
+gptchangelog generate --since HEAD~20 --to HEAD
+gptchangelog generate --repo ../project --since v2.0.0
 ```
 
-Or between two specific references:
+Both references are resolved before any model request. Invalid or unreachable ranges fail with a nonzero exit code.
+
+## Preview and pipe output
 
 ```bash
-gptchangelog generate --since v1.0.0 --to v2.0.0-beta
+gptchangelog generate --dry-run > release.md
+gptchangelog generate --output - > release.md
+gptchangelog generate --dry-run --format json | jq .version
 ```
 
-### Custom Output File
+Only the requested artifact is written to stdout. Diagnostics use stderr.
 
-By default, the changelog is prepended to `CHANGELOG.md`, but you can specify a different file:
+## Safe file updates
 
 ```bash
-gptchangelog generate --output docs/CHANGES.md
+gptchangelog generate --output CHANGELOG.md
+gptchangelog generate --check
 ```
 
-### Analyze Another Repository
+Writing is atomic. GPTChangelog rejects duplicate or non-monotonic versions,
+symlink targets, unresolved template placeholders, code fences, malformed
+headings, and unsupported source references. Existing `[Unreleased]` content is
+preserved. `--force` only replaces a matching existing release.
 
-Pass the `--repo` flag to run GPTChangelog against a different project without leaving your current directory:
+Use `--force` only when intentionally replacing an existing version:
 
 ```bash
-gptchangelog generate --repo ../another-project
+gptchangelog generate --force --current-version 1.4.0
 ```
 
-### Switching UI Modes
-
-Launch the Textual interface for a richer review experience:
+## Models
 
 ```bash
+# Default GPT-5.6 Terra profile
+gptchangelog generate --profile balanced
+
+# GPT-5.6 Sol
+gptchangelog generate --profile quality
+
+# Explicit override
+gptchangelog generate --model gpt-5.6-sol
+```
+
+## Interface
+
+```bash
+gptchangelog generate --interactive
 gptchangelog generate --ui textual
+gptchangelog generate --ui plain
 ```
 
-Use `--ui plain` if you prefer the traditional console output or are running in an environment without full terminal capabilities.
-
-### Current Version Override
-
-You can override the automatically detected version:
-
-```bash
-gptchangelog generate --current-version 1.5.0
-```
-
-### Dry Run
-
-To preview the changelog without saving it:
-
-```bash
-gptchangelog generate --dry-run
-```
-
-## Exit Codes
-
-GPTChangelog returns the following exit codes:
-
-- `0`: Success
-- `1`: Error (configuration error, git error, API error, etc.)
-
-You can use these exit codes in scripts to check if the command succeeded:
-
-```bash
-gptchangelog generate
-if [ $? -eq 0 ]; then
-  echo "Changelog generated successfully"
-else
-  echo "Error generating changelog"
-fi
-```
-
-## Error Handling
-
-If GPTChangelog encounters an error, it will display an error message and exit with code 1. Common errors include:
-
-- Configuration errors (missing API key)
-- Git errors (not a git repository, no commits found)
-- OpenAI API errors (authentication, rate limits)
-- File I/O errors (permission denied, file not found)
-
-Check the error message for details on how to resolve the issue.
+Textual requires the `tui` package extra. Auto mode uses it only in an interactive terminal; CI and redirected output remain plain.

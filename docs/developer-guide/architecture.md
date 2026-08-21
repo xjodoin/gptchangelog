@@ -1,188 +1,92 @@
 # Architecture
 
-This document provides an overview of GPTChangelog's architecture, its components, and how they interact with each other.
-
-## System Overview
-
-GPTChangelog follows a modular architecture with clear separation of concerns. The system consists of several core components that work together to generate changelogs from git commit history.
+GPTChangelog separates deterministic release mechanics from model-assisted writing.
 
 ```mermaid
-graph TD
-    CLI[CLI Module] --> Config[Configuration Manager]
-    CLI --> GitUtils[Git Utilities]
-    CLI --> OpenAIUtils[OpenAI Integration]
-    GitUtils --> Repo[Git Repository]
-    OpenAIUtils --> OpenAI[OpenAI API]
-    OpenAIUtils --> Templates[Prompt Templates]
-    OpenAIUtils --> Utils[Utility Functions]
-    CLI --> Output[Output Processing]
+flowchart LR
+    CLI[CLI request] --> Config[Validated configuration]
+    Config --> Git[Validated Git range]
+    Git --> Version[Deterministic SemVer]
+    Git --> Draft[One structured model request]
+    Version --> Render[Localized renderer]
+    Draft --> Validate[Source and schema validation]
+    Validate --> Render
+    Render --> Artifact[Markdown or JSON]
+    Artifact --> Writer[Atomic changelog writer]
 ```
 
-## Core Components
+## Invariants
 
-### CLI Module (`cli.py`)
+The model never controls:
 
-The CLI module is the entry point for the application. It:
+- Git reference resolution
+- whether the root commit is included
+- the semantic-version increment
+- Markdown headings or insertion position
+- file replacement and duplicate handling
 
-- Parses command-line arguments
-- Handles subcommands (generate, config)
-- Coordinates the workflow between other components
-- Manages output formatting and user interaction
+Model output is accepted only when it satisfies the structured schema and every release-note item refers to commits in the analyzed range.
 
-### Configuration Manager (`config.py`)
+## Git analysis
 
-The Configuration Manager handles loading, saving, and merging configuration from different sources:
+The Git layer resolves `--to`, finds the newest reachable tag when `--since` is omitted, and distinguishes a tagged range from an initial untagged release. Invalid refs and Git command failures propagate to the CLI.
 
-- Project-specific configuration
-- Global user configuration
-- Environment variables
-- Command-line arguments
+Commit analysis produces typed records containing source SHA, message, author, timestamp, changed files, statistics, classification, breaking-change state, issue references, and components. Noise filtering records what was skipped instead of disguising an invalid range as an empty release.
 
-### Git Utilities (`git_utils.py`)
+## Version policy
 
-The Git Utilities module interacts with the git repository:
+Semantic versioning is deterministic:
 
-- Extracts commit messages
-- Analyzes commit history
-- Determines version information
-- Parses conventional commits
+- explicit Conventional Commit `!` or a blank-line-separated breaking footer: major
+- feature: minor
+- fixes and maintenance: patch
 
-### OpenAI Integration (`openai_utils.py`)
+The parser validates the current version and preserves an existing `v` prefix. A model response cannot downgrade or otherwise replace the calculated result.
 
-The OpenAI Integration module handles communication with the OpenAI API:
+## Generation
 
-- Prepares prompts using templates
-- Sends requests to OpenAI
-- Processes and sanitizes responses
-- Handles error conditions and retries
+The generation path sends at most one request. Commit data is delimited as
+untrusted source content. The dynamic strict schema contains a summary, one
+required assignment property for every selected commit ID, and bounded shared
+topic descriptions. Each assignment's category is fixed by a single-value enum
+and its topic is restricted to that category's slots. This makes omitted,
+duplicated, or cross-category source coverage structurally impossible while
+still consolidating related commits into readable entries.
 
-### Utility Functions (`utils.py`)
+GPT-5.6 Terra is the balanced default; GPT-5.6 Sol is the quality profile. The OpenAI provider uses the Responses API with Structured Outputs. The Codex provider delegates authentication and execution to the supported Codex client instead of parsing cached credentials.
 
-The Utility module provides common functionality used across the application:
+Large histories are bounded before model use. Inputs above the safety limit use
+validated deterministic entries so no source commit is silently truncated.
 
-- Token estimation
-- Template rendering
-- File manipulation
-- Version parsing
+## Rendering and validation
 
-## Data Flow
+The renderer owns localized section labels, ordering, headings, links, contributors, and Markdown escaping. Supported locales are English, French, and Spanish.
 
-The typical data flow through the system is as follows:
+Validation rejects:
 
-1. User invokes the `generate` command
-2. CLI module parses arguments and loads configuration
-3. Git utilities extract commit messages from the repository
-4. Commit messages are processed and categorized
-5. OpenAI integration sends the processed messages to OpenAI
-6. The next version is determined based on semantic versioning
-7. A changelog is generated using the template
-8. The changelog is written to the output file
+- unresolved template placeholders
+- Markdown code fences around the artifact
+- malformed or repeated release headings
+- unknown source commit IDs
+- omitted, repeated, or cross-category source commit IDs
+- invalid semantic versions
+- empty structured drafts
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant CLI
-    participant Git
-    participant OpenAI
-    participant Files
-    
-    User->>CLI: gptchangelog generate
-    CLI->>Git: Get commit messages
-    Git->>CLI: Return commit messages
-    CLI->>OpenAI: Process commit messages
-    OpenAI->>CLI: Return processed messages
-    CLI->>OpenAI: Determine next version
-    OpenAI->>CLI: Return next version
-    CLI->>OpenAI: Generate changelog
-    OpenAI->>CLI: Return formatted changelog
-    CLI->>Files: Write changelog to file
-    CLI->>User: Display result
-```
+The old heuristic quality score is not a release gate; actionable validation results are.
 
-## Module Relationships
+## File writing
 
-### Package Structure
+The writer reads UTF-8, validates the existing document, rejects an existing target version unless forced, preserves `[Unreleased]`, writes a temporary sibling file, flushes it, and atomically replaces the target. Failures propagate and leave the original intact.
 
-The GPTChangelog package is organized as follows:
+## CLI and UI
 
-```
-gptchangelog/
-├── __init__.py           # Package metadata and version
-├── __main__.py           # Entry point
-├── cli.py                # Command-line interface
-├── config.py             # Configuration management
-├── git_utils.py          # Git repository interactions
-├── openai_utils.py       # OpenAI API integration
-├── utils.py              # Utility functions
-└── templates/            # Prompt templates
-    ├── changelog_prompt.txt
-    ├── commits_prompt.txt
-    └── version_prompt.txt
-```
+Diagnostics use stderr. Raw Markdown or JSON uses stdout only for `--dry-run` or `--output -`. Textual is optional and auto-selected only when both input and output are interactive terminals.
 
-### Dependency Graph
+The CLI passes repository paths through APIs rather than changing the process-wide working directory.
 
-```mermaid
-graph TD
-    cli --> config
-    cli --> git_utils
-    cli --> openai_utils
-    cli --> utils
-    openai_utils --> utils
-    git_utils --> utils
-    config --> utils
-```
+## Testing strategy
 
-## Extension Points
-
-GPTChangelog is designed to be extensible. Here are the main extension points:
-
-### Custom Templates
-
-You can provide custom templates for:
-- Commit processing
-- Version determination
-- Changelog generation
-
-These templates can be placed in a `.gptchangelog/templates/` directory.
-
-### Custom Git Integration
-
-The git utilities module can be extended to support additional:
-- Repository types
-- Commit formats
-- Versioning schemes
-
-### Output Formats
-
-The changelog generation can be extended to support additional output formats:
-- HTML
-- JSON
-- Release notes
-
-## Error Handling
-
-GPTChangelog implements a comprehensive error handling strategy:
-
-1. **Configuration Errors**: Handled by providing clear error messages and suggestions
-2. **Git Errors**: Handled with appropriate fallbacks and user guidance
-3. **API Errors**: Includes retry logic, rate limiting awareness, and fallback behavior
-4. **File I/O Errors**: Includes proper error reporting and safe file operations
-
-## Performance Considerations
-
-GPTChangelog addresses several performance considerations:
-
-1. **Large Repositories**: Batch processing for repositories with many commits
-2. **Token Optimization**: Smart token usage to minimize API costs
-3. **Caching**: Optional caching of API responses for repeated operations
-4. **Progress Reporting**: Progress indicators for long-running operations
-
-## Security Considerations
-
-GPTChangelog implements these security measures:
-
-1. **API Key Handling**: Secure storage of API keys
-2. **File Permissions**: Safe file operations with proper permissions
-3. **Configuration Isolation**: Separation of global and project-specific configuration
-4. **Error Sanitization**: Safe error reporting without exposing sensitive information
+Unit and integration tests cover Git range edge cases, deterministic versions,
+provider failures, structured response parsing, localization, writer atomicity,
+duplicate releases, output stream separation, non-TTY UI behavior, rendered
+Markdown and JSON contracts, and configuration precedence.

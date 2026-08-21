@@ -2,7 +2,16 @@
 
 ### Prerequisites
 
-Make sure you have Python installed on your system. You can download Python from [python.org](https://www.python.org/). Install the [uv](https://docs.astral.sh/uv/) CLI for dependency management if you plan to work with the project from source.
+Install Python 3.12 or newer. Install the [uv](https://docs.astral.sh/uv/) CLI if you plan to work with the project from source.
+
+For a normal installation:
+
+```sh
+pip install gptchangelog
+
+# Optional Textual interface
+pip install 'gptchangelog[tui]'
+```
 
 ### Steps to Install
 
@@ -16,7 +25,7 @@ Make sure you have Python installed on your system. You can download Python from
 2. **Sync Dependencies with uv:**
 
    ```sh
-   uv sync --dev --extra docs --extra release
+   uv sync --dev --extra docs --extra release --extra tui
    ```
 
    This command creates a managed `.venv` and installs the package in editable mode together with tooling required for development, documentation, and release workflows.
@@ -67,7 +76,10 @@ uv run pytest
 uv pip uninstall gptchangelog
 ```
 
-### Troubleshooting
+### Authentication
 
-- **Common Issues:** Provide solutions for common issues here.
-- **Support:** Include information on how to get support if they run into problems (e.g., creating an issue on GitHub).
+Export `OPENAI_API_KEY` for OpenAI API usage, or run `codex login` for Codex subscription usage. Validate the resolved configuration with:
+
+```sh
+uv run gptchangelog config validate
+```

@@ -1,43 +1,92 @@
+"""Provider adapters for OpenAI Responses and Codex CLI.
+
+The Codex adapter intentionally delegates authentication and token refresh to the
+official ``codex`` executable. It never reads Codex credential files directly.
+"""
+
 import json
 import os
-from dataclasses import dataclass
+import re
+import subprocess
+import tempfile
+import time
+from dataclasses import dataclass, replace
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, Literal, Mapping, Optional, Tuple
+from typing import Any, Dict, Literal, Mapping, Optional, Sequence, cast
 
-import httpx
 from openai import OpenAI
 
 ProviderName = Literal["openai", "codex"]
+ModelProfile = Literal["fast", "balanced", "quality"]
+ReasoningEffort = Literal["minimal", "low", "medium", "high", "xhigh"]
 
 OPENAI_PROVIDER: ProviderName = "openai"
 CODEX_PROVIDER: ProviderName = "codex"
-OPENAI_DEFAULT_MODEL = "gpt-5.5"
-CODEX_DEFAULT_MODEL = "gpt-5.4-mini"
-CODEX_RESPONSES_URL = "https://chatgpt.com/backend-api/codex/responses"
+
+BALANCED_MODEL = "gpt-5.6-terra"
+QUALITY_MODEL = "gpt-5.6-sol"
+OPENAI_DEFAULT_MODEL = BALANCED_MODEL
+CODEX_DEFAULT_MODEL = BALANCED_MODEL
+DEFAULT_MODEL_PROFILE: ModelProfile = "balanced"
+
+MODEL_PROFILES: Mapping[ProviderName, Mapping[ModelProfile, str]] = {
+    OPENAI_PROVIDER: {
+        "fast": BALANCED_MODEL,
+        "balanced": BALANCED_MODEL,
+        "quality": QUALITY_MODEL,
+    },
+    CODEX_PROVIDER: {
+        "fast": BALANCED_MODEL,
+        "balanced": BALANCED_MODEL,
+        "quality": QUALITY_MODEL,
+    },
+}
+
+
+class ProviderError(RuntimeError):
+    """Raised when a configured provider cannot complete a request."""
+
+
+class ProviderConfigurationError(ValueError, RuntimeError):
+    """Raised for an unsupported provider, profile, or provider setting."""
+
+
+class StructuredResponseError(ProviderError):
+    """Raised when a provider does not return a JSON object as requested."""
 
 
 @dataclass(frozen=True)
 class ProviderSettings:
     provider: ProviderName
     api_key: Optional[str] = None
-    codex_access_token: Optional[str] = None
-    codex_responses_url: str = CODEX_RESPONSES_URL
+    timeout_seconds: float = 120.0
+    max_retries: int = 2
+    codex_executable: str = "codex"
 
 
 @dataclass(frozen=True)
-class CodexAuthState:
-    access_token: str
-    refresh_token: Optional[str] = None
-    account_id: Optional[str] = None
+class ProviderDoctorResult:
+    provider: ProviderName
+    ok: bool
+    message: str
 
 
 _provider_settings = ProviderSettings(provider=OPENAI_PROVIDER)
 
 
 def configure_provider(settings: ProviderSettings) -> None:
+    """Set process-local provider settings used by generation helpers."""
+
     global _provider_settings
-    _provider_settings = settings
+    if settings.timeout_seconds <= 0:
+        raise ProviderConfigurationError("Provider timeout must be greater than zero.")
+    if settings.max_retries < 0:
+        raise ProviderConfigurationError("Provider max_retries cannot be negative.")
+
+    _provider_settings = replace(
+        settings, provider=normalize_provider(settings.provider)
+    )
     get_openai_client.cache_clear()
 
 
@@ -45,109 +94,70 @@ def get_provider_settings() -> ProviderSettings:
     return _provider_settings
 
 
-def get_default_model(provider: ProviderName) -> str:
-    return CODEX_DEFAULT_MODEL if provider == CODEX_PROVIDER else OPENAI_DEFAULT_MODEL
-
-
 def normalize_provider(provider: Optional[str]) -> ProviderName:
-    normalized = (provider or OPENAI_PROVIDER).strip().lower()
-    if normalized == CODEX_PROVIDER:
-        return CODEX_PROVIDER
-    return OPENAI_PROVIDER
+    normalized = OPENAI_PROVIDER if provider is None else provider.strip().lower()
+    if normalized not in {OPENAI_PROVIDER, CODEX_PROVIDER}:
+        raise ProviderConfigurationError(
+            f"Unsupported provider {provider!r}; expected 'openai' or 'codex'."
+        )
+    return cast(ProviderName, normalized)
 
 
-def resolve_codex_home(env: Optional[Mapping[str, str]] = None) -> Path:
-    env_values: Mapping[str, str] = env or os.environ
-    configured = (env_values.get("CODEX_HOME") or "").strip()
-    if not configured:
-        return Path.home() / ".codex"
-    if configured == "~":
-        return Path.home()
-    if configured.startswith("~/"):
-        return Path.home() / configured[2:]
-    return Path(configured).expanduser()
+def normalize_profile(profile: Optional[str]) -> ModelProfile:
+    normalized = DEFAULT_MODEL_PROFILE if profile is None else profile.strip().lower()
+    if normalized not in {"fast", "balanced", "quality"}:
+        raise ProviderConfigurationError(
+            f"Unsupported model profile {profile!r}; expected fast, balanced, or quality."
+        )
+    return cast(ModelProfile, normalized)
 
 
-def read_codex_auth(
-    env: Optional[Mapping[str, str]] = None,
-) -> Optional[CodexAuthState]:
-    auth_path = resolve_codex_home(env) / "auth.json"
-    try:
-        payload = json.loads(auth_path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError, OSError):
-        return None
-
-    tokens = payload.get("tokens") if isinstance(payload, dict) else None
-    if not isinstance(tokens, dict):
-        return None
-
-    access_token = tokens.get("access_token")
-    if not isinstance(access_token, str) or not access_token.strip():
-        return None
-
-    refresh_token = tokens.get("refresh_token")
-    account_id = tokens.get("account_id")
-    return CodexAuthState(
-        access_token=access_token.strip(),
-        refresh_token=(
-            refresh_token.strip()
-            if isinstance(refresh_token, str) and refresh_token.strip()
-            else None
-        ),
-        account_id=(
-            account_id.strip()
-            if isinstance(account_id, str) and account_id.strip()
-            else None
-        ),
-    )
+def get_profile_model(provider: ProviderName, profile: Optional[str] = None) -> str:
+    normalized_provider = normalize_provider(provider)
+    normalized_profile = normalize_profile(profile)
+    return MODEL_PROFILES[normalized_provider][normalized_profile]
 
 
-def has_codex_auth(env: Optional[Mapping[str, str]] = None) -> bool:
-    return read_codex_auth(env) is not None
+def get_default_model(provider: ProviderName) -> str:
+    return get_profile_model(provider, DEFAULT_MODEL_PROFILE)
 
 
-@lru_cache(maxsize=4)
-def get_openai_client(api_key: Optional[str] = None) -> OpenAI:
+def resolve_model(
+    provider: ProviderName,
+    *,
+    profile: Optional[str] = None,
+    model: Optional[str] = None,
+) -> str:
+    """Resolve an explicit model override before the selected profile."""
+
+    normalized_provider = normalize_provider(provider)
+    normalized_profile = normalize_profile(profile)
+    if model is not None:
+        explicit_model = model.strip()
+        if not explicit_model:
+            raise ProviderConfigurationError("An explicit model cannot be empty.")
+        return explicit_model
+    return MODEL_PROFILES[normalized_provider][normalized_profile]
+
+
+@lru_cache(maxsize=8)
+def get_openai_client(
+    api_key: Optional[str] = None,
+    timeout_seconds: float = 120.0,
+    max_retries: int = 2,
+) -> OpenAI:
+    kwargs: Dict[str, Any] = {
+        "timeout": timeout_seconds,
+        "max_retries": max_retries,
+    }
     if api_key:
-        return OpenAI(api_key=api_key)
-    return OpenAI()
-
-
-def _collect_text_from_output(output_items: Any) -> List[str]:
-    texts: List[str] = []
-    if not output_items:
-        return texts
-
-    for item in output_items:
-        content_list = getattr(item, "content", None)
-        if content_list is None and isinstance(item, dict):
-            content_list = item.get("content")
-
-        if not content_list:
-            continue
-
-        for content in content_list:
-            text_obj = getattr(content, "text", None)
-            if text_obj and hasattr(text_obj, "value") and text_obj.value:
-                texts.append(text_obj.value)
-                continue
-
-            if isinstance(content, dict):
-                text_data = content.get("text")
-                if isinstance(text_data, dict) and text_data.get("value"):
-                    texts.append(text_data["value"])
-                    continue
-
-                for key in ("value", "content", "text"):
-                    value = content.get(key)
-                    if isinstance(value, str):
-                        texts.append(value)
-                        break
-
-    return texts
+        kwargs["api_key"] = api_key
+    return OpenAI(**kwargs)
 
 
 def extract_response_text(response: Any) -> str:
+    """Extract output text from a Responses API object without SDK internals."""
+
     if response is None:
         return ""
 
@@ -159,160 +169,324 @@ def extract_response_text(response: Any) -> str:
         if joined.strip():
             return joined.strip()
 
-    texts = _collect_text_from_output(getattr(response, "output", None))
-    if texts:
-        return "\n".join(texts).strip()
+    payload = response.model_dump() if hasattr(response, "model_dump") else response
+    if not isinstance(payload, Mapping):
+        return str(response).strip()
 
-    if hasattr(response, "model_dump"):
-        payload = response.model_dump()
-        texts = _collect_text_from_output(payload.get("output"))  # type: ignore[arg-type]
-        if texts:
-            return "\n".join(texts).strip()
+    texts = []
+    for item in payload.get("output", []) or []:
+        item_payload = item if isinstance(item, Mapping) else {}
+        for content in item_payload.get("content", []) or []:
+            content_payload = content if isinstance(content, Mapping) else {}
+            text_value = content_payload.get("text")
+            if isinstance(text_value, str):
+                texts.append(text_value)
+            elif isinstance(text_value, Mapping):
+                value = text_value.get("value")
+                if isinstance(value, str):
+                    texts.append(value)
+    return "\n".join(texts).strip()
 
-    return str(response).strip()
 
-
-def create_text_response(model: str, instructions: str, prompt: str) -> str:
+def create_text_response(
+    model: str,
+    instructions: str,
+    prompt: str,
+    reasoning: Optional[ReasoningEffort] = None,
+) -> str:
     settings = get_provider_settings()
     if settings.provider == CODEX_PROVIDER:
-        return _create_codex_text_response(
+        return _create_codex_response(
             model=model,
             instructions=instructions,
             prompt=prompt,
             settings=settings,
+            reasoning=reasoning,
         )
 
-    response = get_openai_client(settings.api_key).responses.create(
-        model=model,
-        instructions=instructions,
-        input=prompt,
+    request: Dict[str, Any] = {
+        "model": model,
+        "instructions": instructions,
+        "input": prompt,
+        "store": False,
+    }
+    if reasoning:
+        request["reasoning"] = {"effort": reasoning}
+
+    try:
+        response = _openai_client_for(settings).responses.create(**request)
+    except Exception as exc:
+        raise ProviderError(f"OpenAI response failed: {exc}") from exc
+
+    text = extract_response_text(response)
+    if not text:
+        raise ProviderError("OpenAI returned an empty response.")
+    return text
+
+
+def create_structured_response(
+    model: str,
+    instructions: str,
+    prompt: str,
+    json_schema: Mapping[str, Any],
+    reasoning: Optional[ReasoningEffort] = None,
+) -> Dict[str, Any]:
+    """Generate and decode a strict JSON object matching ``json_schema``."""
+
+    if not isinstance(json_schema, Mapping) or not json_schema:
+        raise ProviderConfigurationError("A non-empty JSON schema is required.")
+
+    settings = get_provider_settings()
+    if settings.provider == CODEX_PROVIDER:
+        text = _create_codex_response(
+            model=model,
+            instructions=instructions,
+            prompt=prompt,
+            settings=settings,
+            json_schema=json_schema,
+            reasoning=reasoning,
+        )
+    else:
+        request: Dict[str, Any] = {
+            "model": model,
+            "instructions": instructions,
+            "input": prompt,
+            "store": False,
+            "text": {
+                "format": {
+                    "type": "json_schema",
+                    "name": _schema_name(json_schema),
+                    "schema": dict(json_schema),
+                    "strict": True,
+                }
+            },
+        }
+        if reasoning:
+            request["reasoning"] = {"effort": reasoning}
+        try:
+            response = _openai_client_for(settings).responses.create(**request)
+        except Exception as exc:
+            raise ProviderError(f"OpenAI structured response failed: {exc}") from exc
+        text = extract_response_text(response)
+
+    if not text:
+        raise StructuredResponseError("The provider returned an empty response.")
+    try:
+        decoded = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise StructuredResponseError(
+            f"The provider returned invalid JSON: {exc.msg}."
+        ) from exc
+    if not isinstance(decoded, dict):
+        raise StructuredResponseError("The provider JSON response must be an object.")
+    return decoded
+
+
+def _openai_client_for(settings: ProviderSettings) -> OpenAI:
+    return get_openai_client(
+        settings.api_key,
+        settings.timeout_seconds,
+        settings.max_retries,
     )
-    return extract_response_text(response)
 
 
-def _create_codex_text_response(
+def _schema_name(schema: Mapping[str, Any]) -> str:
+    title = schema.get("title")
+    candidate = title if isinstance(title, str) else "gptchangelog_response"
+    normalized = re.sub(r"[^A-Za-z0-9_-]+", "_", candidate).strip("_")
+    return (normalized or "gptchangelog_response")[:64]
+
+
+def _create_codex_response(
+    *,
     model: str,
     instructions: str,
     prompt: str,
     settings: ProviderSettings,
+    json_schema: Optional[Mapping[str, Any]] = None,
+    reasoning: Optional[ReasoningEffort] = None,
 ) -> str:
-    auth = _resolve_codex_auth(settings)
-    headers = {
-        "Authorization": f"Bearer {auth.access_token}",
-        "Accept": "text/event-stream",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": model,
-        "instructions": instructions,
-        "store": False,
-        "stream": True,
-        "input": [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "input_text",
-                        "text": prompt,
-                    }
-                ],
-            }
-        ],
-    }
+    """Invoke the supported Codex CLI in a temporary read-only workspace."""
 
-    with httpx.stream(
-        "POST",
-        settings.codex_responses_url,
-        headers=headers,
-        json=payload,
-        timeout=120,
-    ) as response:
-        if response.status_code >= 400:
-            raise RuntimeError(_format_codex_error(response))
+    with tempfile.TemporaryDirectory(prefix="gptchangelog-codex-") as temp_dir:
+        temp_path = Path(temp_dir)
+        output_path = temp_path / "last-message.txt"
+        command = [
+            settings.codex_executable,
+            "exec",
+            "--ephemeral",
+            "--sandbox",
+            "read-only",
+            "--skip-git-repo-check",
+            "--color",
+            "never",
+            "--cd",
+            temp_dir,
+            "--model",
+            model,
+            "--output-last-message",
+            str(output_path),
+        ]
 
-        text = _collect_codex_sse_text(response.iter_lines())
-        if text:
-            return text
+        if reasoning:
+            command.extend(["--config", f'model_reasoning_effort="{reasoning}"'])
+        if json_schema is not None:
+            schema_path = temp_path / "response-schema.json"
+            schema_path.write_text(json.dumps(dict(json_schema)), encoding="utf-8")
+            command.extend(["--output-schema", str(schema_path)])
+        command.append("-")
 
-        raise RuntimeError("Codex returned an empty response.")
-
-
-def _resolve_codex_auth(settings: ProviderSettings) -> CodexAuthState:
-    if settings.codex_access_token:
-        return CodexAuthState(access_token=settings.codex_access_token)
-
-    auth = read_codex_auth()
-    if auth is None:
-        raise RuntimeError(
-            "No Codex login found. Run `codex login` or `codex`, choose 'Sign in with ChatGPT', then retry."
+        combined_prompt = _codex_prompt(
+            instructions, prompt, structured=json_schema is not None
         )
-    return auth
-
-
-def _format_codex_error(response: httpx.Response) -> str:
-    try:
-        payload = response.json()
-    except ValueError:
-        payload = response.text.strip()
-
-    if isinstance(payload, dict):
-        detail = payload.get("detail") or payload.get("error") or payload
-        return f"Codex backend error ({response.status_code}): {detail}"
-
-    return f"Codex backend error ({response.status_code}): {payload or response.reason_phrase}"
-
-
-def _collect_codex_sse_text(lines: Iterable[str]) -> str:
-    chunks: List[str] = []
-    fallback_text: Optional[str] = None
-
-    for _event_name, payload in _iter_sse_events(lines):
-        if payload == "[DONE]":
-            break
+        _run_codex(command, combined_prompt, settings)
 
         try:
-            event = json.loads(payload)
-        except json.JSONDecodeError:
-            continue
+            output = output_path.read_text(encoding="utf-8").strip()
+        except OSError as exc:
+            raise ProviderError(
+                "Codex completed without writing its final response."
+            ) from exc
+        if not output:
+            raise ProviderError("Codex returned an empty response.")
+        return output
 
-        event_type = event.get("type")
-        if event_type == "response.output_text.delta":
-            delta = event.get("delta")
-            if isinstance(delta, str):
-                chunks.append(delta)
-        elif event_type == "response.output_text.done":
-            text = event.get("text")
-            if isinstance(text, str):
-                fallback_text = text
-        elif event_type == "response.failed":
-            detail = (
-                event.get("response", {}).get("error")
-                if isinstance(event.get("response"), dict)
-                else None
+
+def _codex_prompt(instructions: str, prompt: str, *, structured: bool) -> str:
+    response_requirement = (
+        "Return only the JSON object required by the supplied output schema."
+        if structured
+        else "Return only the requested final text."
+    )
+    return (
+        "Complete this generation task directly without using shell commands or tools.\n"
+        f"{response_requirement}\n\n"
+        "Instructions:\n"
+        f"{instructions.strip()}\n\n"
+        "Input data:\n"
+        f"{prompt.strip()}\n"
+    )
+
+
+def _run_codex(command: Sequence[str], prompt: str, settings: ProviderSettings) -> None:
+    attempts = settings.max_retries + 1
+    last_error = "Codex execution failed."
+
+    for attempt in range(attempts):
+        try:
+            completed = subprocess.run(
+                list(command),
+                input=prompt,
+                capture_output=True,
+                text=True,
+                timeout=settings.timeout_seconds,
+                check=False,
             )
-            raise RuntimeError(f"Codex generation failed: {detail or event}")
+        except FileNotFoundError as exc:
+            raise ProviderError(
+                f"Codex executable {settings.codex_executable!r} was not found. "
+                "Install Codex CLI and run `codex login`."
+            ) from exc
+        except subprocess.TimeoutExpired:
+            last_error = f"Codex timed out after {settings.timeout_seconds:g} seconds."
+            transient = True
+        else:
+            if completed.returncode == 0:
+                return
+            detail = (completed.stderr or completed.stdout or "unknown error").strip()
+            last_error = f"Codex exited with status {completed.returncode}: {detail}"
+            transient = _is_transient_error(detail)
 
-    return "".join(chunks).strip() or (fallback_text or "").strip()
+        if not transient or attempt == attempts - 1:
+            raise ProviderError(last_error)
+        time.sleep(min(2**attempt, 4))
+
+    raise ProviderError(last_error)
 
 
-def _iter_sse_events(lines: Iterable[str]) -> Iterator[Tuple[Optional[str], str]]:
-    event_name: Optional[str] = None
-    data_lines: List[str] = []
+def _is_transient_error(detail: str) -> bool:
+    normalized = detail.lower()
+    return any(
+        marker in normalized
+        for marker in (
+            "timed out",
+            "timeout",
+            "temporarily unavailable",
+            "rate limit",
+            "429",
+            "500",
+            "502",
+            "503",
+            "504",
+            "connection reset",
+            "connection refused",
+        )
+    )
 
-    for raw_line in lines:
-        line = raw_line.rstrip("\r")
-        if not line:
-            if data_lines:
-                yield event_name, "\n".join(data_lines)
-                event_name = None
-                data_lines = []
-            continue
 
-        if line.startswith("event:"):
-            event_name = line[len("event:") :].strip() or None
-            continue
-        if line.startswith("data:"):
-            data_lines.append(line[len("data:") :].lstrip())
+def codex_login_status(
+    env: Optional[Mapping[str, str]] = None,
+    *,
+    executable: str = "codex",
+    timeout_seconds: float = 10.0,
+) -> ProviderDoctorResult:
+    """Ask Codex CLI for login state without inspecting credential files."""
 
-    if data_lines:
-        yield event_name, "\n".join(data_lines)
+    command_env = os.environ.copy()
+    if env is not None:
+        command_env.update(env)
+    try:
+        completed = subprocess.run(
+            [executable, "login", "status"],
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+            check=False,
+            env=command_env,
+        )
+    except FileNotFoundError:
+        return ProviderDoctorResult(
+            provider=CODEX_PROVIDER,
+            ok=False,
+            message="Codex CLI is not installed or is not on PATH.",
+        )
+    except subprocess.TimeoutExpired:
+        return ProviderDoctorResult(
+            provider=CODEX_PROVIDER,
+            ok=False,
+            message="`codex login status` timed out.",
+        )
+
+    detail = (completed.stdout or completed.stderr or "").strip()
+    if completed.returncode == 0:
+        return ProviderDoctorResult(
+            provider=CODEX_PROVIDER,
+            ok=True,
+            message=detail or "Codex login is available.",
+        )
+    return ProviderDoctorResult(
+        provider=CODEX_PROVIDER,
+        ok=False,
+        message=detail or "Codex is not logged in; run `codex login`.",
+    )
+
+
+def has_codex_auth(env: Optional[Mapping[str, str]] = None) -> bool:
+    return codex_login_status(env).ok
+
+
+def doctor_provider(settings: ProviderSettings) -> ProviderDoctorResult:
+    provider = normalize_provider(settings.provider)
+    if provider == CODEX_PROVIDER:
+        return codex_login_status(executable=settings.codex_executable)
+    if settings.api_key or os.environ.get("OPENAI_API_KEY"):
+        return ProviderDoctorResult(
+            provider=OPENAI_PROVIDER,
+            ok=True,
+            message="OpenAI API key is configured.",
+        )
+    return ProviderDoctorResult(
+        provider=OPENAI_PROVIDER,
+        ok=False,
+        message="OPENAI_API_KEY is not configured.",
+    )

@@ -8,7 +8,7 @@ keywords:
   - configuration
   - basic usage
   - advanced usage
-  - templates
+  - output contract
   - changelog generator
 ---
 
@@ -23,7 +23,7 @@ Start here to install, configure, and use GPTChangelog effectively. The guides b
   - Go to the Installation guide: [Installation](installation.md)
 
 - Configuration
-  - Configure GPTChangelog globally or per project, set your OpenAI model and token limits.
+  - Configure providers, GPT-5.6 profiles, explicit models, and authentication.
   - Go to the Configuration guide: [Configuration](configuration.md)
 
 - Basic Usage
@@ -31,15 +31,16 @@ Start here to install, configure, and use GPTChangelog effectively. The guides b
   - Go to Basic Usage: [Basic Usage](basic-usage.md)
 
 - Advanced Usage
-  - Interactive mode, custom commit ranges, CI/CD integration, performance optimization, and troubleshooting.
+  - JSON output, CI/CD integration, validation, large ranges, and troubleshooting.
   - Go to Advanced Usage: [Advanced Usage](advanced-usage.md)
 
-- Templates
-  - Customize prompt templates to control commit processing, versioning, and changelog formatting.
-  - Go to Templates: [Templates](templates.md)
+- Output contract
+  - Understand the strict model schema and deterministic release mechanics.
+  - Go to Output contract: [Output contract](templates.md)
 
 ## Tips for Best Results
 
 - Follow Conventional Commits (feat:, fix:, docs:, refactor:, etc.) for clearer categorization.
 - Tag your releases (e.g., v1.2.3) so version detection works consistently.
-- Use interactive mode to fine-tune AI-generated content before saving.
+- Use `--check` in release automation before allowing a file update.
+- Use `--profile balanced` for GPT-5.6 Terra or `--profile quality` for GPT-5.6 Sol.

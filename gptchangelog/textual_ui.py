@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
+from rich.markup import escape
+
 
 @dataclass
 class TextualDisplayData:
@@ -10,7 +12,7 @@ class TextualDisplayData:
     changelog: str
     next_version: str
     stats: Optional[Dict[str, Any]] = None
-    quality_metrics: Optional[Dict[str, Any]] = None
+    validation: Optional[Dict[str, Any]] = None
     compare_url: Optional[str] = None
     contributors: Optional[List[str]] = None
 
@@ -24,7 +26,7 @@ def display_textual_result(data: TextualDisplayData) -> None:
         from textual.widgets import Footer, Header, Markdown, Static
     except ImportError as exc:  # pragma: no cover - handled by caller
         raise ImportError(
-            "Textual is not installed. Install gptchangelog with the textual dependency "
+            "Textual is not installed. Install `gptchangelog[tui]` "
             "or run with '--ui plain'."
         ) from exc
 
@@ -69,9 +71,9 @@ def display_textual_result(data: TextualDisplayData) -> None:
             if stats_text:
                 sidebar_children.append(Static(stats_text, id="stats"))
 
-            quality_text = self._quality_text()
-            if quality_text:
-                sidebar_children.append(Static(quality_text, id="quality"))
+            validation_text = self._validation_text()
+            if validation_text:
+                sidebar_children.append(Static(validation_text, id="validation"))
 
             yield Container(
                 Horizontal(
@@ -85,15 +87,17 @@ def display_textual_result(data: TextualDisplayData) -> None:
 
         def _summary_text(self) -> str:
             lines = [
-                f"[b]Repository:[/b] {self._result.repo_name}",
-                f"[b]Next Version:[/b] {self._result.next_version}",
+                f"[b]Repository:[/b] {escape(self._result.repo_name)}",
+                f"[b]Next Version:[/b] {escape(self._result.next_version)}",
             ]
 
             if self._result.compare_url:
-                lines.append(f"[link={self._result.compare_url}]Compare changes[/link]")
+                lines.append(f"[b]Compare:[/b] {escape(self._result.compare_url)}")
 
             if self._result.contributors:
-                contributor_list = ", ".join(self._result.contributors[:10])
+                contributor_list = ", ".join(
+                    escape(name) for name in self._result.contributors[:10]
+                )
                 if len(self._result.contributors) > 10:
                     contributor_list += ", …"
                 lines.append(f"[b]Contributors:[/b] {contributor_list}")
@@ -117,55 +121,31 @@ def display_textual_result(data: TextualDisplayData) -> None:
             by_type = stats.get("by_type") or {}
             if by_type:
                 type_snippets = ", ".join(
-                    f"{kind} ({count})" for kind, count in sorted(by_type.items())
+                    f"{escape(str(kind))} ({count})"
+                    for kind, count in sorted(by_type.items())
                 )
                 parts.append(f"• Types: {type_snippets}")
 
             components = stats.get("most_changed_components") or []
             if components:
                 component_snippets = ", ".join(
-                    f"{comp} ({count})" for comp, count in components[:5]
+                    f"{escape(str(comp))} ({count})" for comp, count in components[:5]
                 )
                 parts.append(f"• Hot components: {component_snippets}")
 
             return "\n".join(parts)
 
-        def _quality_text(self) -> Optional[str]:
-            metrics = self._result.quality_metrics or {}
-            if not metrics:
+        def _validation_text(self) -> Optional[str]:
+            validation = self._result.validation or {}
+            if not validation:
                 return None
 
-            parts = ["[b]Quality Analysis[/b]"]
-            score = metrics.get("quality_score")
-            if score is not None:
-                parts.append(f"Score: {score}/100")
-
-            checklist = []
-            if metrics.get("has_proper_header") is not None:
-                checklist.append(
-                    f"Header: {'✅' if metrics['has_proper_header'] else '❌'}"
-                )
-            if metrics.get("has_categories") is not None:
-                checklist.append(
-                    f"Categories: {'✅' if metrics['has_categories'] else '❌'}"
-                )
-            if metrics.get("has_bullet_points") is not None:
-                checklist.append(
-                    f"Bullets: {'✅' if metrics['has_bullet_points'] else '❌'}"
-                )
-            if checklist:
-                parts.append(" • ".join(checklist))
-
-            avg_bullet_length = metrics.get("avg_bullet_length")
-            if avg_bullet_length is not None:
-                parts.append(f"Average bullet length: {avg_bullet_length:.1f} chars")
-
-            if metrics.get("has_breaking_changes"):
-                parts.append("⚠️ Breaking changes detected")
-
-            empty_sections = metrics.get("empty_sections")
-            if empty_sections:
-                parts.append(f"⚠️ Empty sections: {empty_sections}")
+            valid = bool(validation.get("valid"))
+            parts = ["[b]Validation[/b]", "✅ Passed" if valid else "❌ Failed"]
+            parts.append(f"Sections: {validation.get('section_count', 0)}")
+            parts.append(f"Entries: {validation.get('entry_count', 0)}")
+            for error in validation.get("validation_errors", []):
+                parts.append(f"• {error}")
 
             return "\n".join(parts)
 

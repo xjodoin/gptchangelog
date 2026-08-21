@@ -1,87 +1,53 @@
 ---
-title: AI-Powered Changelog Generator for Git | GPTChangelog
-description: Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI. Supports Conventional Commits and semantic versioning with a powerful Python CLI.
-keywords:
-  - changelog generator
-  - AI changelog
-  - git changelog
-  - conventional commits
-  - semantic versioning
-  - release notes
-  - python cli
-  - openai
-  - gptchangelog
+title: GPTChangelog
+description: Generate validated, source-grounded changelogs from Git history.
 ---
 
 # GPTChangelog
 
-**Automatically generate detailed, well-structured changelogs from your git commit history using OpenAI's GPT models.**
+GPTChangelog generates source-grounded release notes from Git history while keeping release mechanics deterministic and safe.
 
-## Overview
+## What it does
 
-GPTChangelog is a powerful command-line tool that leverages OpenAI's GPT models to automatically generate high-quality changelogs from your git commit history. It analyzes your commit messages, categorizes changes, and creates a beautifully formatted changelog in Markdown format.
+- Validates the requested Git range before contacting a model
+- Includes the root commit correctly for first releases
+- Classifies conventional and inferred commit types
+- Calculates the next semantic version locally
+- Makes one structured model request for release-note synthesis
+- Requires source commit IDs for generated entries
+- Renders consistent English, French, or Spanish Markdown
+- Rejects malformed or duplicate releases
+- Updates changelog files atomically
+- Produces clean Markdown or JSON for CI pipelines
 
-## Key Features
+## Models
 
-- 🤖 **AI-powered Analysis**: Uses OpenAI's GPT models to understand commit messages and generate meaningful changelog entries
-- 🔄 **Semantic Versioning**: Automatically determines the next version based on the changes detected
-- 🏷️ **Smart Categorization**: Groups changes into categories like features, bug fixes, and improvements
-- ✨ **Beautiful Formatting**: Creates well-structured Markdown with emojis and consistent styling
-- 🧠 **Conventional Commit Support**: Works with conventional commit messages (feat:, fix:, etc.)
-- 🖋️ **Interactive Mode**: Allows you to review and edit the changelog before saving
-- 🛠️ **Flexible Configuration**: Supports both global and project-specific settings
-
-## Quick Example
-
-Here's what a generated changelog might look like:
-
-```markdown
-## [1.2.0] - 2024-10-20
-
-### ✨ Features
-- Add support for interactive editing mode
-- Implement automatic conventional commit detection
-
-### 🐛 Bug Fixes
-- Resolve issue with version detection on Windows
-- Fix token counting logic for large repositories
-
-### 🔄 Changes
-- Update default model to gpt-5.5
-- Add Textual-powered terminal UI for reviewing generated changelogs
-- Improve commit message grouping algorithm
-
-### 🔧 Maintenance
-- Update dependencies to latest versions
-```
-
-## Getting Started
+The default `balanced` profile uses GPT-5.6 Terra. The `quality` profile uses GPT-5.6 Sol.
 
 ```bash
-# Install GPTChangelog
+gptchangelog generate --profile balanced
+gptchangelog generate --profile quality
+```
+
+## Quick start
+
+```bash
 pip install gptchangelog
-
-# Initialize configuration
-gptchangelog config init
-
-# Generate changelog
+export OPENAI_API_KEY='...'
 gptchangelog generate
 ```
 
-Check out the [Getting Started](getting-started.md) guide for more detailed instructions.
+Or reuse a Codex login:
 
-## Why GPTChangelog?
+```bash
+codex login
+gptchangelog generate --provider codex
+```
 
-Maintaining a good changelog is essential for any project, but it can be tedious and time-consuming. GPTChangelog automates this process, saving you time while creating high-quality, consistent changelogs that your users will appreciate.
+Preview without writing:
 
-GPTChangelog excels at:
+```bash
+gptchangelog generate --dry-run > release.md
+```
 
-- Understanding the intent behind commit messages
-- Grouping related changes together
-- Eliminating redundancy and noise
-- Creating human-readable descriptions
-- Maintaining consistent formatting
-
-## License
-
-GPTChangelog is released under the MIT License.
+Continue with [Getting Started](getting-started.md) or browse the [User Guide](user-guide/index.md).

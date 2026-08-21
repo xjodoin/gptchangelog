@@ -1,263 +1,135 @@
-import logging
+"""Compatibility API backed by the one-call structured generator."""
+
+from __future__ import annotations
+
 import re
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
-from openai import OpenAIError
-
-from .openai_client import create_text_response
-from .utils import render_prompt
-
-logger = logging.getLogger(__name__)
+from .enhanced_git_utils import CommitInfo
+from .enhanced_openai_utils import (
+    DEFAULT_MODEL,
+    EnhancedChangelogGenerator,
+    determine_version_impact,
+    increment_semver,
+)
+from .git_utils import analyze_commit_message
 
 
 def process_commit_messages(
-    raw_commit_messages: str, model: str, context: Optional[Dict[str, Any]] = None
+    raw_commit_messages: str,
+    model: str = DEFAULT_MODEL,
+    context: Optional[Dict[str, Any]] = None,
 ) -> str:
-    """
-    Process and refine commit messages using the OpenAI API.
-
-    Args:
-        raw_commit_messages: The raw commit messages to process
-        model: The OpenAI model to use
-        context: Additional context information for the prompts
-
-    Returns:
-        Processed commit messages as a single string
-    """
-    if not context:
-        context = {}
-
-    commit_text = raw_commit_messages.strip()
-    if not commit_text:
-        return ""
-
-    prompt_context = {**context, "commit_messages": commit_text}
-
-    prompt = render_prompt(
-        "templates/commits_prompt.txt",
-        prompt_context,
+    """Normalize commit whitespace without spending a separate model call."""
+    del model, context
+    return "\n".join(
+        re.sub(r"\s+", " ", line).strip()
+        for line in raw_commit_messages.splitlines()
+        if line.strip()
     )
 
-    try:
-        return create_text_response(
-            model=model,
-            instructions=(
-                "You are an assistant that analyzes and refines git commit messages to prepare them for "
-                "changelog generation. You categorize commits by type, identify breaking changes, and "
-                "improve clarity and consistency."
-            ),
-            prompt=prompt,
+
+def _legacy_commits(commit_messages: str) -> List[CommitInfo]:
+    commits: List[CommitInfo] = []
+    for index, line in enumerate(commit_messages.splitlines(), start=1):
+        message = line.strip()
+        if not message or message.startswith("---"):
+            continue
+        commit_type, content, breaking = analyze_commit_message(message)
+        _parsed_type, scope, _parsed_breaking = _legacy_conventional_fields(message)
+        commits.append(
+            CommitInfo(
+                hash=f"legacy-{index:04d}",
+                message=content,
+                author="Unknown",
+                date=datetime.now(),
+                files_changed=[],
+                insertions=0,
+                deletions=0,
+                commit_type=commit_type,
+                scope=scope,
+                is_breaking=breaking,
+                issue_refs=list(dict.fromkeys(re.findall(r"#\d+", message))),
+                components=set(),
+            )
         )
-    except (OpenAIError, RuntimeError) as e:
-        logger.error(f"OpenAI API error: {e}")
-        return commit_text  # Fall back to the original text
+    return commits
+
+
+def _legacy_conventional_fields(
+    message: str,
+) -> Tuple[Optional[str], Optional[str], bool]:
+    match = re.match(r"^(\w+)(?:\(([^)]+)\))?(!)?:", message)
+    if not match:
+        return None, None, False
+    return match.group(1), match.group(2), bool(match.group(3))
 
 
 def determine_next_version(
     current_version: str,
     commit_messages: str,
-    model: str,
+    model: str = DEFAULT_MODEL,
     context: Optional[Dict[str, Any]] = None,
 ) -> str:
-    """
-    Determine the next version number based on the commit messages.
+    """Determine SemVer locally; a model can never return a regressed version."""
+    del model, context
+    commits = _legacy_commits(commit_messages)
+    if not commits:
+        return current_version
+    return increment_semver(current_version, determine_version_impact(commits))
 
-    Args:
-        current_version: The current version string
-        commit_messages: The processed commit messages
-        model: The OpenAI model to use
-        context: Additional context information for the prompts
 
-    Returns:
-        The next version string
-    """
-    if not context:
-        context = {}
-
-    logger.info("Determining next version...")
-
-    # Extract version numbers if the current version has a prefix
-    has_prefix = False
-    version_prefix = ""
-    if current_version.startswith("v"):
-        version_prefix = "v"
-        version_number = current_version[1:]
-        has_prefix = True
-    else:
-        version_number = current_version
-
-    # Add relevant data to context
-    version_context = {
-        **context,
-        "commit_messages": commit_messages,
-        "latest_version": version_number,
+def _legacy_stats(commits: List[CommitInfo]) -> Dict[str, Any]:
+    by_type: Dict[str, int] = {}
+    for commit in commits:
+        by_type[commit.commit_type] = by_type.get(commit.commit_type, 0) + 1
+    dates = [commit.date for commit in commits]
+    return {
+        "by_type": by_type,
+        "breaking_changes": sum(int(commit.is_breaking) for commit in commits),
+        "total_files_changed": 0,
+        "total_insertions": 0,
+        "total_deletions": 0,
+        "most_changed_components": [],
+        "date_range": (min(dates), max(dates)) if dates else None,
     }
-
-    prompt = render_prompt(
-        "templates/version_prompt.txt",
-        version_context,
-    )
-
-    try:
-        raw_response = create_text_response(
-            model=model,
-            instructions=(
-                "You are an assistant that determines the next software version based on semantic versioning "
-                "principles. You analyze commit messages to identify breaking changes, new features, and bug fixes "
-                "to determine whether to increment the major, minor, or patch version."
-            ),
-            prompt=prompt,
-        )
-
-        # Extract the version number from the response
-        # Look for a version pattern (with or without 'v' prefix)
-        version_match = re.search(r"(?:Version:\s*)(v?\d+\.\d+\.\d+)", raw_response)
-
-        if version_match:
-            next_version = version_match.group(1)
-
-            # Handle version prefix consistency
-            if has_prefix and not next_version.startswith("v"):
-                next_version = f"v{next_version}"
-            elif not has_prefix and next_version.startswith("v"):
-                next_version = next_version[1:]
-        else:
-            # Fallback: just return the response text (should be a version number)
-            next_version = raw_response.strip()
-
-            # Add prefix if needed for consistency
-            if has_prefix and not next_version.startswith("v"):
-                next_version = f"{version_prefix}{next_version}"
-
-    except (OpenAIError, RuntimeError) as e:
-        logger.error(f"OpenAI API error: {e}")
-        logger.warning("Falling back to incrementing patch version")
-
-        # Extract version components
-        try:
-            version_parts = list(map(int, re.findall(r"\d+", version_number)))
-            while len(version_parts) < 3:
-                version_parts.append(0)
-
-            # Increment patch version
-            version_parts[2] += 1
-            next_version = ".".join(map(str, version_parts))
-
-            # Add prefix if needed
-            if has_prefix:
-                next_version = f"{version_prefix}{next_version}"
-        except Exception:
-            # If all else fails, just return the current version
-            next_version = current_version
-
-    return next_version
 
 
 def generate_changelog(
     commit_messages: str,
     next_version: str,
-    model: str,
+    model: str = DEFAULT_MODEL,
     context: Optional[Dict[str, Any]] = None,
     language: Optional[str] = "en",
+    template_root: Optional[str] = None,
 ) -> str:
-    """
-    Generate a changelog from the processed commit messages.
-
-    Args:
-        commit_messages: The processed commit messages
-        next_version: The next version string
-        model: The OpenAI model to use
-        context: Additional context information for the prompts
-
-    Returns:
-        The generated changelog as markdown text
-    """
-    if not context:
-        context = {}
-
-    logger.info("Generating changelog...")
-
-    # Prepare context
-    changelog_context = {
-        **context,
-        "commit_messages": commit_messages,
-        "next_version": next_version,
-        "current_date": context.get(
-            "current_date", datetime.today().strftime("%Y-%m-%d")
-        ),
-    }
-
-    template_path = "templates/changelog_prompt.txt"
-    if language and language.lower() != "en":
-        lang = language.lower()
-        if lang == "fr":
-            template_path = "templates/fr_changelog_prompt.txt"
-        elif lang == "es":
-            template_path = "templates/es_changelog_prompt.txt"
-    prompt = render_prompt(
-        template_path,
-        changelog_context,
-    )
-
-    try:
-        changelog = create_text_response(
-            model=model,
-            instructions=(
-                "You are an assistant that generates detailed, well-structured changelogs in markdown format. "
-                "You organize changes by type (features, fixes, etc.) and ensure the changelog is clear and useful "
-                "for users to understand what has changed in the new version."
-            ),
-            prompt=prompt,
-        )
-    except (OpenAIError, RuntimeError) as e:
-        logger.error(f"OpenAI API error: {e}")
-
-        # Create a basic fallback changelog
-        changelog = f"""## [{next_version}] - {changelog_context['current_date']}
-
-### Changes
-- Various updates and improvements
-
-_Note: This is a fallback changelog due to an error in generation._
-"""
-
-    return changelog
+    """Generate localized Markdown through one structured model request."""
+    del template_root
+    commits = _legacy_commits(commit_messages)
+    values = dict(context or {})
+    values.setdefault("current_date", datetime.today().strftime("%Y-%m-%d"))
+    generator = EnhancedChangelogGenerator(model, language or "en")
+    return generator.generate_enhanced_changelog(commits, next_version, values)
 
 
 def generate_changelog_and_next_version(
     raw_commit_messages: str,
     current_version: str,
-    model: str,
+    model: str = DEFAULT_MODEL,
     context: Optional[Dict[str, Any]] = None,
     language: Optional[str] = "en",
+    template_root: Optional[str] = None,
 ) -> Tuple[str, str]:
-    """
-    Generate a changelog and determine the next version based on commit messages.
-
-    Args:
-        raw_commit_messages: The raw commit messages
-        current_version: The current version string
-        model: The OpenAI model to use
-        context: Additional context information for the prompts
-
-    Returns:
-        A tuple of (changelog, next_version)
-    """
-    if not context:
-        context = {}
-
-    # Process commit messages
-    processed_commits = process_commit_messages(raw_commit_messages, model, context)
-
-    # Determine next version
-    next_version = determine_next_version(
-        current_version, processed_commits, model, context
-    )
-
-    # Generate changelog
+    """Generate a changelog and deterministic version with one model call."""
+    processed = process_commit_messages(raw_commit_messages)
+    next_version = determine_next_version(current_version, processed)
     changelog = generate_changelog(
-        processed_commits, next_version, model, context, language=language
+        processed,
+        next_version,
+        model,
+        context,
+        language=language,
+        template_root=template_root,
     )
-
     return changelog, next_version

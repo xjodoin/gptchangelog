@@ -15,10 +15,10 @@ Thank you for your interest in contributing to GPTChangelog! This guide will hel
 
 ### Sync Dependencies with uv
 
-GPTChangelog now uses [uv](https://docs.astral.sh/uv/) for dependency management. After installing uv, run:
+GPTChangelog requires Python 3.12 or newer and uses [uv](https://docs.astral.sh/uv/) for dependency management. After installing uv, run:
 
 ```bash
-uv sync --dev --extra docs --extra release
+uv sync --dev --extra docs --extra release --extra tui
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
@@ -54,7 +54,7 @@ uv run isort gptchangelog tests
 We use mypy for type checking:
 
 ```bash
-uv run mypy gptchangelog
+uv run mypy --check-untyped-defs gptchangelog
 ```
 
 ### Running the CLI in Development
@@ -121,12 +121,13 @@ gptchangelog/
 ├── cli.py                # Command-line interface
 ├── config.py             # Configuration management
 ├── git_utils.py          # Git utilities
-├── openai_utils.py       # OpenAI API integration
-├── utils.py              # Utility functions
-└── templates/            # Prompt templates
-    ├── changelog_prompt.txt
-    ├── commits_prompt.txt
-    └── version_prompt.txt
+├── enhanced_git_utils.py # Commit analysis and statistics
+├── enhanced_openai_utils.py # Structured generation and rendering
+├── openai_client.py      # OpenAI Responses and Codex CLI providers
+├── openai_utils.py       # Compatibility generation API
+├── textual_ui.py         # Optional terminal review UI
+├── utils.py              # Validation and atomic persistence
+└── templates/            # Legacy integration templates
 ```
 
 ## Documentation

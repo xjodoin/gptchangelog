@@ -1,122 +1,48 @@
 ---
-title: Install GPTChangelog
-description: Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.
-keywords:
-  - gptchangelog
-  - install
-  - pip
-  - python
-  - openai
-  - git
-  - cli
+title: Installation
+description: Install GPTChangelog and its optional terminal interface.
 ---
 
 # Installation
 
-This page provides detailed installation instructions for GPTChangelog.
+GPTChangelog requires Python 3.12 or newer.
 
-## Requirements
-
-- Python 3.12 or higher
-- Git (installed and in your PATH)
-- OpenAI API key
-
-## Installing with pip
-
-The recommended way to install GPTChangelog is using pip:
+## pip
 
 ```bash
 pip install gptchangelog
 ```
 
-This will install GPTChangelog and all its dependencies.
+The Textual interface is optional:
 
-## Installing from Source with uv
+```bash
+pip install 'gptchangelog[tui]'
+```
 
-If you prefer to work from source, clone the repository and use uv to manage the environment:
+## uv and uvx
+
+```bash
+uv tool install gptchangelog
+gptchangelog --version
+
+# Ephemeral execution
+uvx gptchangelog --help
+```
+
+## Source checkout
 
 ```bash
 git clone https://github.com/xjodoin/gptchangelog.git
 cd gptchangelog
-uv sync --dev
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv sync --dev --extra docs --extra release --extra tui
+uv run pytest
 ```
 
-The `uv sync` command creates a managed virtual environment and installs GPTChangelog in editable mode along with the development extras declared in `pyproject.toml`.
-
-## One-Off Runs with uvx
-
-To run GPTChangelog without installing it, use `uvx`:
-
-```bash
-uvx gptchangelog --help
-```
-
-To run directly from a local checkout without creating a virtual environment:
-
-```bash
-uvx --from . gptchangelog --help
-```
-
-## Dependencies
-
-GPTChangelog depends on the following packages:
-
-- `openai`: For interacting with OpenAI's API
-- `gitpython`: For accessing git repository information
-- `configparser`: For configuration handling on older Python versions
-- `rich`: For beautiful terminal output
-- `textual`: For the optional terminal UI experience
-
-These dependencies are automatically installed when you install GPTChangelog using pip.
-
-## Verifying Installation
-
-To verify that GPTChangelog is installed correctly, run:
+## Verify
 
 ```bash
 gptchangelog --version
+gptchangelog config validate
 ```
 
-This should display the version number of GPTChangelog.
-
-## Setting Up Your Environment
-
-### OpenAI API Key
-
-You'll need an OpenAI API key to use GPTChangelog. If you don't have one, you can get it from the [OpenAI website](https://platform.openai.com/).
-
-You can configure your API key in two ways:
-
-1. Through the configuration file (recommended):
-   ```bash
-   gptchangelog config init
-   ```
-
-2. Using an environment variable:
-   ```bash
-   export OPENAI_API_KEY=your-api-key
-   ```
-
-## Troubleshooting
-
-### Common Installation Issues
-
-**Package not found**
-
-If you get a "command not found" error after installation, make sure your Python scripts directory is in your PATH.
-
-**Dependency conflicts**
-
-If you encounter dependency conflicts while working from source, rerun `uv sync` to recreate the environment from the lock file. For PyPI installs, try installing inside a virtual environment.
-
-**Git not found**
-
-If you get an error about Git not being found, make sure Git is installed and in your PATH.
-
-### Getting Help
-
-If you continue to experience issues, please:
-
-1. Check the [GitHub issues](https://github.com/xjodoin/gptchangelog/issues) to see if your problem has been reported
-2. Open a new issue if needed, providing details about your environment and the error messages
+Configuration validation reports the selected provider, profile, model, and whether the required authentication is available. It does not generate a changelog.

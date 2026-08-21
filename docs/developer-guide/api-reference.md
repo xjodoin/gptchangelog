@@ -1,315 +1,126 @@
+---
+title: API Reference
+description: Public Git, generation, provider, validation, and persistence APIs.
+---
+
 # API Reference
 
-This page documents the primary functions and classes in GPTChangelog that you may want to use programmatically or extend.
-
-## Module: `gptchangelog.cli`
-
-The CLI module provides the command-line interface for GPTChangelog.
-
-### Functions
-
-#### `app()`
-
-The main entry point for the command-line interface.
-
-**Returns:**
-- `int`: Exit code (0 for success, 1 for error)
-
-#### `run_gptchangelog(args)`
-
-Runs the main changelog generation process.
-
-**Parameters:**
-- `args`: Parsed command-line arguments
-
-**Returns:**
-- `int`: Exit code (0 for success, 1 for error)
-
-## Module: `gptchangelog.config`
-
-The configuration module handles loading and saving configuration settings.
-
-### Functions
-
-#### `load_openai_config(config_file_name="config.ini")`
-
-Loads the OpenAI configuration from the config file.
-
-**Parameters:**
-- `config_file_name` (str): Name of the configuration file
-
-**Returns:**
-- `tuple`: (api_key, model)
-
-**Raises:**
-- `FileNotFoundError`: If the configuration file is not found
-
-#### `init_config()`
-
-Initializes a new configuration file with user input.
-
-**Returns:**
-- None
-
-#### `show_config()`
-
-Displays the current configuration settings.
-
-**Returns:**
-- None
-
-## Module: `gptchangelog.git_utils`
-
-The git utilities module interacts with git repositories.
-
-### Functions
-
-#### `get_commit_messages_since(latest_commit, to_commit="HEAD", repo_path=".", min_length=10)`
-
-Gets commit messages between two git references.
-
-**Parameters:**
-- `latest_commit` (str): The starting reference (commit hash, tag, etc.)
-- `to_commit` (str): The ending reference (defaults to "HEAD")
-- `repo_path` (str): Path to the git repository
-- `min_length` (int): Minimum length of commit messages to include
-
-**Returns:**
-- `tuple`: (from_ref, commit_messages_text)
-
-#### `get_repository_name(repo)`
-
-Extracts the repository name from a git repository.
-
-**Parameters:**
-- `repo` (git.Repo): Git repository object
-
-**Returns:**
-- `str`: Repository name
-
-#### `get_latest_tag(repo)`
-
-Gets the latest tag from the repository.
-
-**Parameters:**
-- `repo` (git.Repo): Git repository object
-
-**Returns:**
-- `str`: Latest tag name
-
-#### `analyze_commit_message(message)`
-
-Analyzes a commit message to determine its type.
-
-**Parameters:**
-- `message` (str): Commit message
-
-**Returns:**
-- `tuple`: (inferred_type, cleaned_message, is_breaking_change)
-
-## Module: `gptchangelog.openai_utils`
-
-The OpenAI utilities module interacts with the OpenAI API.
-
-### Functions
-
-#### `process_commit_messages(raw_commit_messages, model, context=None)`
-
-Processes and refines commit messages using the OpenAI API.
-
-**Parameters:**
-- `raw_commit_messages` (str): Raw commit messages
-- `model` (str): OpenAI model to use
-- `context` (dict, optional): Additional context for prompts
-
-**Returns:**
-- `str`: Processed commit messages
-
-#### `determine_next_version(current_version, commit_messages, model, context=None)`
-
-Determines the next version based on semantic versioning.
-
-**Parameters:**
-- `current_version` (str): Current version string
-- `commit_messages` (str): Processed commit messages
-- `model` (str): OpenAI model to use
-- `context` (dict, optional): Additional context for prompts
-
-**Returns:**
-- `str`: Next version string
-
-#### `generate_changelog(commit_messages, next_version, model, context=None)`
-
-Generates a changelog from processed commit messages.
-
-**Parameters:**
-- `commit_messages` (str): Processed commit messages
-- `next_version` (str): Next version string
-- `model` (str): OpenAI model to use
-- `context` (dict, optional): Additional context for prompts
-
-**Returns:**
-- `str`: Generated changelog in markdown format
-
-#### `generate_changelog_and_next_version(raw_commit_messages, current_version, model, context=None)`
-
-Complete process to generate a changelog and determine the next version.
-
-**Parameters:**
-- `raw_commit_messages` (str): Raw commit messages
-- `current_version` (str): Current version string
-- `model` (str): OpenAI model to use
-- `context` (dict, optional): Additional context for prompts
-
-**Returns:**
-- `tuple`: (changelog, next_version)
-
-## Module: `gptchangelog.utils`
-
-The utilities module provides common functions used across the package.
-
-### Functions
-
-#### `get_package_version()`
-
-Gets the package version from pkg_resources or fallback.
-
-**Returns:**
-- `str`: Package version
-
-#### `render_prompt(template_path, context)`
-
-Renders a prompt template with provided context.
-
-**Parameters:**
-- `template_path` (str): Path to template file
-- `context` (dict): Context variables for template
-
-**Returns:**
-- `str`: Rendered prompt
-
-#### `prepend_changelog_to_file(changelog, filepath="CHANGELOG.md")`
-
-Prepends the changelog to the specified file.
-
-**Parameters:**
-- `changelog` (str): Changelog content
-- `filepath` (str): Path to changelog file
-
-**Returns:**
-- None
-
-#### `get_project_metadata()`
-
-Gets metadata about the current project.
-
-**Returns:**
-- `dict`: Project metadata (name, version, description)
-
-#### `format_commit_for_changelog(commit_message)`
-
-Formats a commit message for inclusion in the changelog.
-
-**Parameters:**
-- `commit_message` (str): Commit message
-
-**Returns:**
-- `str`: Formatted commit message
-
-## Programmatic Usage
-
-You can use GPTChangelog programmatically in your own Python code:
+## Git ranges
 
 ```python
-from gptchangelog.openai_utils import generate_changelog_and_next_version
-from gptchangelog.git_utils import get_commit_messages_since
-from gptchangelog.config import load_openai_config
-import os
+from git import Repo
+from gptchangelog.git_utils import resolve_release_range
 
-# Load configuration
-api_key, model = load_openai_config()
-os.environ["OPENAI_API_KEY"] = api_key
-
-# Get commit messages
-from_ref, commit_messages = get_commit_messages_since("v1.0.0")
-
-# Generate changelog
-changelog, next_version = generate_changelog_and_next_version(
-    commit_messages,
-    from_ref,
-    model,
-    {"project_name": "My Project"}
-)
-
-# Use the generated changelog
-print(f"Next version: {next_version}")
-print(changelog)
+repo = Repo("/path/to/project")
+release_range = resolve_release_range(repo, since="v1.2.0", to_ref="HEAD")
 ```
 
-## Extending GPTChangelog
+`resolve_release_range()` validates both refs and returns `ReleaseRange` with
+the display refs, immutable SHAs, and detected current version. If no tag is
+reachable, `from_ref` and `from_sha` are `None`, `current_version` is `0.0.0`,
+and downstream iteration includes the root commit.
 
-### Custom Commit Processing
+Use `get_enhanced_commit_data(from_ref, to_ref, repo_path=...)` to return
+analyzed `CommitInfo` values and aggregate statistics. Invalid refs propagate as
+Git errors.
 
-You can extend the commit processing by creating a custom function:
+## Generation
 
 ```python
-def custom_commit_processor(commit_messages):
-    # Your custom processing logic
-    processed_messages = []
-    for message in commit_messages.split("\n"):
-        # Process each message
-        processed_messages.append(f"Processed: {message}")
-    
-    return "\n".join(processed_messages)
+from gptchangelog.enhanced_openai_utils import (
+    generate_enhanced_changelog_and_version,
+    generate_enhanced_changelog_result,
+)
 
-# Then use it instead of the built-in processor
-from gptchangelog.openai_utils import generate_changelog
-changelog = generate_changelog(
-    custom_commit_processor(commit_messages),
-    next_version,
-    model
+markdown, version = generate_enhanced_changelog_and_version(
+    commits,
+    current_version="v1.2.0",
+    project_name="example",
+    stats=stats,
+    model="gpt-5.6-terra",
+    language="en",
+)
+
+result = generate_enhanced_changelog_result(
+    commits,
+    current_version="v1.2.0",
+    project_name="example",
+    stats=stats,
+)
+for entry in result.entries:
+    print(entry.category, entry.description, entry.commit_ids)
+```
+
+Semantic versioning, category assignment, localization, and Markdown rendering
+are local. The provider receives one structured request for the release summary
+and bounded topics. Its schema requires an assignment for every known source
+commit ID and fixes each assignment to the locally determined category.
+
+`generate_enhanced_changelog_result(...)` is the preferred auditing API. It
+returns `EnhancedGenerationResult` with `changelog`, `version`, `summary`,
+normalized `entries`, and `used_fallback`. The tuple-returning
+`generate_enhanced_changelog_and_version(...)` remains available for existing
+callers.
+
+`validate_changelog(markdown, expected_version, language=None)` returns a list
+of validation errors. `analyze_changelog_quality(markdown)` returns concrete
+validation and content counts; it does not calculate a subjective score.
+
+The functions in `gptchangelog.openai_utils` remain compatibility wrappers over
+this same pipeline.
+
+## Providers
+
+```python
+from gptchangelog.openai_client import (
+    ProviderSettings,
+    configure_provider,
+    create_structured_response,
+)
+
+configure_provider(
+    ProviderSettings(provider="openai", api_key="...", max_retries=2)
+)
+payload = create_structured_response(
+    model="gpt-5.6-terra",
+    instructions="Summarize supplied changes.",
+    prompt="...",
+    json_schema={"type": "object", "properties": {}, "additionalProperties": False},
 )
 ```
 
-### Custom Template Rendering
+The OpenAI adapter uses the Responses API with strict JSON Schema. The Codex
+adapter invokes ephemeral, read-only `codex exec` and leaves authentication and
+token refresh to Codex CLI.
 
-You can provide a custom template renderer:
+Model helpers include `normalize_provider()`, `normalize_profile()`,
+`get_profile_model()`, and `resolve_model()`. Provider failures raise
+`ProviderError`; invalid configuration raises `ProviderConfigurationError`.
 
-```python
-def custom_template_renderer(template_path, context):
-    # Your custom template rendering logic
-    with open(template_path, "r") as f:
-        template = f.read()
-    
-    # Simple string substitution
-    for key, value in context.items():
-        template = template.replace(f"${key}", str(value))
-    
-    return template
-
-# Then use it in your workflow
-```
-
-### Adding New Output Formats
-
-To add a new output format, create a converter function:
+## Safe persistence
 
 ```python
-def convert_to_html(changelog_markdown):
-    # Convert markdown to HTML
-    # (using a library like markdown2 or similar)
-    html = f"""
-    <html>
-    <head><title>Changelog</title></head>
-    <body>
-    {markdown_to_html(changelog_markdown)}
-    </body>
-    </html>
-    """
-    return html
+from gptchangelog.utils import prepend_changelog_to_file
 
-# Then use it after generating the changelog
-html_changelog = convert_to_html(changelog)
-with open("changelog.html", "w") as f:
-    f.write(html_changelog)
+result = prepend_changelog_to_file(
+    markdown,
+    "CHANGELOG.md",
+    version=version,
+    check=False,
+    force=False,
+)
 ```
+
+`prepend_changelog_to_file()` validates canonical SemVer, rejects duplicate or
+non-monotonic new releases, rejects symlink targets, preserves `[Unreleased]`,
+and writes atomically. `check=True` prepares and validates the resulting content
+without modifying the file. `force=True` replaces an existing matching release;
+it cannot add a missing historical version.
+
+Failures derive from `ChangelogError`, including `ChangelogValidationError`,
+`DuplicateReleaseError`, `NonMonotonicReleaseError`,
+`ReleaseNotFoundError`, `ChangelogWriteError`, and
+`UnsafeChangelogTargetError`.
+
+Legacy `render_prompt()` and `resolve_template_path()` helpers remain available
+for integrations, but the CLI generation path does not load prompt overrides.

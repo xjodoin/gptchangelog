@@ -1,10 +1,91 @@
 import os
 import re
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Set, Tuple, cast
 
 import git
 
 CommitStats = Dict[str, Any]
+_SEMVER_TAG_RE = re.compile(r"v?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)")
+_BREAKING_FOOTER_RE = re.compile(r"(?m)^\s*BREAKING(?: |-)?CHANGE:")
+_NEGATED_BREAKING_PATTERNS = (
+    re.compile(
+        r"\bnon[-\s]+breaking(?:[-\s]+api)?(?:[-\s]+change)?\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\bnot\s+(?:a\s+)?breaking(?:\s+api)?\s+change\b",
+        re.IGNORECASE,
+    ),
+)
+
+
+@dataclass(frozen=True)
+class ReleaseRange:
+    """A validated release range.
+
+    ``from_ref`` is ``None`` for an initial release.  In that case callers must
+    walk ``to_ref`` directly instead of constructing ``from_ref..to_ref``;
+    doing so includes the repository's root commit.
+    """
+
+    from_ref: Optional[str]
+    to_ref: str
+    from_sha: Optional[str]
+    to_sha: str
+    current_version: str
+
+
+def validate_ref(repo: git.Repo, ref: str) -> str:
+    """Validate and resolve a commit-ish, raising GitCommandError on failure."""
+    if not ref or not ref.strip():
+        raise ValueError("Git reference must not be empty")
+    return repo.git.rev_parse("--verify", f"{ref}^{{commit}}")
+
+
+def has_breaking_change_footer(message: str) -> bool:
+    """Return whether a message contains an actual Conventional Commits footer."""
+    return bool(_BREAKING_FOOTER_RE.search(message))
+
+
+def remove_negated_breaking_phrases(message: str) -> str:
+    """Remove compatibility phrases that must not trigger breaking heuristics."""
+    result = message
+    for pattern in _NEGATED_BREAKING_PATTERNS:
+        result = pattern.sub("", result)
+    return result
+
+
+def _require_ancestor(
+    repo: git.Repo, from_sha: str, to_sha: str, from_label: str, to_label: str
+) -> None:
+    """Reject ranges whose baseline is not in the target's history."""
+    try:
+        repo.git.merge_base("--is-ancestor", from_sha, to_sha)
+    except git.GitCommandError as exc:
+        if exc.status == 1:
+            raise ValueError(
+                f"Invalid release range: {from_label!r} is not an ancestor of "
+                f"{to_label!r}. Choose a baseline reachable from the target."
+            ) from exc
+        raise
+
+
+def iter_release_commits(repo: git.Repo, from_ref: Optional[str], to_ref: str) -> Any:
+    """Iterate a validated release range, including root for initial releases."""
+    to_sha = validate_ref(repo, to_ref)
+    if from_ref is None:
+        return repo.iter_commits(to_sha, no_merges=True)
+    from_sha = validate_ref(repo, from_ref)
+    _require_ancestor(repo, from_sha, to_sha, from_ref, to_ref)
+    return repo.iter_commits(f"{from_sha}..{to_sha}", no_merges=True)
+
+
+def _version_from_tag(tag: Optional[str]) -> str:
+    if not tag:
+        return "0.0.0"
+    match = _SEMVER_TAG_RE.fullmatch(tag.strip())
+    return tag if match else "0.0.0"
 
 
 def _commit_message_as_text(message: str | bytes) -> str:
@@ -29,18 +110,55 @@ def get_repository_name(repo: git.Repo) -> str:
         return os.path.basename(os.path.abspath(repo.working_dir))
 
 
-def get_latest_tag(repo: git.Repo) -> str:
-    """Get the latest tag from the repository."""
+def get_latest_tag(repo: git.Repo, to_ref: str = "HEAD") -> Optional[str]:
+    """Return the nearest semantic-version tag reachable from ``to_ref``.
+
+    Non-version deployment/build tags, tags on unrelated branches, and tags
+    newer than ``to_ref`` are ignored. Invalid target references propagate.
+    """
+    validate_ref(repo, to_ref)
+    reachable = repo.git.tag("--merged", to_ref).splitlines()
+    semantic_tags = [tag for tag in reachable if _SEMVER_TAG_RE.fullmatch(tag)]
+    if not semantic_tags:
+        return None
+
+    match_arguments: List[str] = []
+    for tag in semantic_tags:
+        match_arguments.extend(["--match", tag])
     try:
-        # Try to get the most recent tag that points to the current branch
-        tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
-        if tags:
-            return tags[-1].name
-        # Fallback to describe command which finds the most appropriate tag
-        return repo.git.describe("--tags", "--abbrev=0")
+        return repo.git.describe(
+            "--tags", "--abbrev=0", *match_arguments, to_ref
+        ).strip()
     except git.GitCommandError:
-        # If no tags exist, use the initial commit
-        return repo.git.rev_list("--max-parents=0", "HEAD")
+        # At least one matching tag is reachable, so this is not the normal
+        # no-tag case and must not be disguised as an initial release.
+        raise
+
+
+def resolve_commit_range(
+    repo: git.Repo, since: Optional[str] = None, to_ref: str = "HEAD"
+) -> ReleaseRange:
+    """Resolve refs and the current semantic version for a release."""
+    to_sha = validate_ref(repo, to_ref)
+    from_ref = since if since is not None else get_latest_tag(repo, to_ref)
+    from_sha = None
+    if from_ref is not None:
+        from_sha = validate_ref(repo, from_ref)
+        _require_ancestor(repo, from_sha, to_sha, from_ref, to_ref)
+    return ReleaseRange(
+        from_ref=from_ref,
+        to_ref=to_ref,
+        from_sha=from_sha,
+        to_sha=to_sha,
+        current_version=_version_from_tag(from_ref),
+    )
+
+
+def resolve_release_range(
+    repo: git.Repo, since: Optional[str] = None, to_ref: str = "HEAD"
+) -> ReleaseRange:
+    """Backward-compatible release-oriented name for ``resolve_commit_range``."""
+    return resolve_commit_range(repo, since, to_ref)
 
 
 def parse_conventional_commit(message: str) -> Tuple[Optional[str], str, bool]:
@@ -55,7 +173,7 @@ def parse_conventional_commit(message: str) -> Tuple[Optional[str], str, bool]:
     )
 
     # Check for breaking change in footer
-    has_breaking_footer = "BREAKING CHANGE:" in message
+    has_breaking_footer = has_breaking_change_footer(message)
 
     # Parse the first line for conventional commit format
     first_line = message.split("\n", 1)[0].strip()
@@ -116,15 +234,19 @@ def analyze_commit_message(message: str) -> Tuple[str, str, bool]:
 
     # Check for breaking changes in text
     if not is_breaking:
+        breaking_content = remove_negated_breaking_phrases(content_lower)
         is_breaking = bool(
-            re.search(r"\bbreak(ing)?\b|\bbackward.{1,10}incompatible\b", content_lower)
+            re.search(
+                r"\bbreak(ing)?\b|\bbackward.{1,10}incompatible\b",
+                breaking_content,
+            )
         )
 
     return inferred_type, content, is_breaking
 
 
 def get_commit_messages_since(
-    latest_commit: str,
+    latest_commit: Optional[str],
     to_commit: str = "HEAD",
     repo_path: str = ".",
     min_length: int = 10,
@@ -145,7 +267,7 @@ def get_commit_messages_since(
     commit_data = []
 
     # Get the commits in the range
-    for commit in repo.iter_commits(f"{latest_commit}..{to_commit}", no_merges=True):
+    for commit in iter_release_commits(repo, latest_commit, to_commit):
         message = _commit_message_as_text(commit.message).strip()
 
         if len(message) >= min_length:
@@ -165,11 +287,11 @@ def get_commit_messages_since(
             commit_data.append(formatted_message)
 
     # Join the commit messages with newlines
-    return latest_commit, "\n".join(commit_data)
+    return latest_commit or "", "\n".join(commit_data)
 
 
 def get_commit_stats(
-    from_ref: str, to_ref: str = "HEAD", repo_path: str = "."
+    from_ref: Optional[str], to_ref: str = "HEAD", repo_path: str = "."
 ) -> CommitStats:
     """
     Get statistics about commits between two git references.
@@ -195,7 +317,7 @@ def get_commit_stats(
     }
 
     # Get the commits in the range
-    for commit in repo.iter_commits(f"{from_ref}..{to_ref}", no_merges=True):
+    for commit in iter_release_commits(repo, from_ref, to_ref):
         message = _commit_message_as_text(commit.message).strip()
         commit_type, _, is_breaking = analyze_commit_message(message)
 

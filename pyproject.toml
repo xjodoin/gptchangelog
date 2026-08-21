@@ -15,6 +15,7 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Topic :: Software Development",
@@ -24,11 +25,8 @@ classifiers = [
 ]
 dependencies = [
   "openai>=2.8.1",
-  "httpx>=0.27.0",
   "gitpython>=3.1.40",
-  "configparser>=6.0.0",
   "rich>=13.9.0",
-  "textual>=0.58.0",
 ]
 dynamic = ["version"]
 
@@ -50,6 +48,9 @@ docs = [
   "mkdocs-material",
   "mkdocstrings[python]",
   "mkdocs-git-revision-date-localized-plugin",
+]
+tui = [
+  "textual>=0.58.0",
 ]
 release = [
   "build",

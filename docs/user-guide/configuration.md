@@ -1,159 +1,78 @@
 ---
-title: GPTChangelog Configuration Guide
-description: Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.
-keywords:
-  - gptchangelog
-  - configuration
-  - config file
-  - environment variables
-  - openai model
-  - semantic versioning
+title: Configuration
+description: Configure providers, GPT-5.6 profiles, models, and authentication.
 ---
 
 # Configuration
 
-GPTChangelog can be configured at both the global and project levels. This page explains all available configuration options and how to manage them.
-
-## Configuration Locations
-
-GPTChangelog looks for configuration in the following locations, in order of precedence:
-
-1. Project-specific configuration: `./.gptchangelog/config.ini`
-2. Global configuration: `~/.config/gptchangelog/config.ini`
-
-If a setting is defined in both places, the project-specific setting takes precedence.
-
-## Managing Configuration
-
-### Initializing Configuration
-
-To create a new configuration file:
+Initialize configuration interactively:
 
 ```bash
 gptchangelog config init
 ```
 
-You'll be prompted to choose between global or project-specific configuration, then select either the OpenAI API or a local Codex ChatGPT subscription.
+Project configuration is stored in `.gptchangelog/config.ini`; global configuration is stored in `~/.config/gptchangelog/config.ini`. Project values take precedence over global values.
 
-### Viewing Current Configuration
-
-To see your current configuration:
-
-```bash
-gptchangelog config show
-```
-
-This will display both global and project-specific configurations if they exist.
-
-## Configuration File Format
-
-The configuration file uses the INI format:
+## Example
 
 ```ini
 [openai]
 provider = openai
-api_key = your-api-key-here
-model = gpt-5.5
+profile = balanced
+model = gpt-5.6-terra
 ```
 
-## Configuration Options
+Supported providers are `openai` and `codex`. Unsupported or misspelled values are rejected.
 
-### OpenAI Settings
+Supported profiles are:
 
-| Option | Description | Default | 
-|--------|-------------|---------|
-| `provider` | `openai` for API keys or `codex` to reuse `~/.codex/auth.json` | Auto-detected |
-| `api_key` | Your OpenAI API key when `provider = openai` | (Required for `openai`) |
-| `model` | The model to use | `gpt-5.5` for `openai`, `gpt-5.4-mini` for `codex` |
+| Profile | Model | Purpose |
+| --- | --- | --- |
+| `balanced` | `gpt-5.6-terra` | Default balance of quality and cost |
+| `quality` | `gpt-5.6-sol` | Highest-quality release-note synthesis |
 
-### Environment Variables
+An explicit `--model` or `GPTCHANGELOG_MODEL` overrides the profile model.
 
-You can also use environment variables to override configuration settings:
+## Authentication
 
-| Variable | Corresponding Config Option |
-|----------|----------------------------|
-| `GPTCHANGELOG_PROVIDER` | `[openai] provider` |
-| `OPENAI_API_KEY` | `[openai] api_key` |
-| `GPTCHANGELOG_MODEL` | `[openai] model` |
+For the OpenAI provider, use an environment variable:
 
-Environment variables take precedence over configuration file settings.
+```bash
+export OPENAI_API_KEY='...'
+```
 
-## Advanced Configuration
+The initializer uses hidden input if you explicitly choose to persist a key, and any credential-bearing configuration is written with owner-only permissions. Environment-based credentials are preferred.
+On POSIX systems, GPTChangelog rejects a stored-key configuration if group or
+world permission bits are present and reports the exact `chmod 600` command to
+repair it.
 
-### Using a Codex Subscription
-
-If you already use `codex` with ChatGPT, GPTChangelog can reuse that login instead of requiring an API key:
+For Codex subscription access:
 
 ```bash
 codex login
-gptchangelog generate --provider codex
 ```
 
-Equivalent config:
+GPTChangelog uses Codex's supported non-interactive client. Codex owns login caching and token refresh.
 
-```ini
-[openai]
-provider = codex
-model = gpt-5.4-mini
+## Precedence
+
+1. `--provider`, `--profile`, and `--model`
+2. `GPTCHANGELOG_PROVIDER`, `GPTCHANGELOG_PROFILE`, and `GPTCHANGELOG_MODEL`
+3. project configuration
+4. global configuration
+5. default provider discovery and the balanced profile
+
+Provider overrides do not accidentally reuse a model configured for a different provider.
+
+## Inspect and validate
+
+```bash
+gptchangelog config show
+gptchangelog config validate
 ```
 
-### Using Different Models
+`show` redacts secrets. `validate` checks syntax, model resolution, and authentication availability.
 
-GPTChangelog works best with GPT-5 family models, but you can use other options:
+## Debug logging
 
-```ini
-[openai]
-model = gpt-5.4-mini
-```
-
-Smaller models may produce less comprehensive results but can be more cost-efficient.
-
-### Multiple Configurations
-
-You can maintain different configurations for different projects:
-
-1. Set up a global configuration with default settings
-2. Create project-specific configurations for projects with special requirements
-
-## Example Configurations
-
-### Minimal Configuration
-
-```ini
-[openai]
-provider = openai
-api_key = your-api-key-here
-```
-
-### Full Configuration
-
-```ini
-[openai]
-provider = openai
-api_key = your-api-key-here
-model = gpt-5.5
-```
-
-### Codex Subscription Configuration
-
-```ini
-[openai]
-provider = codex
-model = gpt-5.4-mini
-```
-
-### Configuration for Large Repositories
-
-```ini
-[openai]
-api_key = your-api-key-here
-model = gpt-5.5
-```
-
-### Configuration for Lower Cost
-
-```ini
-[openai]
-api_key = your-api-key-here
-model = gpt-5.4-mini
-```
+Set `GPTCHANGELOG_DEBUG=1` to enable debug diagnostics on stderr. Raw model responses are never written automatically because they can contain repository data.
