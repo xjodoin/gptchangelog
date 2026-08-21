@@ -83,6 +83,12 @@ def test_schema_requires_an_assignment_property_for_every_source_id():
     assert assignments["properties"]["fix0001"]["properties"]["category"]["enum"] == [
         "fix"
     ]
+    assert (
+        schema["properties"]["topic_descriptions"]["properties"]["feat"]["properties"][
+            "topic_1"
+        ]["minLength"]
+        == 1
+    )
 
 
 def test_schema_bounds_topic_slots_without_allowing_commit_omission():

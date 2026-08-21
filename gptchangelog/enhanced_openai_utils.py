@@ -256,7 +256,7 @@ def _release_schema(commits: Sequence[CommitInfo]) -> Dict[str, Any]:
             "type": "object",
             "additionalProperties": False,
             "required": slots,
-            "properties": {slot: {"type": "string"} for slot in slots},
+            "properties": {slot: {"type": "string", "minLength": 1} for slot in slots},
         }
     schema["properties"]["topic_descriptions"]["required"] = list(topic_slots)
     return schema
