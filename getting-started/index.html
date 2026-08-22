@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.">
+        <meta name="description" content="Install, authenticate, and generate a validated changelog.">
       
       
         <meta name="author" content="xjodoin">
@@ -18,22 +18,22 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../user-guide/installation/">
+        <link rel="next" href="../user-guide/">
       
       
         
       
       
       <link rel="icon" href="../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Getting Started with GPTChangelog - GPTChangelog</title>
+        <title>Getting Started - GPTChangelog</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,11 +71,10 @@
   
 
   
-  <meta name="description" content="Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.">
+  <meta name="description" content="Install, authenticate, and generate a validated changelog.">
   <meta name="author" content="xjodoin">
   
-  
-  <meta name="keywords" content="gptchangelog, getting started, installation, configuration, generate changelog, openai, python, release notes">
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
   
   <meta name="robots" content="index,follow">
 
@@ -85,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="Getting Started - GPTChangelog">
-  <meta property="og:description" content="Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.">
+  <meta property="og:description" content="Install, authenticate, and generate a validated changelog.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/getting-started/">
   
     
@@ -94,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Getting Started - GPTChangelog">
-  <meta name="twitter:description" content="Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.">
+  <meta name="twitter:description" content="Install, authenticate, and generate a validated changelog.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -132,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Step-by-step guide to install, configure, and generate changelogs with GPTChangelog, an AI-powered changelog generator for Git.",
+    "description": "Install, authenticate, and generate a validated changelog.",
     "url": "https://xjodoin.github.io/gptchangelog/getting-started/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -200,7 +199,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting Started with GPTChangelog
+              Getting Started
             
           </span>
         </div>
@@ -411,10 +410,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        Install
       
     </span>
   </a>
@@ -422,10 +421,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
+        Authenticate
       
     </span>
   </a>
@@ -433,102 +432,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#generate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Generate
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#global-vs-project-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Global vs. Project Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Basic Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Basic Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#generate-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generate a Changelog
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interactive-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-range" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Range
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-to-a-different-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output to a Different File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dry-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dry Run
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -536,7 +446,7 @@
   <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Next steps
       
     </span>
   </a>
@@ -561,6 +471,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -583,8 +497,9 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../user-guide/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -598,8 +513,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -611,6 +532,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -738,7 +661,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -988,10 +911,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        Install
       
     </span>
   </a>
@@ -999,10 +922,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
+        Authenticate
       
     </span>
   </a>
@@ -1010,102 +933,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#generate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Generate
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#global-vs-project-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Global vs. Project Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Basic Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Basic Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#generate-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generate a Changelog
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interactive-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-range" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Range
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-to-a-different-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output to a Different File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dry-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dry Run
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1113,7 +947,7 @@
   <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Next steps
       
     </span>
   </a>
@@ -1141,73 +975,47 @@
 
 
 <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
-<p>This guide will help you get up and running with GPTChangelog quickly.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Python 3.8 or higher</li>
-<li>Git repository</li>
-<li>Either an OpenAI API key or a local <code>codex login</code> session</li>
-</ul>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<p>Install GPTChangelog using pip:</p>
+<p>GPTChangelog requires Python 3.12 or newer, Git history, and either an OpenAI API key or a Codex login.</p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>gptchangelog
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Optional terminal UI</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'gptchangelog[tui]'</span>
 </code></pre></div>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>Before using GPTChangelog, initialize configuration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
+<p>For a one-off run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uvx<span class="w"> </span>gptchangelog<span class="w"> </span>--help
 </code></pre></div>
-<p>This will prompt you for:</p>
-<ol>
-<li>Configuration type (global or project-specific)</li>
-<li>Provider choice (<code>openai</code> API key or <code>codex</code> ChatGPT subscription)</li>
-<li>The model to use (default: gpt-5.5)</li>
-</ol>
-<p>If you want to use your Codex subscription, sign in once before initialization:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>codex<span class="w"> </span>login
+<h2 id="authenticate">Authenticate<a class="headerlink" href="#authenticate" title="Permanent link">&para;</a></h2>
+<p>OpenAI API:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s1">'...'</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
 </code></pre></div>
-<h3 id="global-vs-project-configuration">Global vs. Project Configuration<a class="headerlink" href="#global-vs-project-configuration" title="Permanent link">&para;</a></h3>
+<p>Codex subscription:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>codex<span class="w"> </span>login
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
+</code></pre></div>
+<p>GPTChangelog does not need to copy Codex tokens or read them directly. Check the resolved configuration with <code>gptchangelog config validate</code>.</p>
+<h2 id="generate">Generate<a class="headerlink" href="#generate" title="Permanent link">&para;</a></h2>
+<p>From a tagged repository:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate
+</code></pre></div>
+<p>GPTChangelog validates the Git range, calculates the next version locally, requests one structured release-note draft, validates it, and atomically inserts the rendered Markdown into <code>CHANGELOG.md</code>.</p>
+<p>Preview raw Markdown without modifying files:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>&gt;<span class="w"> </span>release.md
+</code></pre></div>
+<p>Generate JSON for automation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>&gt;<span class="w"> </span>release.json
+</code></pre></div>
+<p>Use the higher-quality GPT-5.6 Sol profile:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--profile<span class="w"> </span>quality
+</code></pre></div>
+<p>The default balanced profile uses GPT-5.6 Terra.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Global configuration</strong> is stored in <code>~/.config/gptchangelog/config.ini</code> and applies to all projects</li>
-<li><strong>Project configuration</strong> is stored in <code>./.gptchangelog/config.ini</code> and only applies to the current project</li>
-</ul>
-<p>Project configuration takes precedence over global configuration when both exist.</p>
-<h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
-<h3 id="generate-a-changelog">Generate a Changelog<a class="headerlink" href="#generate-a-changelog" title="Permanent link">&para;</a></h3>
-<p>To generate a changelog from your latest tag to the current HEAD:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate
-</code></pre></div>
-<p>This will:</p>
-<ol>
-<li>Find your latest git tag</li>
-<li>Fetch all commit messages since that tag</li>
-<li>Process and analyze the commit messages using OpenAI</li>
-<li>Determine the next version based on semantic versioning</li>
-<li>Generate a well-structured changelog</li>
-<li>Prepend it to your CHANGELOG.md file</li>
-</ol>
-<h3 id="interactive-mode">Interactive Mode<a class="headerlink" href="#interactive-mode" title="Permanent link">&para;</a></h3>
-<p>For more control, use interactive mode:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--interactive
-</code></pre></div>
-<p>This allows you to review and edit the changelog before saving it.</p>
-<h3 id="custom-commit-range">Custom Commit Range<a class="headerlink" href="#custom-commit-range" title="Permanent link">&para;</a></h3>
-<p>You can specify a custom range of commits:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v2.0.0
-</code></pre></div>
-<h3 id="output-to-a-different-file">Output to a Different File<a class="headerlink" href="#output-to-a-different-file" title="Permanent link">&para;</a></h3>
-<p>By default, the changelog is prepended to <code>CHANGELOG.md</code>, but you can specify a different file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>docs/CHANGES.md
-</code></pre></div>
-<h3 id="dry-run">Dry Run<a class="headerlink" href="#dry-run" title="Permanent link">&para;</a></h3>
-<p>To preview the changelog without saving it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
-</code></pre></div>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Learn about <a href="../user-guide/configuration/">configuration options</a></li>
-<li>Explore <a href="../user-guide/advanced-usage/">advanced usage</a></li>
-<li>Check out <a href="../user-guide/templates/">templates</a></li>
+<li><a href="../user-guide/basic-usage/">Basic usage</a></li>
+<li><a href="../user-guide/configuration/">Configuration</a></li>
+<li><a href="../user-guide/templates/">Output contract</a></li>
+<li><a href="../user-guide/advanced-usage/">CI and advanced usage</a></li>
 </ul>
 
 
@@ -1231,7 +1039,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1276,7 +1084,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1327,10 +1135,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

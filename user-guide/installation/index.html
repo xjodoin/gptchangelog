@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.">
+        <meta name="description" content="Install GPTChangelog and its optional terminal interface.">
       
       
         <meta name="author" content="xjodoin">
@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://xjodoin.github.io/gptchangelog/user-guide/installation/">
       
       
-        <link rel="prev" href="../../getting-started/">
+        <link rel="prev" href="../">
       
       
         <link rel="next" href="../configuration/">
@@ -25,15 +25,15 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Install GPTChangelog - GPTChangelog</title>
+        <title>Installation - GPTChangelog</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,11 +71,10 @@
   
 
   
-  <meta name="description" content="Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.">
+  <meta name="description" content="Install GPTChangelog and its optional terminal interface.">
   <meta name="author" content="xjodoin">
   
-  
-  <meta name="keywords" content="gptchangelog, install, pip, python, openai, git, cli">
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
   
   <meta name="robots" content="index,follow">
 
@@ -85,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="Installation - GPTChangelog">
-  <meta property="og:description" content="Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.">
+  <meta property="og:description" content="Install GPTChangelog and its optional terminal interface.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/user-guide/installation/">
   
     
@@ -94,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 30, 2026 16:36:49 UTC">January 30, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Installation - GPTChangelog">
-  <meta name="twitter:description" content="Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.">
+  <meta name="twitter:description" content="Install GPTChangelog and its optional terminal interface.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -132,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Installation instructions for GPTChangelog via pip or from source. Requirements, dependencies, and troubleshooting tips for the AI-powered changelog generator.",
+    "description": "Install GPTChangelog and its optional terminal interface.",
     "url": "https://xjodoin.github.io/gptchangelog/user-guide/installation/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -200,7 +199,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Install GPTChangelog
+              Installation
             
           </span>
         </div>
@@ -383,6 +382,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -403,8 +406,9 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -418,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -431,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -499,10 +511,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#pip" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        pip
       
     </span>
   </a>
@@ -510,10 +522,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-with-pip" class="md-nav__link">
+  <a href="#uv-and-uvx" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing with pip
+        uv and uvx
       
     </span>
   </a>
@@ -521,10 +533,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-from-source-with-uv" class="md-nav__link">
+  <a href="#source-checkout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing from Source with uv
+        Source checkout
       
     </span>
   </a>
@@ -532,102 +544,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-off-runs-with-uvx" class="md-nav__link">
+  <a href="#verify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One-Off Runs with uvx
+        Verify
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verifying-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verifying Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-your-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setting Up Your Environment
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Setting Up Your Environment">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-api-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI API Key
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-installation-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Installation Issues
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Getting Help
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -738,7 +661,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -988,10 +911,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#pip" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        pip
       
     </span>
   </a>
@@ -999,10 +922,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-with-pip" class="md-nav__link">
+  <a href="#uv-and-uvx" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing with pip
+        uv and uvx
       
     </span>
   </a>
@@ -1010,10 +933,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-from-source-with-uv" class="md-nav__link">
+  <a href="#source-checkout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing from Source with uv
+        Source checkout
       
     </span>
   </a>
@@ -1021,102 +944,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-off-runs-with-uvx" class="md-nav__link">
+  <a href="#verify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One-Off Runs with uvx
+        Verify
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verifying-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verifying Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-your-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setting Up Your Environment
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Setting Up Your Environment">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-api-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI API Key
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-installation-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Installation Issues
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Getting Help
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1141,78 +975,31 @@
 
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>This page provides detailed installation instructions for GPTChangelog.</p>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Python 3.12 or higher</li>
-<li>Git (installed and in your PATH)</li>
-<li>OpenAI API key</li>
-</ul>
-<h2 id="installing-with-pip">Installing with pip<a class="headerlink" href="#installing-with-pip" title="Permanent link">&para;</a></h2>
-<p>The recommended way to install GPTChangelog is using pip:</p>
+<p>GPTChangelog requires Python 3.12 or newer.</p>
+<h2 id="pip">pip<a class="headerlink" href="#pip" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>gptchangelog
 </code></pre></div>
-<p>This will install GPTChangelog and all its dependencies.</p>
-<h2 id="installing-from-source-with-uv">Installing from Source with uv<a class="headerlink" href="#installing-from-source-with-uv" title="Permanent link">&para;</a></h2>
-<p>If you prefer to work from source, clone the repository and use uv to manage the environment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xjodoin/gptchangelog.git
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>gptchangelog
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>uv<span class="w"> </span>sync<span class="w"> </span>--dev
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: .venv\Scripts\activate</span>
+<p>The Textual interface is optional:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'gptchangelog[tui]'</span>
 </code></pre></div>
-<p>The <code>uv sync</code> command creates a managed virtual environment and installs GPTChangelog in editable mode along with the development extras declared in <code>pyproject.toml</code>.</p>
-<h2 id="one-off-runs-with-uvx">One-Off Runs with uvx<a class="headerlink" href="#one-off-runs-with-uvx" title="Permanent link">&para;</a></h2>
-<p>To run GPTChangelog without installing it, use <code>uvx</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uvx<span class="w"> </span>gptchangelog<span class="w"> </span>--help
+<h2 id="uv-and-uvx">uv and uvx<a class="headerlink" href="#uv-and-uvx" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>gptchangelog
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gptchangelog<span class="w"> </span>--version
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Ephemeral execution</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>uvx<span class="w"> </span>gptchangelog<span class="w"> </span>--help
 </code></pre></div>
-<p>To run directly from a local checkout without creating a virtual environment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uvx<span class="w"> </span>--from<span class="w"> </span>.<span class="w"> </span>gptchangelog<span class="w"> </span>--help
+<h2 id="source-checkout">Source checkout<a class="headerlink" href="#source-checkout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xjodoin/gptchangelog.git
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>gptchangelog
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>uv<span class="w"> </span>sync<span class="w"> </span>--dev<span class="w"> </span>--extra<span class="w"> </span>docs<span class="w"> </span>--extra<span class="w"> </span>release<span class="w"> </span>--extra<span class="w"> </span>tui
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest
 </code></pre></div>
-<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog depends on the following packages:</p>
-<ul>
-<li><code>openai</code>: For interacting with OpenAI's API</li>
-<li><code>gitpython</code>: For accessing git repository information</li>
-<li><code>configparser</code>: For configuration handling on older Python versions</li>
-<li><code>rich</code>: For beautiful terminal output</li>
-<li><code>textual</code>: For the optional terminal UI experience</li>
-</ul>
-<p>These dependencies are automatically installed when you install GPTChangelog using pip.</p>
-<h2 id="verifying-installation">Verifying Installation<a class="headerlink" href="#verifying-installation" title="Permanent link">&para;</a></h2>
-<p>To verify that GPTChangelog is installed correctly, run:</p>
+<h2 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>--version
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>validate
 </code></pre></div>
-<p>This should display the version number of GPTChangelog.</p>
-<h2 id="setting-up-your-environment">Setting Up Your Environment<a class="headerlink" href="#setting-up-your-environment" title="Permanent link">&para;</a></h2>
-<h3 id="openai-api-key">OpenAI API Key<a class="headerlink" href="#openai-api-key" title="Permanent link">&para;</a></h3>
-<p>You'll need an OpenAI API key to use GPTChangelog. If you don't have one, you can get it from the <a href="https://platform.openai.com/">OpenAI website</a>.</p>
-<p>You can configure your API key in two ways:</p>
-<ol>
-<li>
-<p>Through the configuration file (recommended):
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
-</code></pre></div></p>
-</li>
-<li>
-<p>Using an environment variable:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-api-key
-</code></pre></div></p>
-</li>
-</ol>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="common-installation-issues">Common Installation Issues<a class="headerlink" href="#common-installation-issues" title="Permanent link">&para;</a></h3>
-<p><strong>Package not found</strong></p>
-<p>If you get a "command not found" error after installation, make sure your Python scripts directory is in your PATH.</p>
-<p><strong>Dependency conflicts</strong></p>
-<p>If you encounter dependency conflicts while working from source, rerun <code>uv sync</code> to recreate the environment from the lock file. For PyPI installs, try installing inside a virtual environment.</p>
-<p><strong>Git not found</strong></p>
-<p>If you get an error about Git not being found, make sure Git is installed and in your PATH.</p>
-<h3 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h3>
-<p>If you continue to experience issues, please:</p>
-<ol>
-<li>Check the <a href="https://github.com/xjodoin/gptchangelog/issues">GitHub issues</a> to see if your problem has been reported</li>
-<li>Open a new issue if needed, providing details about your environment and the error messages</li>
-</ol>
+<p>Configuration validation reports the selected provider, profile, model, and whether the required authentication is available. It does not generate a changelog.</p>
 
 
 
@@ -1235,7 +1022,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 30, 2026 16:36:49 UTC">January 30, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1280,7 +1067,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1331,10 +1118,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

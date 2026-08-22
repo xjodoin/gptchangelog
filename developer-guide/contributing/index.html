@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -93,7 +93,7 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 1, 2025 19:24:51 UTC">October 1, 2025</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
@@ -380,6 +380,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -402,8 +406,9 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../user-guide/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -417,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -430,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -557,7 +570,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -1373,8 +1386,8 @@
 </code></pre></div></li>
 </ol>
 <h3 id="sync-dependencies-with-uv">Sync Dependencies with uv<a class="headerlink" href="#sync-dependencies-with-uv" title="Permanent link">&para;</a></h3>
-<p>GPTChangelog now uses <a href="https://docs.astral.sh/uv/">uv</a> for dependency management. After installing uv, run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--dev<span class="w"> </span>--extra<span class="w"> </span>docs<span class="w"> </span>--extra<span class="w"> </span>release
+<p>GPTChangelog requires Python 3.12 or newer and uses <a href="https://docs.astral.sh/uv/">uv</a> for dependency management. After installing uv, run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--dev<span class="w"> </span>--extra<span class="w"> </span>docs<span class="w"> </span>--extra<span class="w"> </span>release<span class="w"> </span>--extra<span class="w"> </span>tui
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: .venv\Scripts\activate</span>
 </code></pre></div>
 <p>The <code>uv sync</code> command creates a managed <code>.venv</code> and installs the core package together with the development, documentation, and release tooling declared in <code>pyproject.toml</code>.</p>
@@ -1393,7 +1406,7 @@
 </code></pre></div>
 <h3 id="type-checking">Type Checking<a class="headerlink" href="#type-checking" title="Permanent link">&para;</a></h3>
 <p>We use mypy for type checking:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mypy<span class="w"> </span>gptchangelog
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mypy<span class="w"> </span>--check-untyped-defs<span class="w"> </span>gptchangelog
 </code></pre></div>
 <h3 id="running-the-cli-in-development">Running the CLI in Development<a class="headerlink" href="#running-the-cli-in-development" title="Permanent link">&para;</a></h3>
 <p>When developing, you can run the CLI directly:</p>
@@ -1443,12 +1456,13 @@
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>├── cli.py                # Command-line interface
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>├── config.py             # Configuration management
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>├── git_utils.py          # Git utilities
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>├── openai_utils.py       # OpenAI API integration
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>├── utils.py              # Utility functions
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>└── templates/            # Prompt templates
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    ├── changelog_prompt.txt
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    ├── commits_prompt.txt
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    └── version_prompt.txt
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>├── enhanced_git_utils.py # Commit analysis and statistics
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>├── enhanced_openai_utils.py # Structured generation and rendering
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>├── openai_client.py      # OpenAI Responses and Codex CLI providers
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>├── openai_utils.py       # Compatibility generation API
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>├── textual_ui.py         # Optional terminal review UI
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>├── utils.py              # Validation and atomic persistence
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>└── templates/            # Legacy integration templates
 </code></pre></div>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <h3 id="building-documentation">Building Documentation<a class="headerlink" href="#building-documentation" title="Permanent link">&para;</a></h3>
@@ -1503,7 +1517,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 1, 2025 19:24:51 UTC">October 1, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1548,7 +1562,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1599,10 +1613,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

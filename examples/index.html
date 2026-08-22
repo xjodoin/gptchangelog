@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.">
+        <meta name="description" content="Safe local, CI, JSON, localization, and validation examples.">
       
       
         <meta name="author" content="xjodoin">
@@ -25,15 +25,15 @@
       
       
       <link rel="icon" href="../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Examples and Recipes | GPTChangelog - GPTChangelog</title>
+        <title>Examples - GPTChangelog</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,11 +71,10 @@
   
 
   
-  <meta name="description" content="Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.">
+  <meta name="description" content="Safe local, CI, JSON, localization, and validation examples.">
   <meta name="author" content="xjodoin">
   
-  
-  <meta name="keywords" content="gptchangelog, examples, recipes, ci/cd, github releases, conventional commits, templates, release notes, python cli">
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
   
   <meta name="robots" content="index,follow">
 
@@ -85,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="Examples - GPTChangelog">
-  <meta property="og:description" content="Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.">
+  <meta property="og:description" content="Safe local, CI, JSON, localization, and validation examples.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/examples/">
   
     
@@ -94,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Examples - GPTChangelog">
-  <meta name="twitter:description" content="Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.">
+  <meta name="twitter:description" content="Safe local, CI, JSON, localization, and validation examples.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -132,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Practical examples and recipes for using GPTChangelog in real-world workflows including CI/CD, GitHub releases, custom templates, and multi-language changelogs.",
+    "description": "Safe local, CI, JSON, localization, and validation examples.",
     "url": "https://xjodoin.github.io/gptchangelog/examples/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -200,7 +199,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Examples and Recipes | GPTChangelog
+              Examples
             
           </span>
         </div>
@@ -381,6 +380,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -403,8 +406,9 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../user-guide/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -418,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -431,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -558,7 +570,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -794,341 +806,123 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-examples" class="md-nav__link">
+  <a href="#latest-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Examples
+        Latest release
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Basic Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#generating-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-interactive-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using Interactive Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exploring-results-with-the-textual-ui" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exploring Results with the Textual UI
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-a-changelog-between-tags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog Between Tags
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#outputting-to-a-different-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Outputting to a Different File
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#real-world-scenarios" class="md-nav__link">
+  <a href="#explicit-release-tags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Real-World Scenarios
+        Explicit release tags
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Real-World Scenarios">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pre-release-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Release Workflow
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#release-notes-for-github" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Release Notes for GitHub
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#automated-changelog-for-cicd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automated Changelog for CI/CD
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-examples" class="md-nav__link">
+  <a href="#first-release-without-tags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Advanced Examples
+        First release without tags
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Advanced Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-template-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Template Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#integration-with-other-tools" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integration with Other Tools
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Integration with Other Tools">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#combining-with-conventional-commits-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Combining with Conventional Commits Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-release-notes-for-different-audiences" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating Release Notes for Different Audiences
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-language-changelogs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-Language Changelogs
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples-for-specific-project-types" class="md-nav__link">
+  <a href="#preview-markdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples for Specific Project Types
+        Preview Markdown
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Examples for Specific Project Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-package-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Python Package Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#javascriptnodejs-project-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        JavaScript/Node.js Project Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#web-application-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Web Application Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting-examples" class="md-nav__link">
+  <a href="#json-for-another-tool" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Troubleshooting Examples
+        JSON for another tool
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#handling-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Handling Large Repositories
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fixing-version-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fixing Version Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-recovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Recovery
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#complete-workflow-examples" class="md-nav__link">
+  <a href="#another-repository" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Complete Workflow Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Complete Workflow Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#full-release-workflow-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Release Workflow Example
+        Another repository
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#github-action-workflow-example" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#quality-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Action Workflow Example
+        Quality profile
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#french-and-spanish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        French and Spanish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-the-output-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect the output contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnose-a-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnose a failure
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1194,341 +988,123 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-examples" class="md-nav__link">
+  <a href="#latest-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Examples
+        Latest release
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Basic Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#generating-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-interactive-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using Interactive Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exploring-results-with-the-textual-ui" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exploring Results with the Textual UI
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-a-changelog-between-tags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog Between Tags
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#outputting-to-a-different-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Outputting to a Different File
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#real-world-scenarios" class="md-nav__link">
+  <a href="#explicit-release-tags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Real-World Scenarios
+        Explicit release tags
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Real-World Scenarios">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pre-release-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Release Workflow
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#release-notes-for-github" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Release Notes for GitHub
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#automated-changelog-for-cicd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automated Changelog for CI/CD
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-examples" class="md-nav__link">
+  <a href="#first-release-without-tags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Advanced Examples
+        First release without tags
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Advanced Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-template-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Template Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#integration-with-other-tools" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integration with Other Tools
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Integration with Other Tools">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#combining-with-conventional-commits-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Combining with Conventional Commits Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-release-notes-for-different-audiences" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating Release Notes for Different Audiences
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-language-changelogs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-Language Changelogs
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples-for-specific-project-types" class="md-nav__link">
+  <a href="#preview-markdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples for Specific Project Types
+        Preview Markdown
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Examples for Specific Project Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-package-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Python Package Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#javascriptnodejs-project-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        JavaScript/Node.js Project Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#web-application-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Web Application Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting-examples" class="md-nav__link">
+  <a href="#json-for-another-tool" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Troubleshooting Examples
+        JSON for another tool
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#handling-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Handling Large Repositories
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fixing-version-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fixing Version Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-recovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Recovery
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#complete-workflow-examples" class="md-nav__link">
+  <a href="#another-repository" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Complete Workflow Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Complete Workflow Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#full-release-workflow-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Release Workflow Example
+        Another repository
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#github-action-workflow-example" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#quality-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Action Workflow Example
+        Quality profile
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#french-and-spanish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        French and Spanish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-the-output-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect the output contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnose-a-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnose a failure
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1553,357 +1129,65 @@
 
 
 <h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
-<p>This page provides practical examples of using GPTChangelog in different scenarios.</p>
-<h2 id="basic-examples">Basic Examples<a class="headerlink" href="#basic-examples" title="Permanent link">&para;</a></h2>
-<h3 id="generating-a-changelog">Generating a Changelog<a class="headerlink" href="#generating-a-changelog" title="Permanent link">&para;</a></h3>
-<p>The most basic usage is to generate a changelog from your latest tag:</p>
+<h2 id="latest-release">Latest release<a class="headerlink" href="#latest-release" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gptchangelog<span class="w"> </span>generate
 </code></pre></div>
-<p>Example output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gu">## [1.2.0] - 2024-10-20</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="gu">### ✨ Features</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">-</span><span class="w"> </span>Add support for interactive editing mode
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">-</span><span class="w"> </span>Implement automatic conventional commit detection
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="gu">### 🐛 Bug Fixes</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="k">-</span><span class="w"> </span>Resolve issue with version detection on Windows
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">-</span><span class="w"> </span>Fix token counting logic for large repositories
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="gu">### 🔄 Changes</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">-</span><span class="w"> </span>Update default model to gpt-5.5
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">-</span><span class="w"> </span>Improve commit message grouping algorithm
+<h2 id="explicit-release-tags">Explicit release tags<a class="headerlink" href="#explicit-release-tags" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.8.0<span class="w"> </span>--to<span class="w"> </span>v1.9.0
 </code></pre></div>
-<h3 id="using-interactive-mode">Using Interactive Mode<a class="headerlink" href="#using-interactive-mode" title="Permanent link">&para;</a></h3>
-<p>To review and edit the changelog before saving:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--interactive
+<h2 id="first-release-without-tags">First release without tags<a class="headerlink" href="#first-release-without-tags" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--current-version<span class="w"> </span><span class="m">0</span>.0.0
 </code></pre></div>
-<p>This will show you the generated changelog and prompt you to edit it before saving.</p>
-<h3 id="exploring-results-with-the-textual-ui">Exploring Results with the Textual UI<a class="headerlink" href="#exploring-results-with-the-textual-ui" title="Permanent link">&para;</a></h3>
-<p>For a richer review experience, launch the Textual interface:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--ui<span class="w"> </span>textual
+<p>The root commit is included automatically.</p>
+<h2 id="preview-markdown">Preview Markdown<a class="headerlink" href="#preview-markdown" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>&gt;<span class="w"> </span>release.md
 </code></pre></div>
-<p>Press <code>q</code> to exit the TUI once you're done reviewing.</p>
-<h3 id="generating-a-changelog-between-tags">Generating a Changelog Between Tags<a class="headerlink" href="#generating-a-changelog-between-tags" title="Permanent link">&para;</a></h3>
-<p>To generate a changelog between two specific tags:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v2.0.0
+<h2 id="json-for-another-tool">JSON for another tool<a class="headerlink" href="#json-for-another-tool" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>&gt;<span class="w"> </span>release.json
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span>.version<span class="w"> </span>release.json<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--notes-file<span class="w"> </span>&lt;<span class="o">(</span>jq<span class="w"> </span>-r<span class="w"> </span>.changelog<span class="w"> </span>release.json<span class="o">)</span>
 </code></pre></div>
-<h3 id="outputting-to-a-different-file">Outputting to a Different File<a class="headerlink" href="#outputting-to-a-different-file" title="Permanent link">&para;</a></h3>
-<p>To save the changelog to a different file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>RELEASE_NOTES.md
+<h2 id="another-repository">Another repository<a class="headerlink" href="#another-repository" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--repo<span class="w"> </span>../service-api<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--output<span class="w"> </span>docs/CHANGELOG.md
 </code></pre></div>
-<h2 id="real-world-scenarios">Real-World Scenarios<a class="headerlink" href="#real-world-scenarios" title="Permanent link">&para;</a></h2>
-<h3 id="pre-release-workflow">Pre-Release Workflow<a class="headerlink" href="#pre-release-workflow" title="Permanent link">&para;</a></h3>
-<p>Before creating a new release, generate a changelog to review the changes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Generate changelog without saving</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># If it looks good, create a new tag</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v1.2.0<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release v1.2.0&quot;</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Generate and save the final changelog</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>gptchangelog<span class="w"> </span>generate
+<p>Relative output paths are resolved against the target repository, not the caller's process directory.</p>
+<h2 id="quality-profile">Quality profile<a class="headerlink" href="#quality-profile" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--profile<span class="w"> </span>quality<span class="w"> </span>--check
 </code></pre></div>
-<h3 id="release-notes-for-github">Release Notes for GitHub<a class="headerlink" href="#release-notes-for-github" title="Permanent link">&para;</a></h3>
-<p>Generate release notes for a GitHub release:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Get the previous tag</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">PREV_TAG</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="w"> </span>--match<span class="w"> </span><span class="s2">&quot;v*&quot;</span><span class="w"> </span>HEAD^<span class="k">)</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nv">CURRENT_TAG</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="k">)</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Generate release notes</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span><span class="nv">$PREV_TAG</span><span class="w"> </span>--to<span class="w"> </span><span class="nv">$CURRENT_TAG</span><span class="w"> </span>--output<span class="w"> </span>RELEASE_NOTES.md<span class="w"> </span>--ui<span class="w"> </span>plain
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Create GitHub release (using gh CLI)</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span><span class="nv">$CURRENT_TAG</span><span class="w"> </span>--notes-file<span class="w"> </span>RELEASE_NOTES.md
+<p>Balanced generation uses <code>gpt-5.6-terra</code>; quality generation uses <code>gpt-5.6-sol</code>.</p>
+<h2 id="french-and-spanish">French and Spanish<a class="headerlink" href="#french-and-spanish" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--language<span class="w"> </span>fr<span class="w"> </span>--output<span class="w"> </span>CHANGELOG.fr.md
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--language<span class="w"> </span>es<span class="w"> </span>--output<span class="w"> </span>CHANGELOG.es.md
 </code></pre></div>
-<h3 id="automated-changelog-for-cicd">Automated Changelog for CI/CD<a class="headerlink" href="#automated-changelog-for-cicd" title="Permanent link">&para;</a></h3>
-<p>In a CI/CD pipeline, automatically generate a changelog for each release:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># This script is part of a CI/CD pipeline</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Set up environment</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>pip<span class="w"> </span>install<span class="w"> </span>gptchangelog
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Get the previous tag</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nv">PREV_TAG</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="w"> </span>--match<span class="w"> </span><span class="s2">&quot;v*&quot;</span><span class="w"> </span>HEAD^<span class="k">)</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nv">CURRENT_TAG</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="k">)</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># Generate changelog</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span><span class="nv">$PREV_TAG</span><span class="w"> </span>--to<span class="w"> </span><span class="nv">$CURRENT_TAG</span><span class="w"> </span>--ui<span class="w"> </span>plain
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># Commit and push the updated changelog</span>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>git<span class="w"> </span>add<span class="w"> </span>CHANGELOG.md
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update changelog for </span><span class="nv">$CURRENT_TAG</span><span class="s2">&quot;</span>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<h2 id="inspect-the-output-contract">Inspect the output contract<a class="headerlink" href="#inspect-the-output-contract" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.validation
 </code></pre></div>
-<h2 id="advanced-examples">Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permanent link">&para;</a></h2>
-<h3 id="custom-template-example">Custom Template Example<a class="headerlink" href="#custom-template-example" title="Permanent link">&para;</a></h3>
-<p>Create a custom template for your project:</p>
-<ol>
-<li>
-<p>Create a directory for templates:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>.gptchangelog/templates
-</code></pre></div></p>
-</li>
-<li>
-<p>Create a custom changelog template:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.gptchangelog/templates/changelog_prompt.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="s"># $project_name Release Notes</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="s">## Version $next_version ($current_date)</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="s">Changes since previous release:</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="s">$commit_messages</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="s">Instructions:</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="s">1. Format as a detailed release notes document</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="s">2. Group changes into these categories:</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="s">   - New Features</span>
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="s">   - Improvements</span>
-<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="s">   - Bug Fixes</span>
-<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="s">   - Security Updates</span>
-<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="s">   - Documentation</span>
-<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="s">3. For each change, provide a clear description of what changed and why it matters</span>
-<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="s">4. Highlight breaking changes with a &quot;BREAKING&quot; prefix</span>
-<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="s">5. Use bullet points for each change</span>
-<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="s">6. Include credit for contributors where applicable</span>
-<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="s">EOF</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Use the custom template:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>gptchangelog<span class="w"> </span>generate
-</code></pre></div></p>
-</li>
-</ol>
-<h3 id="integration-with-other-tools">Integration with Other Tools<a class="headerlink" href="#integration-with-other-tools" title="Permanent link">&para;</a></h3>
-<h4 id="combining-with-conventional-commits-validation">Combining with Conventional Commits Validation<a class="headerlink" href="#combining-with-conventional-commits-validation" title="Permanent link">&para;</a></h4>
-<p>Use GPTChangelog with commitlint to enforce conventional commits:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Install commitlint</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@commitlint/cli<span class="w"> </span>@commitlint/config-conventional
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Set up commitlint</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;module.exports = {extends: [&#39;@commitlint/config-conventional&#39;]}&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>commitlint.config.js
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Add a pre-commit hook (with husky)</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>npx<span class="w"> </span>husky<span class="w"> </span>add<span class="w"> </span>.husky/commit-msg<span class="w"> </span><span class="s1">&#39;npx --no -- commitlint --edit &quot;$1&quot;&#39;</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Later, generate a changelog from the well-formatted commits</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>gptchangelog<span class="w"> </span>generate
+<h2 id="github-actions">GitHub Actions<a class="headerlink" href="#github-actions" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.12'</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install gptchangelog</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate changelog</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">OPENAI_API_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.OPENAI_API_KEY }}</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="no">PREVIOUS_TAG="$(git describe --tags --abbrev=0 HEAD^)"</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="no">gptchangelog generate \</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">      </span><span class="no">--since "$PREVIOUS_TAG" \</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">      </span><span class="no">--to "$GITHUB_SHA" \</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">      </span><span class="no">--output RELEASE_NOTES.md \</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">      </span><span class="no">--ui plain</span>
 </code></pre></div>
-<h4 id="generating-release-notes-for-different-audiences">Generating Release Notes for Different Audiences<a class="headerlink" href="#generating-release-notes-for-different-audiences" title="Permanent link">&para;</a></h4>
-<p>You can generate different types of release notes for different audiences:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Technical release notes for developers</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>DEVELOPER_NOTES.md
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># User-friendly release notes</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.gptchangelog/templates/user_changelog.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s"># What&#39;s New in $project_name $next_version</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="s">Release Date: $current_date</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="s">$commit_messages</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="s">Instructions:</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="s">1. Write this as a user-friendly document explaining what&#39;s new</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="s">2. Focus on benefits and improvements from the user&#39;s perspective</span>
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="s">3. Avoid technical details unless they directly affect users</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="s">4. Use simple, clear language</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="s">5. Group into &quot;New Features&quot;, &quot;Improvements&quot;, and &quot;Fixed Issues&quot;</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="s">EOF</span>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="nv">TEMPLATE_PATH</span><span class="o">=</span>.gptchangelog/templates/user_changelog.txt<span class="w"> </span>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>WHATS_NEW.md
+<h2 id="diagnose-a-failure">Diagnose a failure<a class="headerlink" href="#diagnose-a-failure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>validate
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">GPTCHANGELOG_DEBUG</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--check<span class="w"> </span>--ui<span class="w"> </span>plain
 </code></pre></div>
-<h4 id="multi-language-changelogs">Multi-Language Changelogs<a class="headerlink" href="#multi-language-changelogs" title="Permanent link">&para;</a></h4>
-<p>Generate changelogs in multiple languages:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># First, generate the English changelog</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>CHANGELOG.en.md
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Then, generate a French version using a translator API or service</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>cat<span class="w"> </span>CHANGELOG.en.md<span class="w"> </span><span class="p">|</span><span class="w"> </span>translator_service<span class="w"> </span>en<span class="w"> </span>fr<span class="w"> </span>&gt;<span class="w"> </span>CHANGELOG.fr.md
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Alternatively, use GPT for translation</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.gptchangelog/templates/french_changelog.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="s"># Changelog in French</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="s">English changelog:</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="s">$commit_messages</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
-<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="s">Instructions:</span>
-<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="s">1. Translate the above changelog to French</span>
-<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="s">2. Maintain the same structure and meaning</span>
-<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="s">3. Use appropriate French terminology for technical terms</span>
-<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="s">EOF</span>
-<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
-<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="c1"># Then use this template to generate the French changelog</span>
-<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="nv">TEMPLATE_PATH</span><span class="o">=</span>.gptchangelog/templates/french_changelog.txt<span class="w"> </span>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>&gt;<span class="w"> </span>CHANGELOG.fr.md
-</code></pre></div>
-<h2 id="examples-for-specific-project-types">Examples for Specific Project Types<a class="headerlink" href="#examples-for-specific-project-types" title="Permanent link">&para;</a></h2>
-<h3 id="python-package-example">Python Package Example<a class="headerlink" href="#python-package-example" title="Permanent link">&para;</a></h3>
-<p>For a Python package:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Before a new release</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># 1. Update version in setup.py or __init__.py</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># 2. Generate changelog</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>gptchangelog<span class="w"> </span>generate
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># 3. Commit changes</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>git<span class="w"> </span>add<span class="w"> </span>CHANGELOG.md<span class="w"> </span>setup.py
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Prepare release X.Y.Z&quot;</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># 4. Create tag</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>vX.Y.Z<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release vX.Y.Z&quot;</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># 5. Push changes and tag</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># 6. Build and publish</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>python<span class="w"> </span>-m<span class="w"> </span>build
-<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>twine<span class="w"> </span>upload<span class="w"> </span>dist/*
-</code></pre></div>
-<h3 id="javascriptnodejs-project-example">JavaScript/Node.js Project Example<a class="headerlink" href="#javascriptnodejs-project-example" title="Permanent link">&para;</a></h3>
-<p>For a Node.js project:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Before a new release</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># 1. Update version in package.json</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>npm<span class="w"> </span>version<span class="w"> </span>patch<span class="w"> </span><span class="c1"># or minor, or major</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># 2. Generate changelog</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>gptchangelog<span class="w"> </span>generate
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1"># 3. Commit changes</span>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>git<span class="w"> </span>add<span class="w"> </span>CHANGELOG.md
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update changelog for version </span><span class="k">$(</span>node<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;require(&#39;./package.json&#39;).version&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="c1"># 4. Push changes (npm version already created the tag)</span>
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="c1"># 5. Publish</span>
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>npm<span class="w"> </span>publish
-</code></pre></div>
-<h3 id="web-application-example">Web Application Example<a class="headerlink" href="#web-application-example" title="Permanent link">&para;</a></h3>
-<p>For a web application:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Generate a user-friendly &quot;What&#39;s New&quot; page</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>src/assets/whats-new.md
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Then in your app, you can display this content</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># For example, in a React component:</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1"># import WhatsNew from &#39;../assets/whats-new.md&#39;;</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># function WhatsNewModal() {</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1">#   return &lt;ReactMarkdown&gt;{WhatsNew}&lt;/ReactMarkdown&gt;;</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1"># }</span>
-</code></pre></div>
-<h2 id="troubleshooting-examples">Troubleshooting Examples<a class="headerlink" href="#troubleshooting-examples" title="Permanent link">&para;</a></h2>
-<h3 id="handling-large-repositories">Handling Large Repositories<a class="headerlink" href="#handling-large-repositories" title="Permanent link">&para;</a></h3>
-<p>For very large repositories with many commits:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Generate changelog for just the last 100 commits</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%H&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>-I<span class="o">{}</span><span class="w"> </span>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span><span class="o">{}</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Generate changelog for the last month</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nv">ONE_MONTH_AGO</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>log<span class="w"> </span>--since<span class="o">=</span><span class="s2">&quot;1 month ago&quot;</span><span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%H&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span><span class="nv">$ONE_MONTH_AGO</span>
-</code></pre></div>
-<h3 id="fixing-version-detection">Fixing Version Detection<a class="headerlink" href="#fixing-version-detection" title="Permanent link">&para;</a></h3>
-<p>If version detection isn't working as expected:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Manually specify the current version</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--current-version<span class="w"> </span><span class="m">1</span>.5.0
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Create a tag if you don&#39;t have one</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v1.0.0<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial release&quot;</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>gptchangelog<span class="w"> </span>generate
-</code></pre></div>
-<h3 id="error-recovery">Error Recovery<a class="headerlink" href="#error-recovery" title="Permanent link">&para;</a></h3>
-<p>If you encounter an error during generation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Enable debug mode</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GPTCHANGELOG_DEBUG</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>gptchangelog<span class="w"> </span>generate
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># Try with a different model</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--model<span class="w"> </span>gpt-5.4-mini
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># Process in smaller batches</span>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>git<span class="w"> </span>tag<span class="w"> </span>v1.0.0-temp
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v1.0.0-temp
-<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v1.0.0-temp
-</code></pre></div>
-<h2 id="complete-workflow-examples">Complete Workflow Examples<a class="headerlink" href="#complete-workflow-examples" title="Permanent link">&para;</a></h2>
-<h3 id="full-release-workflow-example">Full Release Workflow Example<a class="headerlink" href="#full-release-workflow-example" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1"># Complete release script</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Ensure we&#39;re on the main branch</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>git<span class="w"> </span>pull
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Determine the next version based on changes</span>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="nv">PREV_VERSION</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="k">)</span>
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Previous version was </span><span class="nv">$PREV_VERSION</span><span class="s2">&quot;</span>
-<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1"># Generate changelog and extract version</span>
-<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="nv">CHANGELOG</span><span class="o">=</span><span class="k">$(</span>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="k">)</span>
-<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="nv">NEXT_VERSION</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CHANGELOG</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-m<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s2">&quot;## \[&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;s/## \[(.*)\].*/\1/&#39;</span><span class="k">)</span>
-<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Next version will be </span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span>
-<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>
-<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="c1"># Update version in files</span>
-<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="c1"># (This depends on your project type)</span>
-<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/__version__ = .*/__version__ = &#39;</span><span class="nv">$NEXT_VERSION</span><span class="s2">&#39;/&quot;</span><span class="w"> </span>project/__init__.py
-<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>
-<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="c1"># Generate and save the changelog</span>
-<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--current-version<span class="w"> </span><span class="nv">$NEXT_VERSION</span>
-<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>
-<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="c1"># Commit the changes</span>
-<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a>git<span class="w"> </span>add<span class="w"> </span>CHANGELOG.md<span class="w"> </span>project/__init__.py
-<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release </span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span>
-<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a>
-<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a><span class="c1"># Create a tag</span>
-<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;v</span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release </span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span>
-<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a>
-<a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a><span class="c1"># Push changes and tag</span>
-<a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
-<a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="s2">&quot;v</span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span>
-<a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a>
-<a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Released version </span><span class="nv">$NEXT_VERSION</span><span class="s2">&quot;</span>
-</code></pre></div>
-<h3 id="github-action-workflow-example">GitHub Action Workflow Example<a class="headerlink" href="#github-action-workflow-example" title="Permanent link">&para;</a></h3>
-<p><code>.github/workflows/release.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Release</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nt">on</span><span class="p">:</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="nt">tags</span><span class="p">:</span>
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;v*&#39;</span>
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="nt">jobs</span><span class="p">:</span>
-<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">  </span><span class="nt">release</span><span class="p">:</span>
-<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout code</span>
-<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
-<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>
-<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
-<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
-<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.10&#39;</span>
-<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>
-<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
-<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="w">          </span><span class="no">python -m pip install --upgrade pip</span>
-<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a><span class="w">          </span><span class="no">pip install gptchangelog</span>
-<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a>
-<a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get previous tag</span>
-<a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a><span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">previoustag</span>
-<a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a><span class="w">          </span><span class="no">echo &quot;PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match &quot;v*&quot; HEAD^ || git rev-list --max-parents=0 HEAD)&quot; &gt;&gt; $GITHUB_ENV</span>
-<a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a>
-<a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate release notes</span>
-<a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<a id="__codelineno-22-34" name="__codelineno-22-34" href="#__codelineno-22-34"></a><span class="w">          </span><span class="nt">OPENAI_API_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.OPENAI_API_KEY }}</span>
-<a id="__codelineno-22-35" name="__codelineno-22-35" href="#__codelineno-22-35"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-22-36" name="__codelineno-22-36" href="#__codelineno-22-36"></a><span class="w">          </span><span class="no">gptchangelog generate --since ${{ env.PREVIOUS_TAG }} --to ${{ github.ref_name }} --output RELEASE_NOTES.md --ui plain</span>
-<a id="__codelineno-22-37" name="__codelineno-22-37" href="#__codelineno-22-37"></a>
-<a id="__codelineno-22-38" name="__codelineno-22-38" href="#__codelineno-22-38"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create GitHub Release</span>
-<a id="__codelineno-22-39" name="__codelineno-22-39" href="#__codelineno-22-39"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">softprops/action-gh-release@v1</span>
-<a id="__codelineno-22-40" name="__codelineno-22-40" href="#__codelineno-22-40"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<a id="__codelineno-22-41" name="__codelineno-22-41" href="#__codelineno-22-41"></a><span class="w">          </span><span class="nt">body_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELEASE_NOTES.md</span>
-<a id="__codelineno-22-42" name="__codelineno-22-42" href="#__codelineno-22-42"></a><span class="w">          </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-22-43" name="__codelineno-22-43" href="#__codelineno-22-43"></a><span class="w">            </span><span class="no">*.tar.gz</span>
-<a id="__codelineno-22-44" name="__codelineno-22-44" href="#__codelineno-22-44"></a><span class="w">            </span><span class="no">*.zip</span>
-<a id="__codelineno-22-45" name="__codelineno-22-45" href="#__codelineno-22-45"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<a id="__codelineno-22-46" name="__codelineno-22-46" href="#__codelineno-22-46"></a><span class="w">          </span><span class="nt">GITHUB_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
-</code></pre></div>
+<p>Invalid Git ranges, authentication failures, schema violations, and file-write errors all return nonzero exit codes.</p>
 
 
 
@@ -1926,7 +1210,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1971,7 +1255,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -2022,10 +1306,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

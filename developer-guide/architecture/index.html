@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -93,7 +93,7 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38 UTC">March 10, 2025</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
@@ -380,6 +380,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -402,8 +406,9 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../user-guide/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -417,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -430,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -557,7 +570,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -730,10 +743,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#system-overview" class="md-nav__link">
+  <a href="#invariants" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System Overview
+        Invariants
       
     </span>
   </a>
@@ -741,82 +754,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-components" class="md-nav__link">
+  <a href="#git-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Components
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Core Components">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cli-module-clipy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Module (cli.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-manager-configpy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration Manager (config.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#git-utilities-git_utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Git Utilities (git_utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#openai-integration-openai_utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Integration (openai_utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#utility-functions-utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Utility Functions (utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data Flow
+        Git analysis
       
     </span>
   </a>
@@ -824,99 +765,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#module-relationships" class="md-nav__link">
+  <a href="#version-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Module Relationships
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module Relationships">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#package-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Package Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-graph" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Graph
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-points" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension Points
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Extension Points">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Templates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-git-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Git Integration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-formats" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output Formats
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Handling
+        Version policy
       
     </span>
   </a>
@@ -924,10 +776,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance-considerations" class="md-nav__link">
+  <a href="#generation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Considerations
+        Generation
       
     </span>
   </a>
@@ -935,10 +787,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
+  <a href="#rendering-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Considerations
+        Rendering and validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-writing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File writing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-and-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI and UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing strategy
       
     </span>
   </a>
@@ -1070,10 +955,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#system-overview" class="md-nav__link">
+  <a href="#invariants" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System Overview
+        Invariants
       
     </span>
   </a>
@@ -1081,82 +966,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-components" class="md-nav__link">
+  <a href="#git-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Components
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Core Components">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cli-module-clipy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Module (cli.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-manager-configpy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration Manager (config.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#git-utilities-git_utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Git Utilities (git_utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#openai-integration-openai_utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Integration (openai_utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#utility-functions-utilspy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Utility Functions (utils.py)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data Flow
+        Git analysis
       
     </span>
   </a>
@@ -1164,99 +977,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#module-relationships" class="md-nav__link">
+  <a href="#version-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Module Relationships
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module Relationships">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#package-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Package Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-graph" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Graph
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-points" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension Points
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Extension Points">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Templates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-git-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Git Integration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-formats" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output Formats
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Handling
+        Version policy
       
     </span>
   </a>
@@ -1264,10 +988,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance-considerations" class="md-nav__link">
+  <a href="#generation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Considerations
+        Generation
       
     </span>
   </a>
@@ -1275,10 +999,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
+  <a href="#rendering-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Considerations
+        Rendering and validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-writing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File writing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-and-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI and UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing strategy
       
     </span>
   </a>
@@ -1306,156 +1063,72 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
-<p>This document provides an overview of GPTChangelog's architecture, its components, and how they interact with each other.</p>
-<h2 id="system-overview">System Overview<a class="headerlink" href="#system-overview" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog follows a modular architecture with clear separation of concerns. The system consists of several core components that work together to generate changelogs from git commit history.</p>
-<pre class="mermaid"><code>graph TD
-    CLI[CLI Module] --&gt; Config[Configuration Manager]
-    CLI --&gt; GitUtils[Git Utilities]
-    CLI --&gt; OpenAIUtils[OpenAI Integration]
-    GitUtils --&gt; Repo[Git Repository]
-    OpenAIUtils --&gt; OpenAI[OpenAI API]
-    OpenAIUtils --&gt; Templates[Prompt Templates]
-    OpenAIUtils --&gt; Utils[Utility Functions]
-    CLI --&gt; Output[Output Processing]</code></pre>
-<h2 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Permanent link">&para;</a></h2>
-<h3 id="cli-module-clipy">CLI Module (<code>cli.py</code>)<a class="headerlink" href="#cli-module-clipy" title="Permanent link">&para;</a></h3>
-<p>The CLI module is the entry point for the application. It:</p>
+<p>GPTChangelog separates deterministic release mechanics from model-assisted writing.</p>
+<pre class="mermaid"><code>flowchart LR
+    CLI[CLI request] --&gt; Config[Validated configuration]
+    Config --&gt; Git[Validated Git range]
+    Git --&gt; Version[Deterministic SemVer]
+    Git --&gt; Draft[One structured model request]
+    Version --&gt; Render[Localized renderer]
+    Draft --&gt; Validate[Source and schema validation]
+    Validate --&gt; Render
+    Render --&gt; Artifact[Markdown or JSON]
+    Artifact --&gt; Writer[Atomic changelog writer]</code></pre>
+<h2 id="invariants">Invariants<a class="headerlink" href="#invariants" title="Permanent link">&para;</a></h2>
+<p>The model never controls:</p>
 <ul>
-<li>Parses command-line arguments</li>
-<li>Handles subcommands (generate, config)</li>
-<li>Coordinates the workflow between other components</li>
-<li>Manages output formatting and user interaction</li>
+<li>Git reference resolution</li>
+<li>whether the root commit is included</li>
+<li>the semantic-version increment</li>
+<li>Markdown headings or insertion position</li>
+<li>file replacement and duplicate handling</li>
 </ul>
-<h3 id="configuration-manager-configpy">Configuration Manager (<code>config.py</code>)<a class="headerlink" href="#configuration-manager-configpy" title="Permanent link">&para;</a></h3>
-<p>The Configuration Manager handles loading, saving, and merging configuration from different sources:</p>
+<p>Model output is accepted only when it satisfies the structured schema and every release-note item refers to commits in the analyzed range.</p>
+<h2 id="git-analysis">Git analysis<a class="headerlink" href="#git-analysis" title="Permanent link">&para;</a></h2>
+<p>The Git layer resolves <code>--to</code>, finds the newest reachable tag when <code>--since</code> is omitted, and distinguishes a tagged range from an initial untagged release. Invalid refs and Git command failures propagate to the CLI.</p>
+<p>Commit analysis produces typed records containing source SHA, message, author, timestamp, changed files, statistics, classification, breaking-change state, issue references, and components. Noise filtering records what was skipped instead of disguising an invalid range as an empty release.</p>
+<h2 id="version-policy">Version policy<a class="headerlink" href="#version-policy" title="Permanent link">&para;</a></h2>
+<p>Semantic versioning is deterministic:</p>
 <ul>
-<li>Project-specific configuration</li>
-<li>Global user configuration</li>
-<li>Environment variables</li>
-<li>Command-line arguments</li>
+<li>explicit Conventional Commit <code>!</code> or a blank-line-separated breaking footer: major</li>
+<li>feature: minor</li>
+<li>fixes and maintenance: patch</li>
 </ul>
-<h3 id="git-utilities-git_utilspy">Git Utilities (<code>git_utils.py</code>)<a class="headerlink" href="#git-utilities-git_utilspy" title="Permanent link">&para;</a></h3>
-<p>The Git Utilities module interacts with the git repository:</p>
+<p>The parser validates the current version and preserves an existing <code>v</code> prefix. A model response cannot downgrade or otherwise replace the calculated result.</p>
+<h2 id="generation">Generation<a class="headerlink" href="#generation" title="Permanent link">&para;</a></h2>
+<p>The generation path sends at most one request. Commit data is delimited as
+untrusted source content. The dynamic strict schema contains a summary, one
+required assignment property for every selected commit ID, and bounded shared
+topic descriptions. Each assignment's category is fixed by a single-value enum
+and its topic is restricted to that category's slots. This makes omitted,
+duplicated, or cross-category source coverage structurally impossible while
+still consolidating related commits into readable entries.</p>
+<p>GPT-5.6 Terra is the balanced default; GPT-5.6 Sol is the quality profile. The OpenAI provider uses the Responses API with Structured Outputs. The Codex provider delegates authentication and execution to the supported Codex client instead of parsing cached credentials.</p>
+<p>Large histories are bounded before model use. Inputs above the safety limit use
+validated deterministic entries so no source commit is silently truncated.</p>
+<h2 id="rendering-and-validation">Rendering and validation<a class="headerlink" href="#rendering-and-validation" title="Permanent link">&para;</a></h2>
+<p>The renderer owns localized section labels, ordering, headings, links, contributors, and Markdown escaping. Supported locales are English, French, and Spanish.</p>
+<p>Validation rejects:</p>
 <ul>
-<li>Extracts commit messages</li>
-<li>Analyzes commit history</li>
-<li>Determines version information</li>
-<li>Parses conventional commits</li>
+<li>unresolved template placeholders</li>
+<li>Markdown code fences around the artifact</li>
+<li>malformed or repeated release headings</li>
+<li>unknown source commit IDs</li>
+<li>omitted, repeated, or cross-category source commit IDs</li>
+<li>invalid semantic versions</li>
+<li>empty structured drafts</li>
 </ul>
-<h3 id="openai-integration-openai_utilspy">OpenAI Integration (<code>openai_utils.py</code>)<a class="headerlink" href="#openai-integration-openai_utilspy" title="Permanent link">&para;</a></h3>
-<p>The OpenAI Integration module handles communication with the OpenAI API:</p>
-<ul>
-<li>Prepares prompts using templates</li>
-<li>Sends requests to OpenAI</li>
-<li>Processes and sanitizes responses</li>
-<li>Handles error conditions and retries</li>
-</ul>
-<h3 id="utility-functions-utilspy">Utility Functions (<code>utils.py</code>)<a class="headerlink" href="#utility-functions-utilspy" title="Permanent link">&para;</a></h3>
-<p>The Utility module provides common functionality used across the application:</p>
-<ul>
-<li>Token estimation</li>
-<li>Template rendering</li>
-<li>File manipulation</li>
-<li>Version parsing</li>
-</ul>
-<h2 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
-<p>The typical data flow through the system is as follows:</p>
-<ol>
-<li>User invokes the <code>generate</code> command</li>
-<li>CLI module parses arguments and loads configuration</li>
-<li>Git utilities extract commit messages from the repository</li>
-<li>Commit messages are processed and categorized</li>
-<li>OpenAI integration sends the processed messages to OpenAI</li>
-<li>The next version is determined based on semantic versioning</li>
-<li>A changelog is generated using the template</li>
-<li>The changelog is written to the output file</li>
-</ol>
-<pre class="mermaid"><code>sequenceDiagram
-    participant User
-    participant CLI
-    participant Git
-    participant OpenAI
-    participant Files
-
-    User-&gt;&gt;CLI: gptchangelog generate
-    CLI-&gt;&gt;Git: Get commit messages
-    Git-&gt;&gt;CLI: Return commit messages
-    CLI-&gt;&gt;OpenAI: Process commit messages
-    OpenAI-&gt;&gt;CLI: Return processed messages
-    CLI-&gt;&gt;OpenAI: Determine next version
-    OpenAI-&gt;&gt;CLI: Return next version
-    CLI-&gt;&gt;OpenAI: Generate changelog
-    OpenAI-&gt;&gt;CLI: Return formatted changelog
-    CLI-&gt;&gt;Files: Write changelog to file
-    CLI-&gt;&gt;User: Display result</code></pre>
-<h2 id="module-relationships">Module Relationships<a class="headerlink" href="#module-relationships" title="Permanent link">&para;</a></h2>
-<h3 id="package-structure">Package Structure<a class="headerlink" href="#package-structure" title="Permanent link">&para;</a></h3>
-<p>The GPTChangelog package is organized as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gptchangelog/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── __init__.py           # Package metadata and version
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── __main__.py           # Entry point
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── cli.py                # Command-line interface
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── config.py             # Configuration management
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── git_utils.py          # Git repository interactions
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── openai_utils.py       # OpenAI API integration
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── utils.py              # Utility functions
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└── templates/            # Prompt templates
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ├── changelog_prompt.txt
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    ├── commits_prompt.txt
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    └── version_prompt.txt
-</code></pre></div>
-<h3 id="dependency-graph">Dependency Graph<a class="headerlink" href="#dependency-graph" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>graph TD
-    cli --&gt; config
-    cli --&gt; git_utils
-    cli --&gt; openai_utils
-    cli --&gt; utils
-    openai_utils --&gt; utils
-    git_utils --&gt; utils
-    config --&gt; utils</code></pre>
-<h2 id="extension-points">Extension Points<a class="headerlink" href="#extension-points" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog is designed to be extensible. Here are the main extension points:</p>
-<h3 id="custom-templates">Custom Templates<a class="headerlink" href="#custom-templates" title="Permanent link">&para;</a></h3>
-<p>You can provide custom templates for:
-- Commit processing
-- Version determination
-- Changelog generation</p>
-<p>These templates can be placed in a <code>.gptchangelog/templates/</code> directory.</p>
-<h3 id="custom-git-integration">Custom Git Integration<a class="headerlink" href="#custom-git-integration" title="Permanent link">&para;</a></h3>
-<p>The git utilities module can be extended to support additional:
-- Repository types
-- Commit formats
-- Versioning schemes</p>
-<h3 id="output-formats">Output Formats<a class="headerlink" href="#output-formats" title="Permanent link">&para;</a></h3>
-<p>The changelog generation can be extended to support additional output formats:
-- HTML
-- JSON
-- Release notes</p>
-<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog implements a comprehensive error handling strategy:</p>
-<ol>
-<li><strong>Configuration Errors</strong>: Handled by providing clear error messages and suggestions</li>
-<li><strong>Git Errors</strong>: Handled with appropriate fallbacks and user guidance</li>
-<li><strong>API Errors</strong>: Includes retry logic, rate limiting awareness, and fallback behavior</li>
-<li><strong>File I/O Errors</strong>: Includes proper error reporting and safe file operations</li>
-</ol>
-<h2 id="performance-considerations">Performance Considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog addresses several performance considerations:</p>
-<ol>
-<li><strong>Large Repositories</strong>: Batch processing for repositories with many commits</li>
-<li><strong>Token Optimization</strong>: Smart token usage to minimize API costs</li>
-<li><strong>Caching</strong>: Optional caching of API responses for repeated operations</li>
-<li><strong>Progress Reporting</strong>: Progress indicators for long-running operations</li>
-</ol>
-<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog implements these security measures:</p>
-<ol>
-<li><strong>API Key Handling</strong>: Secure storage of API keys</li>
-<li><strong>File Permissions</strong>: Safe file operations with proper permissions</li>
-<li><strong>Configuration Isolation</strong>: Separation of global and project-specific configuration</li>
-<li><strong>Error Sanitization</strong>: Safe error reporting without exposing sensitive information</li>
-</ol>
+<p>The old heuristic quality score is not a release gate; actionable validation results are.</p>
+<h2 id="file-writing">File writing<a class="headerlink" href="#file-writing" title="Permanent link">&para;</a></h2>
+<p>The writer reads UTF-8, validates the existing document, rejects an existing target version unless forced, preserves <code>[Unreleased]</code>, writes a temporary sibling file, flushes it, and atomically replaces the target. Failures propagate and leave the original intact.</p>
+<h2 id="cli-and-ui">CLI and UI<a class="headerlink" href="#cli-and-ui" title="Permanent link">&para;</a></h2>
+<p>Diagnostics use stderr. Raw Markdown or JSON uses stdout only for <code>--dry-run</code> or <code>--output -</code>. Textual is optional and auto-selected only when both input and output are interactive terminals.</p>
+<p>The CLI passes repository paths through APIs rather than changing the process-wide working directory.</p>
+<h2 id="testing-strategy">Testing strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<p>Unit and integration tests cover Git range edge cases, deterministic versions,
+provider failures, structured response parsing, localization, writer atomicity,
+duplicate releases, output stream separation, non-TTY UI behavior, rendered
+Markdown and JSON contracts, and configuration precedence.</p>
 
 
 
@@ -1478,7 +1151,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38 UTC">March 10, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1523,7 +1196,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1574,10 +1247,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

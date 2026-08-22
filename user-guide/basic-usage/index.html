@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.">
+        <meta name="description" content="Generate, preview, validate, and write changelogs safely.">
       
       
         <meta name="author" content="xjodoin">
@@ -25,15 +25,15 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Basic Usage | GPTChangelog - GPTChangelog</title>
+        <title>Basic Usage - GPTChangelog</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,11 +71,10 @@
   
 
   
-  <meta name="description" content="Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.">
+  <meta name="description" content="Generate, preview, validate, and write changelogs safely.">
   <meta name="author" content="xjodoin">
   
-  
-  <meta name="keywords" content="gptchangelog, basic usage, generate changelog, git commits, semantic versioning, openai, python cli">
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
   
   <meta name="robots" content="index,follow">
 
@@ -85,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="Basic Usage - GPTChangelog">
-  <meta property="og:description" content="Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.">
+  <meta property="og:description" content="Generate, preview, validate, and write changelogs safely.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/user-guide/basic-usage/">
   
     
@@ -94,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Basic Usage - GPTChangelog">
-  <meta name="twitter:description" content="Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.">
+  <meta name="twitter:description" content="Generate, preview, validate, and write changelogs safely.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -132,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Learn the basic usage of GPTChangelog to generate high-quality changelogs from your git commits using OpenAI. Includes common commands, options, and examples.",
+    "description": "Generate, preview, validate, and write changelogs safely.",
     "url": "https://xjodoin.github.io/gptchangelog/user-guide/basic-usage/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -200,7 +199,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Basic Usage | GPTChangelog
+              Basic Usage
             
           </span>
         </div>
@@ -383,6 +382,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -403,8 +406,9 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -418,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -431,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -555,160 +567,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#command-line-interface" class="md-nav__link">
+  <a href="#generate-a-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command Line Interface
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Command Line Interface">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Main Commands
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#generating-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Generating a Changelog">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simple-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Simple Usage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example Output
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Options
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-range" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Range
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-output-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Output File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#analyze-another-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Analyze Another Repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switching-ui-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Switching UI Modes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#current-version-override" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current Version Override
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dry-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dry Run
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exit Codes
+        Generate a release
       
     </span>
   </a>
@@ -716,10 +578,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
+  <a href="#select-a-range" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Handling
+        Select a range
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preview-and-pipe-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview and pipe output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-file-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe file updates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface
       
     </span>
   </a>
@@ -777,7 +683,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -1027,160 +933,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#command-line-interface" class="md-nav__link">
+  <a href="#generate-a-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command Line Interface
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Command Line Interface">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Main Commands
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#generating-a-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generating a Changelog
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Generating a Changelog">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simple-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Simple Usage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example Output
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Options
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-range" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Range
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-output-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Output File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#analyze-another-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Analyze Another Repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switching-ui-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Switching UI Modes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#current-version-override" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current Version Override
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dry-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dry Run
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exit Codes
+        Generate a release
       
     </span>
   </a>
@@ -1188,10 +944,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
+  <a href="#select-a-range" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Handling
+        Select a range
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preview-and-pipe-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview and pipe output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-file-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe file updates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface
       
     </span>
   </a>
@@ -1219,102 +1019,49 @@
 
 
 <h1 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h1>
-<p>This page covers the basic usage of GPTChangelog for generating changelogs from your git commits.</p>
-<h2 id="command-line-interface">Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog provides a command-line interface with several commands and options.</p>
-<h3 id="main-commands">Main Commands<a class="headerlink" href="#main-commands" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>gptchangelog generate</code>: Generate a changelog</li>
-<li><code>gptchangelog config</code>: Manage configuration</li>
-<li><code>gptchangelog config init</code>: Initialize configuration</li>
-<li><code>gptchangelog config show</code>: Show current configuration</li>
-<li><code>gptchangelog --version</code>: Show version information</li>
-<li><code>gptchangelog --help</code>: Show help information</li>
-</ul>
-<h2 id="generating-a-changelog">Generating a Changelog<a class="headerlink" href="#generating-a-changelog" title="Permanent link">&para;</a></h2>
-<p>The most common operation is generating a changelog from your git commit history.</p>
-<h3 id="simple-usage">Simple Usage<a class="headerlink" href="#simple-usage" title="Permanent link">&para;</a></h3>
-<p>To generate a changelog from your latest tag to the current HEAD:</p>
+<h2 id="generate-a-release">Generate a release<a class="headerlink" href="#generate-a-release" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gptchangelog<span class="w"> </span>generate
 </code></pre></div>
-<p>This will:</p>
-<ol>
-<li>Find your latest git tag</li>
-<li>Fetch all commit messages since that tag</li>
-<li>Process them using OpenAI</li>
-<li>Determine the next version based on semantic versioning</li>
-<li>Generate a well-structured changelog</li>
-<li>Prepend it to your CHANGELOG.md file</li>
-</ol>
-<h3 id="example-output">Example Output<a class="headerlink" href="#example-output" title="Permanent link">&para;</a></h3>
-<p>The generated changelog will look something like this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gu">## [1.2.0] - 2024-10-20</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="gu">### ✨ Features</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">-</span><span class="w"> </span>Add support for interactive editing mode
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">-</span><span class="w"> </span>Implement automatic conventional commit detection
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="gu">### 🐛 Bug Fixes</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="k">-</span><span class="w"> </span>Resolve issue with version detection on Windows
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">-</span><span class="w"> </span>Fix token counting logic for large repositories
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="gu">### 🔄 Changes</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">-</span><span class="w"> </span>Update default model to gpt-5.5
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">-</span><span class="w"> </span>Improve commit message grouping algorithm
+<p>Without <code>--since</code>, GPTChangelog finds the newest tag reachable from <code>--to</code>. In a repository without tags it includes the root commit and uses <code>0.0.0</code> as the version baseline.</p>
+<h2 id="select-a-range">Select a range<a class="headerlink" href="#select-a-range" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v1.1.0
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>HEAD~20<span class="w"> </span>--to<span class="w"> </span>HEAD
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--repo<span class="w"> </span>../project<span class="w"> </span>--since<span class="w"> </span>v2.0.0
 </code></pre></div>
-<h2 id="common-options">Common Options<a class="headerlink" href="#common-options" title="Permanent link">&para;</a></h2>
-<p>Here are some common options for the <code>generate</code> command:</p>
-<h3 id="custom-commit-range">Custom Commit Range<a class="headerlink" href="#custom-commit-range" title="Permanent link">&para;</a></h3>
-<p>You can specify a custom range of commits:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0
+<p>Both references are resolved before any model request. Invalid or unreachable ranges fail with a nonzero exit code.</p>
+<h2 id="preview-and-pipe-output">Preview and pipe output<a class="headerlink" href="#preview-and-pipe-output" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>&gt;<span class="w"> </span>release.md
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>release.md
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.version
 </code></pre></div>
-<p>Or between two specific references:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--since<span class="w"> </span>v1.0.0<span class="w"> </span>--to<span class="w"> </span>v2.0.0-beta
+<p>Only the requested artifact is written to stdout. Diagnostics use stderr.</p>
+<h2 id="safe-file-updates">Safe file updates<a class="headerlink" href="#safe-file-updates" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>CHANGELOG.md
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--check
 </code></pre></div>
-<h3 id="custom-output-file">Custom Output File<a class="headerlink" href="#custom-output-file" title="Permanent link">&para;</a></h3>
-<p>By default, the changelog is prepended to <code>CHANGELOG.md</code>, but you can specify a different file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>docs/CHANGES.md
+<p>Writing is atomic. GPTChangelog rejects duplicate or non-monotonic versions,
+symlink targets, unresolved template placeholders, code fences, malformed
+headings, and unsupported source references. Existing <code>[Unreleased]</code> content is
+preserved. <code>--force</code> only replaces a matching existing release.</p>
+<p>Use <code>--force</code> only when intentionally replacing an existing version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--force<span class="w"> </span>--current-version<span class="w"> </span><span class="m">1</span>.4.0
 </code></pre></div>
-<h3 id="analyze-another-repository">Analyze Another Repository<a class="headerlink" href="#analyze-another-repository" title="Permanent link">&para;</a></h3>
-<p>Pass the <code>--repo</code> flag to run GPTChangelog against a different project without leaving your current directory:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--repo<span class="w"> </span>../another-project
+<h2 id="models">Models<a class="headerlink" href="#models" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Default GPT-5.6 Terra profile</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--profile<span class="w"> </span>balanced
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># GPT-5.6 Sol</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--profile<span class="w"> </span>quality
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Explicit override</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--model<span class="w"> </span>gpt-5.6-sol
 </code></pre></div>
-<h3 id="switching-ui-modes">Switching UI Modes<a class="headerlink" href="#switching-ui-modes" title="Permanent link">&para;</a></h3>
-<p>Launch the Textual interface for a richer review experience:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--ui<span class="w"> </span>textual
+<h2 id="interface">Interface<a class="headerlink" href="#interface" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--interactive
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--ui<span class="w"> </span>textual
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--ui<span class="w"> </span>plain
 </code></pre></div>
-<p>Use <code>--ui plain</code> if you prefer the traditional console output or are running in an environment without full terminal capabilities.</p>
-<h3 id="current-version-override">Current Version Override<a class="headerlink" href="#current-version-override" title="Permanent link">&para;</a></h3>
-<p>You can override the automatically detected version:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--current-version<span class="w"> </span><span class="m">1</span>.5.0
-</code></pre></div>
-<h3 id="dry-run">Dry Run<a class="headerlink" href="#dry-run" title="Permanent link">&para;</a></h3>
-<p>To preview the changelog without saving it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--dry-run
-</code></pre></div>
-<h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog returns the following exit codes:</p>
-<ul>
-<li><code>0</code>: Success</li>
-<li><code>1</code>: Error (configuration error, git error, API error, etc.)</li>
-</ul>
-<p>You can use these exit codes in scripts to check if the command succeeded:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>gptchangelog<span class="w"> </span>generate
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Changelog generated successfully&quot;</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">else</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error generating changelog&quot;</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">fi</span>
-</code></pre></div>
-<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
-<p>If GPTChangelog encounters an error, it will display an error message and exit with code 1. Common errors include:</p>
-<ul>
-<li>Configuration errors (missing API key)</li>
-<li>Git errors (not a git repository, no commits found)</li>
-<li>OpenAI API errors (authentication, rate limits)</li>
-<li>File I/O errors (permission denied, file not found)</li>
-</ul>
-<p>Check the error message for details on how to resolve the issue.</p>
+<p>Textual requires the <code>tui</code> package extra. Auto mode uses it only in an interactive terminal; CI and redirected output remain plain.</p>
 
 
 
@@ -1337,7 +1084,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1382,7 +1129,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1433,10 +1180,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Automatically generate detailed changelogs from git commit history using AI">
+        <meta name="description" content="Public Git, generation, provider, validation, and persistence APIs.">
       
       
         <meta name="author" content="xjodoin">
@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,7 +71,7 @@
   
 
   
-  <meta name="description" content="Automatically generate detailed changelogs from git commit history using AI">
+  <meta name="description" content="Public Git, generation, provider, validation, and persistence APIs.">
   <meta name="author" content="xjodoin">
   
   <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
@@ -84,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="API Reference - GPTChangelog">
-  <meta property="og:description" content="Automatically generate detailed changelogs from git commit history using AI">
+  <meta property="og:description" content="Public Git, generation, provider, validation, and persistence APIs.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/developer-guide/api-reference/">
   
     
@@ -93,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 23:49:38 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 20, 2025 18:52:40 UTC">November 20, 2025</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="API Reference - GPTChangelog">
-  <meta name="twitter:description" content="Automatically generate detailed changelogs from git commit history using AI">
+  <meta name="twitter:description" content="Public Git, generation, provider, validation, and persistence APIs.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -131,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Automatically generate detailed changelogs from git commit history using AI",
+    "description": "Public Git, generation, provider, validation, and persistence APIs.",
     "url": "https://xjodoin.github.io/gptchangelog/developer-guide/api-reference/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -380,6 +380,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -402,8 +406,9 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../user-guide/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -417,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -430,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -557,7 +570,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -758,378 +771,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#module-gptchangelogcli" class="md-nav__link">
+  <a href="#git-ranges" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Module: gptchangelog.cli
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.cli">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        app()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#run_gptchangelogargs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        run_gptchangelog(args)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogconfig" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.config
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.config">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#load_openai_configconfig_file_nameconfigini" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_openai_config(config_file_name="config.ini")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#init_config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        init_config()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#show_config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        show_config()
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangeloggit_utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.git_utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.git_utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get_commit_messages_sincelatest_commit-to_commithead-repo_path-min_length10" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_commit_messages_since(latest_commit, to_commit="HEAD", repo_path=".", min_length=10)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_repository_namerepo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_repository_name(repo)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_latest_tagrepo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_latest_tag(repo)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#analyze_commit_messagemessage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        analyze_commit_message(message)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogopenai_utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.openai_utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.openai_utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#process_commit_messagesraw_commit_messages-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        process_commit_messages(raw_commit_messages, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#determine_next_versioncurrent_version-commit_messages-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        determine_next_version(current_version, commit_messages, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generate_changelogcommit_messages-next_version-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_changelog(commit_messages, next_version, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generate_changelog_and_next_versionraw_commit_messages-current_version-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_changelog_and_next_version(raw_commit_messages, current_version, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogutils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get_package_version" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_package_version()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#render_prompttemplate_path-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        render_prompt(template_path, context)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prepend_changelog_to_filechangelog-filepathchangelogmd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        prepend_changelog_to_file(changelog, filepath="CHANGELOG.md")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_project_metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_project_metadata()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format_commit_for_changelogcommit_message" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        format_commit_for_changelog(commit_message)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#programmatic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Programmatic Usage
+        Git ranges
       
     </span>
   </a>
@@ -1137,52 +782,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-gptchangelog" class="md-nav__link">
+  <a href="#generation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Extending GPTChangelog
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Extending GPTChangelog">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Processing
+        Generation
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-template-rendering" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#providers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Custom Template Rendering
+        Providers
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-new-output-formats" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#safe-persistence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding New Output Formats
+        Safe persistence
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1283,378 +911,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#module-gptchangelogcli" class="md-nav__link">
+  <a href="#git-ranges" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Module: gptchangelog.cli
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.cli">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        app()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#run_gptchangelogargs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        run_gptchangelog(args)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogconfig" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.config
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.config">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#load_openai_configconfig_file_nameconfigini" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_openai_config(config_file_name="config.ini")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#init_config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        init_config()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#show_config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        show_config()
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangeloggit_utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.git_utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.git_utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get_commit_messages_sincelatest_commit-to_commithead-repo_path-min_length10" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_commit_messages_since(latest_commit, to_commit="HEAD", repo_path=".", min_length=10)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_repository_namerepo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_repository_name(repo)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_latest_tagrepo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_latest_tag(repo)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#analyze_commit_messagemessage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        analyze_commit_message(message)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogopenai_utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.openai_utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.openai_utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#process_commit_messagesraw_commit_messages-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        process_commit_messages(raw_commit_messages, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#determine_next_versioncurrent_version-commit_messages-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        determine_next_version(current_version, commit_messages, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generate_changelogcommit_messages-next_version-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_changelog(commit_messages, next_version, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generate_changelog_and_next_versionraw_commit_messages-current_version-model-contextnone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_changelog_and_next_version(raw_commit_messages, current_version, model, context=None)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-gptchangelogutils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module: gptchangelog.utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Module: gptchangelog.utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#functions_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get_package_version" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_package_version()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#render_prompttemplate_path-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        render_prompt(template_path, context)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prepend_changelog_to_filechangelog-filepathchangelogmd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        prepend_changelog_to_file(changelog, filepath="CHANGELOG.md")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#get_project_metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_project_metadata()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format_commit_for_changelogcommit_message" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        format_commit_for_changelog(commit_message)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#programmatic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Programmatic Usage
+        Git ranges
       
     </span>
   </a>
@@ -1662,52 +922,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-gptchangelog" class="md-nav__link">
+  <a href="#generation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Extending GPTChangelog
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Extending GPTChangelog">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-commit-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Commit Processing
+        Generation
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-template-rendering" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#providers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Custom Template Rendering
+        Providers
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-new-output-formats" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#safe-persistence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding New Output Formats
+        Safe persistence
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1732,219 +975,103 @@
 
 
 <h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
-<p>This page documents the primary functions and classes in GPTChangelog that you may want to use programmatically or extend.</p>
-<h2 id="module-gptchangelogcli">Module: <code>gptchangelog.cli</code><a class="headerlink" href="#module-gptchangelogcli" title="Permanent link">&para;</a></h2>
-<p>The CLI module provides the command-line interface for GPTChangelog.</p>
-<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
-<h4 id="app"><code>app()</code><a class="headerlink" href="#app" title="Permanent link">&para;</a></h4>
-<p>The main entry point for the command-line interface.</p>
-<p><strong>Returns:</strong>
-- <code>int</code>: Exit code (0 for success, 1 for error)</p>
-<h4 id="run_gptchangelogargs"><code>run_gptchangelog(args)</code><a class="headerlink" href="#run_gptchangelogargs" title="Permanent link">&para;</a></h4>
-<p>Runs the main changelog generation process.</p>
-<p><strong>Parameters:</strong>
-- <code>args</code>: Parsed command-line arguments</p>
-<p><strong>Returns:</strong>
-- <code>int</code>: Exit code (0 for success, 1 for error)</p>
-<h2 id="module-gptchangelogconfig">Module: <code>gptchangelog.config</code><a class="headerlink" href="#module-gptchangelogconfig" title="Permanent link">&para;</a></h2>
-<p>The configuration module handles loading and saving configuration settings.</p>
-<h3 id="functions_1">Functions<a class="headerlink" href="#functions_1" title="Permanent link">&para;</a></h3>
-<h4 id="load_openai_configconfig_file_nameconfigini"><code>load_openai_config(config_file_name="config.ini")</code><a class="headerlink" href="#load_openai_configconfig_file_nameconfigini" title="Permanent link">&para;</a></h4>
-<p>Loads the OpenAI configuration from the config file.</p>
-<p><strong>Parameters:</strong>
-- <code>config_file_name</code> (str): Name of the configuration file</p>
-<p><strong>Returns:</strong>
-- <code>tuple</code>: (api_key, model)</p>
-<p><strong>Raises:</strong>
-- <code>FileNotFoundError</code>: If the configuration file is not found</p>
-<h4 id="init_config"><code>init_config()</code><a class="headerlink" href="#init_config" title="Permanent link">&para;</a></h4>
-<p>Initializes a new configuration file with user input.</p>
-<p><strong>Returns:</strong>
-- None</p>
-<h4 id="show_config"><code>show_config()</code><a class="headerlink" href="#show_config" title="Permanent link">&para;</a></h4>
-<p>Displays the current configuration settings.</p>
-<p><strong>Returns:</strong>
-- None</p>
-<h2 id="module-gptchangeloggit_utils">Module: <code>gptchangelog.git_utils</code><a class="headerlink" href="#module-gptchangeloggit_utils" title="Permanent link">&para;</a></h2>
-<p>The git utilities module interacts with git repositories.</p>
-<h3 id="functions_2">Functions<a class="headerlink" href="#functions_2" title="Permanent link">&para;</a></h3>
-<h4 id="get_commit_messages_sincelatest_commit-to_commithead-repo_path-min_length10"><code>get_commit_messages_since(latest_commit, to_commit="HEAD", repo_path=".", min_length=10)</code><a class="headerlink" href="#get_commit_messages_sincelatest_commit-to_commithead-repo_path-min_length10" title="Permanent link">&para;</a></h4>
-<p>Gets commit messages between two git references.</p>
-<p><strong>Parameters:</strong>
-- <code>latest_commit</code> (str): The starting reference (commit hash, tag, etc.)
-- <code>to_commit</code> (str): The ending reference (defaults to "HEAD")
-- <code>repo_path</code> (str): Path to the git repository
-- <code>min_length</code> (int): Minimum length of commit messages to include</p>
-<p><strong>Returns:</strong>
-- <code>tuple</code>: (from_ref, commit_messages_text)</p>
-<h4 id="get_repository_namerepo"><code>get_repository_name(repo)</code><a class="headerlink" href="#get_repository_namerepo" title="Permanent link">&para;</a></h4>
-<p>Extracts the repository name from a git repository.</p>
-<p><strong>Parameters:</strong>
-- <code>repo</code> (git.Repo): Git repository object</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Repository name</p>
-<h4 id="get_latest_tagrepo"><code>get_latest_tag(repo)</code><a class="headerlink" href="#get_latest_tagrepo" title="Permanent link">&para;</a></h4>
-<p>Gets the latest tag from the repository.</p>
-<p><strong>Parameters:</strong>
-- <code>repo</code> (git.Repo): Git repository object</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Latest tag name</p>
-<h4 id="analyze_commit_messagemessage"><code>analyze_commit_message(message)</code><a class="headerlink" href="#analyze_commit_messagemessage" title="Permanent link">&para;</a></h4>
-<p>Analyzes a commit message to determine its type.</p>
-<p><strong>Parameters:</strong>
-- <code>message</code> (str): Commit message</p>
-<p><strong>Returns:</strong>
-- <code>tuple</code>: (inferred_type, cleaned_message, is_breaking_change)</p>
-<h2 id="module-gptchangelogopenai_utils">Module: <code>gptchangelog.openai_utils</code><a class="headerlink" href="#module-gptchangelogopenai_utils" title="Permanent link">&para;</a></h2>
-<p>The OpenAI utilities module interacts with the OpenAI API.</p>
-<h3 id="functions_3">Functions<a class="headerlink" href="#functions_3" title="Permanent link">&para;</a></h3>
-<h4 id="process_commit_messagesraw_commit_messages-model-contextnone"><code>process_commit_messages(raw_commit_messages, model, context=None)</code><a class="headerlink" href="#process_commit_messagesraw_commit_messages-model-contextnone" title="Permanent link">&para;</a></h4>
-<p>Processes and refines commit messages using the OpenAI API.</p>
-<p><strong>Parameters:</strong>
-- <code>raw_commit_messages</code> (str): Raw commit messages
-- <code>model</code> (str): OpenAI model to use
-- <code>context</code> (dict, optional): Additional context for prompts</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Processed commit messages</p>
-<h4 id="determine_next_versioncurrent_version-commit_messages-model-contextnone"><code>determine_next_version(current_version, commit_messages, model, context=None)</code><a class="headerlink" href="#determine_next_versioncurrent_version-commit_messages-model-contextnone" title="Permanent link">&para;</a></h4>
-<p>Determines the next version based on semantic versioning.</p>
-<p><strong>Parameters:</strong>
-- <code>current_version</code> (str): Current version string
-- <code>commit_messages</code> (str): Processed commit messages
-- <code>model</code> (str): OpenAI model to use
-- <code>context</code> (dict, optional): Additional context for prompts</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Next version string</p>
-<h4 id="generate_changelogcommit_messages-next_version-model-contextnone"><code>generate_changelog(commit_messages, next_version, model, context=None)</code><a class="headerlink" href="#generate_changelogcommit_messages-next_version-model-contextnone" title="Permanent link">&para;</a></h4>
-<p>Generates a changelog from processed commit messages.</p>
-<p><strong>Parameters:</strong>
-- <code>commit_messages</code> (str): Processed commit messages
-- <code>next_version</code> (str): Next version string
-- <code>model</code> (str): OpenAI model to use
-- <code>context</code> (dict, optional): Additional context for prompts</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Generated changelog in markdown format</p>
-<h4 id="generate_changelog_and_next_versionraw_commit_messages-current_version-model-contextnone"><code>generate_changelog_and_next_version(raw_commit_messages, current_version, model, context=None)</code><a class="headerlink" href="#generate_changelog_and_next_versionraw_commit_messages-current_version-model-contextnone" title="Permanent link">&para;</a></h4>
-<p>Complete process to generate a changelog and determine the next version.</p>
-<p><strong>Parameters:</strong>
-- <code>raw_commit_messages</code> (str): Raw commit messages
-- <code>current_version</code> (str): Current version string
-- <code>model</code> (str): OpenAI model to use
-- <code>context</code> (dict, optional): Additional context for prompts</p>
-<p><strong>Returns:</strong>
-- <code>tuple</code>: (changelog, next_version)</p>
-<h2 id="module-gptchangelogutils">Module: <code>gptchangelog.utils</code><a class="headerlink" href="#module-gptchangelogutils" title="Permanent link">&para;</a></h2>
-<p>The utilities module provides common functions used across the package.</p>
-<h3 id="functions_4">Functions<a class="headerlink" href="#functions_4" title="Permanent link">&para;</a></h3>
-<h4 id="get_package_version"><code>get_package_version()</code><a class="headerlink" href="#get_package_version" title="Permanent link">&para;</a></h4>
-<p>Gets the package version from pkg_resources or fallback.</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Package version</p>
-<h4 id="render_prompttemplate_path-context"><code>render_prompt(template_path, context)</code><a class="headerlink" href="#render_prompttemplate_path-context" title="Permanent link">&para;</a></h4>
-<p>Renders a prompt template with provided context.</p>
-<p><strong>Parameters:</strong>
-- <code>template_path</code> (str): Path to template file
-- <code>context</code> (dict): Context variables for template</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Rendered prompt</p>
-<h4 id="prepend_changelog_to_filechangelog-filepathchangelogmd"><code>prepend_changelog_to_file(changelog, filepath="CHANGELOG.md")</code><a class="headerlink" href="#prepend_changelog_to_filechangelog-filepathchangelogmd" title="Permanent link">&para;</a></h4>
-<p>Prepends the changelog to the specified file.</p>
-<p><strong>Parameters:</strong>
-- <code>changelog</code> (str): Changelog content
-- <code>filepath</code> (str): Path to changelog file</p>
-<p><strong>Returns:</strong>
-- None</p>
-<h4 id="get_project_metadata"><code>get_project_metadata()</code><a class="headerlink" href="#get_project_metadata" title="Permanent link">&para;</a></h4>
-<p>Gets metadata about the current project.</p>
-<p><strong>Returns:</strong>
-- <code>dict</code>: Project metadata (name, version, description)</p>
-<h4 id="format_commit_for_changelogcommit_message"><code>format_commit_for_changelog(commit_message)</code><a class="headerlink" href="#format_commit_for_changelogcommit_message" title="Permanent link">&para;</a></h4>
-<p>Formats a commit message for inclusion in the changelog.</p>
-<p><strong>Parameters:</strong>
-- <code>commit_message</code> (str): Commit message</p>
-<p><strong>Returns:</strong>
-- <code>str</code>: Formatted commit message</p>
-<h2 id="programmatic-usage">Programmatic Usage<a class="headerlink" href="#programmatic-usage" title="Permanent link">&para;</a></h2>
-<p>You can use GPTChangelog programmatically in your own Python code:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.openai_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_changelog_and_next_version</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.git_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_commit_messages_since</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_openai_config</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Load configuration</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">api_key</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">load_openai_config</span><span class="p">()</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_key</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Get commit messages</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">from_ref</span><span class="p">,</span> <span class="n">commit_messages</span> <span class="o">=</span> <span class="n">get_commit_messages_since</span><span class="p">(</span><span class="s2">&quot;v1.0.0&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Generate changelog</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">changelog</span><span class="p">,</span> <span class="n">next_version</span> <span class="o">=</span> <span class="n">generate_changelog_and_next_version</span><span class="p">(</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">commit_messages</span><span class="p">,</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">from_ref</span><span class="p">,</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="n">model</span><span class="p">,</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="p">{</span><span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;My Project&quot;</span><span class="p">}</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Use the generated changelog</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Next version: </span><span class="si">{</span><span class="n">next_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="nb">print</span><span class="p">(</span><span class="n">changelog</span><span class="p">)</span>
+<h2 id="git-ranges">Git ranges<a class="headerlink" href="#git-ranges" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">git</span><span class="w"> </span><span class="kn">import</span> <span class="n">Repo</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.git_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_release_range</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">(</span><span class="s2">"/path/to/project"</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">release_range</span> <span class="o">=</span> <span class="n">resolve_release_range</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="s2">"v1.2.0"</span><span class="p">,</span> <span class="n">to_ref</span><span class="o">=</span><span class="s2">"HEAD"</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="extending-gptchangelog">Extending GPTChangelog<a class="headerlink" href="#extending-gptchangelog" title="Permanent link">&para;</a></h2>
-<h3 id="custom-commit-processing">Custom Commit Processing<a class="headerlink" href="#custom-commit-processing" title="Permanent link">&para;</a></h3>
-<p>You can extend the commit processing by creating a custom function:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">custom_commit_processor</span><span class="p">(</span><span class="n">commit_messages</span><span class="p">):</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="c1"># Your custom processing logic</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">processed_messages</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">commit_messages</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="c1"># Process each message</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="n">processed_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">processed_messages</span><span class="p">)</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Then use it instead of the built-in processor</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.openai_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_changelog</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">custom_commit_processor</span><span class="p">(</span><span class="n">commit_messages</span><span class="p">),</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">next_version</span><span class="p">,</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">model</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">)</span>
+<p><code>resolve_release_range()</code> validates both refs and returns <code>ReleaseRange</code> with
+the display refs, immutable SHAs, and detected current version. If no tag is
+reachable, <code>from_ref</code> and <code>from_sha</code> are <code>None</code>, <code>current_version</code> is <code>0.0.0</code>,
+and downstream iteration includes the root commit.</p>
+<p>Use <code>get_enhanced_commit_data(from_ref, to_ref, repo_path=...)</code> to return
+analyzed <code>CommitInfo</code> values and aggregate statistics. Invalid refs propagate as
+Git errors.</p>
+<h2 id="generation">Generation<a class="headerlink" href="#generation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.enhanced_openai_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">generate_enhanced_changelog_and_version</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">generate_enhanced_changelog_result</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">markdown</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">generate_enhanced_changelog_and_version</span><span class="p">(</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">commits</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">current_version</span><span class="o">=</span><span class="s2">"v1.2.0"</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">project_name</span><span class="o">=</span><span class="s2">"example"</span><span class="p">,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-5.6-terra"</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">language</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">result</span> <span class="o">=</span> <span class="n">generate_enhanced_changelog_result</span><span class="p">(</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="n">commits</span><span class="p">,</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="n">current_version</span><span class="o">=</span><span class="s2">"v1.2.0"</span><span class="p">,</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="n">project_name</span><span class="o">=</span><span class="s2">"example"</span><span class="p">,</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="p">)</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">entries</span><span class="p">:</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">commit_ids</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="custom-template-rendering">Custom Template Rendering<a class="headerlink" href="#custom-template-rendering" title="Permanent link">&para;</a></h3>
-<p>You can provide a custom template renderer:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">custom_template_renderer</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="c1"># Your custom template rendering logic</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="n">template</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="c1"># Simple string substitution</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">template</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="k">return</span> <span class="n">template</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Then use it in your workflow</span>
+<p>Semantic versioning, category assignment, localization, and Markdown rendering
+are local. The provider receives one structured request for the release summary
+and bounded topics. Its schema requires an assignment for every known source
+commit ID and fixes each assignment to the locally determined category.</p>
+<p><code>generate_enhanced_changelog_result(...)</code> is the preferred auditing API. It
+returns <code>EnhancedGenerationResult</code> with <code>changelog</code>, <code>version</code>, <code>summary</code>,
+normalized <code>entries</code>, and <code>used_fallback</code>. The tuple-returning
+<code>generate_enhanced_changelog_and_version(...)</code> remains available for existing
+callers.</p>
+<p><code>validate_changelog(markdown, expected_version, language=None)</code> returns a list
+of validation errors. <code>analyze_changelog_quality(markdown)</code> returns concrete
+validation and content counts; it does not calculate a subjective score.</p>
+<p>The functions in <code>gptchangelog.openai_utils</code> remain compatibility wrappers over
+this same pipeline.</p>
+<h2 id="providers">Providers<a class="headerlink" href="#providers" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.openai_client</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">ProviderSettings</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">configure_provider</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">create_structured_response</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">configure_provider</span><span class="p">(</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">ProviderSettings</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">payload</span> <span class="o">=</span> <span class="n">create_structured_response</span><span class="p">(</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-5.6-terra"</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="n">instructions</span><span class="o">=</span><span class="s2">"Summarize supplied changes."</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="n">prompt</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">json_schema</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span> <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">)</span>
 </code></pre></div>
-<h3 id="adding-new-output-formats">Adding New Output Formats<a class="headerlink" href="#adding-new-output-formats" title="Permanent link">&para;</a></h3>
-<p>To add a new output format, create a converter function:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">convert_to_html</span><span class="p">(</span><span class="n">changelog_markdown</span><span class="p">):</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="c1"># Convert markdown to HTML</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="c1"># (using a library like markdown2 or similar)</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s2">    &lt;html&gt;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s2">    &lt;head&gt;&lt;title&gt;Changelog&lt;/title&gt;&lt;/head&gt;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s2">    &lt;body&gt;</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="s2">    </span><span class="si">{</span><span class="n">markdown_to_html</span><span class="p">(</span><span class="n">changelog_markdown</span><span class="p">)</span><span class="si">}</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="s2">    &lt;/body&gt;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="s2">    &lt;/html&gt;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="s2">    &quot;&quot;&quot;</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="k">return</span> <span class="n">html</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Then use it after generating the changelog</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">html_changelog</span> <span class="o">=</span> <span class="n">convert_to_html</span><span class="p">(</span><span class="n">changelog</span><span class="p">)</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;changelog.html&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html_changelog</span><span class="p">)</span>
+<p>The OpenAI adapter uses the Responses API with strict JSON Schema. The Codex
+adapter invokes ephemeral, read-only <code>codex exec</code> and leaves authentication and
+token refresh to Codex CLI.</p>
+<p>Model helpers include <code>normalize_provider()</code>, <code>normalize_profile()</code>,
+<code>get_profile_model()</code>, and <code>resolve_model()</code>. Provider failures raise
+<code>ProviderError</code>; invalid configuration raises <code>ProviderConfigurationError</code>.</p>
+<h2 id="safe-persistence">Safe persistence<a class="headerlink" href="#safe-persistence" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">gptchangelog.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepend_changelog_to_file</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">prepend_changelog_to_file</span><span class="p">(</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">markdown</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"CHANGELOG.md"</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
 </code></pre></div>
+<p><code>prepend_changelog_to_file()</code> validates canonical SemVer, rejects duplicate or
+non-monotonic new releases, rejects symlink targets, preserves <code>[Unreleased]</code>,
+and writes atomically. <code>check=True</code> prepares and validates the resulting content
+without modifying the file. <code>force=True</code> replaces an existing matching release;
+it cannot add a missing historical version.</p>
+<p>Failures derive from <code>ChangelogError</code>, including <code>ChangelogValidationError</code>,
+<code>DuplicateReleaseError</code>, <code>NonMonotonicReleaseError</code>,
+<code>ReleaseNotFoundError</code>, <code>ChangelogWriteError</code>, and
+<code>UnsafeChangelogTargetError</code>.</p>
+<p>Legacy <code>render_prompt()</code> and <code>resolve_template_path()</code> helpers remain available
+for integrations, but the CLI generation path does not load prompt overrides.</p>
 
 
 
@@ -1967,7 +1094,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 20, 2025 18:52:40 UTC">November 20, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -2012,7 +1139,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -2063,10 +1190,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.">
+        <meta name="description" content="Configure providers, GPT-5.6 profiles, models, and authentication.">
       
       
         <meta name="author" content="xjodoin">
@@ -25,15 +25,15 @@
       
       
       <link rel="icon" href="../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>GPTChangelog Configuration Guide - GPTChangelog</title>
+        <title>Configuration - GPTChangelog</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -71,11 +71,10 @@
   
 
   
-  <meta name="description" content="Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.">
+  <meta name="description" content="Configure providers, GPT-5.6 profiles, models, and authentication.">
   <meta name="author" content="xjodoin">
   
-  
-  <meta name="keywords" content="gptchangelog, configuration, config file, environment variables, openai model, semantic versioning">
+  <meta name="keywords" content="changelog generator, AI changelog, git changelog, Conventional Commits, semantic versioning, release notes, Python CLI, OpenAI GPT">
   
   <meta name="robots" content="index,follow">
 
@@ -85,7 +84,7 @@
   <meta property="og:type" content="article">
   
   <meta property="og:title" content="Configuration - GPTChangelog">
-  <meta property="og:description" content="Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.">
+  <meta property="og:description" content="Configure providers, GPT-5.6 profiles, models, and authentication.">
   <meta property="og:url" content="https://xjodoin.github.io/gptchangelog/user-guide/configuration/">
   
     
@@ -94,12 +93,12 @@
     <meta property="og:image:alt" content="GPTChangelog logo">
   
   <meta property="article:published_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 10, 2025 20:09:27 UTC">March 10, 2025</span>">
-  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>">
+  <meta property="article:modified_time" content="<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Configuration - GPTChangelog">
-  <meta name="twitter:description" content="Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.">
+  <meta name="twitter:description" content="Configure providers, GPT-5.6 profiles, models, and authentication.">
   
     
       <meta name="twitter:image" content="https://xjodoin.github.io/gptchangelog/assets/images/logo.png">
@@ -132,7 +131,7 @@
     "name": "GPTChangelog",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "description": "Configure GPTChangelog globally or per project. Learn about config locations, environment variable overrides, and how to use either OpenAI API keys or a local Codex ChatGPT subscription.",
+    "description": "Configure providers, GPT-5.6 profiles, models, and authentication.",
     "url": "https://xjodoin.github.io/gptchangelog/user-guide/configuration/",
     "downloadUrl": "https://pypi.org/project/gptchangelog/",
     "softwareVersion": "",
@@ -200,7 +199,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GPTChangelog Configuration Guide
+              Configuration
             
           </span>
         </div>
@@ -383,6 +382,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -403,8 +406,9 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -418,8 +422,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -431,6 +441,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -527,10 +539,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuration-locations" class="md-nav__link">
+  <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Locations
+        Example
       
     </span>
   </a>
@@ -538,49 +550,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#managing-configuration" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Managing Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Managing Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initializing-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Initializing Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#viewing-current-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Viewing Current Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-file-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration File Format
+        Authentication
       
     </span>
   </a>
@@ -588,163 +561,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
+  <a href="#precedence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Options
+        Precedence
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Settings
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment Variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
+  <a href="#inspect-and-validate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Advanced Configuration
+        Inspect and validate
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Advanced Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-a-codex-subscription" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a Codex Subscription
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-different-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using Different Models
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multiple Configurations
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-configurations" class="md-nav__link">
+  <a href="#debug-logging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example Configurations
+        Debug logging
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Example Configurations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minimal-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Minimal Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex-subscription-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Codex Subscription Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration for Large Repositories
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-lower-cost" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration for Lower Cost
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -827,7 +672,7 @@
   <span class="md-ellipsis">
     
   
-    Templates
+    Output contract
   
 
     
@@ -1077,10 +922,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuration-locations" class="md-nav__link">
+  <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Locations
+        Example
       
     </span>
   </a>
@@ -1088,49 +933,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#managing-configuration" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Managing Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Managing Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initializing-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Initializing Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#viewing-current-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Viewing Current Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-file-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration File Format
+        Authentication
       
     </span>
   </a>
@@ -1138,163 +944,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
+  <a href="#precedence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Options
+        Precedence
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Settings
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment Variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
+  <a href="#inspect-and-validate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Advanced Configuration
+        Inspect and validate
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Advanced Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-a-codex-subscription" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a Codex Subscription
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-different-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using Different Models
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multiple Configurations
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-configurations" class="md-nav__link">
+  <a href="#debug-logging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example Configurations
+        Debug logging
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Example Configurations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minimal-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Minimal Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex-subscription-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Codex Subscription Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-large-repositories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration for Large Repositories
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-for-lower-cost" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration for Lower Cost
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1319,135 +997,68 @@
 
 
 <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>GPTChangelog can be configured at both the global and project levels. This page explains all available configuration options and how to manage them.</p>
-<h2 id="configuration-locations">Configuration Locations<a class="headerlink" href="#configuration-locations" title="Permanent link">&para;</a></h2>
-<p>GPTChangelog looks for configuration in the following locations, in order of precedence:</p>
-<ol>
-<li>Project-specific configuration: <code>./.gptchangelog/config.ini</code></li>
-<li>Global configuration: <code>~/.config/gptchangelog/config.ini</code></li>
-</ol>
-<p>If a setting is defined in both places, the project-specific setting takes precedence.</p>
-<h2 id="managing-configuration">Managing Configuration<a class="headerlink" href="#managing-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="initializing-configuration">Initializing Configuration<a class="headerlink" href="#initializing-configuration" title="Permanent link">&para;</a></h3>
-<p>To create a new configuration file:</p>
+<p>Initialize configuration interactively:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>init
 </code></pre></div>
-<p>You'll be prompted to choose between global or project-specific configuration, then select either the OpenAI API or a local Codex ChatGPT subscription.</p>
-<h3 id="viewing-current-configuration">Viewing Current Configuration<a class="headerlink" href="#viewing-current-configuration" title="Permanent link">&para;</a></h3>
-<p>To see your current configuration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>show
+<p>Project configuration is stored in <code>.gptchangelog/config.ini</code>; global configuration is stored in <code>~/.config/gptchangelog/config.ini</code>. Project values take precedence over global values.</p>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[openai]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">openai</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="na">profile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">balanced</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.6-terra</span>
 </code></pre></div>
-<p>This will display both global and project-specific configurations if they exist.</p>
-<h2 id="configuration-file-format">Configuration File Format<a class="headerlink" href="#configuration-file-format" title="Permanent link">&para;</a></h2>
-<p>The configuration file uses the INI format:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">openai</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.5</span>
-</code></pre></div>
-<h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
-<h3 id="openai-settings">OpenAI Settings<a class="headerlink" href="#openai-settings" title="Permanent link">&para;</a></h3>
+<p>Supported providers are <code>openai</code> and <code>codex</code>. Unsupported or misspelled values are rejected.</p>
+<p>Supported profiles are:</p>
 <table>
 <thead>
 <tr>
-<th>Option</th>
-<th>Description</th>
-<th>Default</th>
+<th>Profile</th>
+<th>Model</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>provider</code></td>
-<td><code>openai</code> for API keys or <code>codex</code> to reuse <code>~/.codex/auth.json</code></td>
-<td>Auto-detected</td>
+<td><code>balanced</code></td>
+<td><code>gpt-5.6-terra</code></td>
+<td>Default balance of quality and cost</td>
 </tr>
 <tr>
-<td><code>api_key</code></td>
-<td>Your OpenAI API key when <code>provider = openai</code></td>
-<td>(Required for <code>openai</code>)</td>
-</tr>
-<tr>
-<td><code>model</code></td>
-<td>The model to use</td>
-<td><code>gpt-5.5</code> for <code>openai</code>, <code>gpt-5.4-mini</code> for <code>codex</code></td>
+<td><code>quality</code></td>
+<td><code>gpt-5.6-sol</code></td>
+<td>Highest-quality release-note synthesis</td>
 </tr>
 </tbody>
 </table>
-<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
-<p>You can also use environment variables to override configuration settings:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Corresponding Config Option</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>GPTCHANGELOG_PROVIDER</code></td>
-<td><code>[openai] provider</code></td>
-</tr>
-<tr>
-<td><code>OPENAI_API_KEY</code></td>
-<td><code>[openai] api_key</code></td>
-</tr>
-<tr>
-<td><code>GPTCHANGELOG_MODEL</code></td>
-<td><code>[openai] model</code></td>
-</tr>
-</tbody>
-</table>
-<p>Environment variables take precedence over configuration file settings.</p>
-<h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="using-a-codex-subscription">Using a Codex Subscription<a class="headerlink" href="#using-a-codex-subscription" title="Permanent link">&para;</a></h3>
-<p>If you already use <code>codex</code> with ChatGPT, GPTChangelog can reuse that login instead of requiring an API key:</p>
+<p>An explicit <code>--model</code> or <code>GPTCHANGELOG_MODEL</code> overrides the profile model.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
+<p>For the OpenAI provider, use an environment variable:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s1">'...'</span>
+</code></pre></div>
+<p>The initializer uses hidden input if you explicitly choose to persist a key, and any credential-bearing configuration is written with owner-only permissions. Environment-based credentials are preferred.
+On POSIX systems, GPTChangelog rejects a stored-key configuration if group or
+world permission bits are present and reports the exact <code>chmod 600</code> command to
+repair it.</p>
+<p>For Codex subscription access:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>codex<span class="w"> </span>login
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>gptchangelog<span class="w"> </span>generate<span class="w"> </span>--provider<span class="w"> </span>codex
 </code></pre></div>
-<p>Equivalent config:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">codex</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.4-mini</span>
-</code></pre></div>
-<h3 id="using-different-models">Using Different Models<a class="headerlink" href="#using-different-models" title="Permanent link">&para;</a></h3>
-<p>GPTChangelog works best with GPT-5 family models, but you can use other options:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.4-mini</span>
-</code></pre></div>
-<p>Smaller models may produce less comprehensive results but can be more cost-efficient.</p>
-<h3 id="multiple-configurations">Multiple Configurations<a class="headerlink" href="#multiple-configurations" title="Permanent link">&para;</a></h3>
-<p>You can maintain different configurations for different projects:</p>
+<p>GPTChangelog uses Codex's supported non-interactive client. Codex owns login caching and token refresh.</p>
+<h2 id="precedence">Precedence<a class="headerlink" href="#precedence" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Set up a global configuration with default settings</li>
-<li>Create project-specific configurations for projects with special requirements</li>
+<li><code>--provider</code>, <code>--profile</code>, and <code>--model</code></li>
+<li><code>GPTCHANGELOG_PROVIDER</code>, <code>GPTCHANGELOG_PROFILE</code>, and <code>GPTCHANGELOG_MODEL</code></li>
+<li>project configuration</li>
+<li>global configuration</li>
+<li>default provider discovery and the balanced profile</li>
 </ol>
-<h2 id="example-configurations">Example Configurations<a class="headerlink" href="#example-configurations" title="Permanent link">&para;</a></h2>
-<h3 id="minimal-configuration">Minimal Configuration<a class="headerlink" href="#minimal-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">openai</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
+<p>Provider overrides do not accidentally reuse a model configured for a different provider.</p>
+<h2 id="inspect-and-validate">Inspect and validate<a class="headerlink" href="#inspect-and-validate" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>show
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>gptchangelog<span class="w"> </span>config<span class="w"> </span>validate
 </code></pre></div>
-<h3 id="full-configuration">Full Configuration<a class="headerlink" href="#full-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">openai</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.5</span>
-</code></pre></div>
-<h3 id="codex-subscription-configuration">Codex Subscription Configuration<a class="headerlink" href="#codex-subscription-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">codex</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.4-mini</span>
-</code></pre></div>
-<h3 id="configuration-for-large-repositories">Configuration for Large Repositories<a class="headerlink" href="#configuration-for-large-repositories" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.5</span>
-</code></pre></div>
-<h3 id="configuration-for-lower-cost">Configuration for Lower Cost<a class="headerlink" href="#configuration-for-lower-cost" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[openai]</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your-api-key-here</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gpt-5.4-mini</span>
-</code></pre></div>
+<p><code>show</code> redacts secrets. <code>validate</code> checks syntax, model resolution, and authentication availability.</p>
+<h2 id="debug-logging">Debug logging<a class="headerlink" href="#debug-logging" title="Permanent link">&para;</a></h2>
+<p>Set <code>GPTCHANGELOG_DEBUG=1</code> to enable debug diagnostics on stderr. Raw model responses are never written automatically because they can contain repository data.</p>
 
 
 
@@ -1470,7 +1081,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 19:22:40 UTC">May 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2026 15:06:18 UTC">August 21, 2026</span>
   </span>
 
     
@@ -1515,7 +1126,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright (c) 2025 Xavier Jodoin
+      Copyright (c) 2026 Xavier Jodoin
     </div>
   
   
@@ -1566,10 +1177,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.9.0"}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.10.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
