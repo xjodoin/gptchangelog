@@ -282,6 +282,20 @@ def test_existing_file_without_changelog_header_is_rejected(tmp_path):
     assert target.read_text(encoding="utf-8") == original
 
 
+def test_release_is_prepended_to_headerless_release_history(tmp_path):
+    target = tmp_path / "CHANGELOG.md"
+    original = "## [1.1.0] - 2026-08-01\n\n- Previous release.\n"
+    target.write_text(original, encoding="utf-8")
+
+    result = prepend_changelog_to_file(RELEASE, target)
+
+    assert result.written is True
+    assert result.content.startswith("## [1.2.0] - 2026-08-21\n")
+    assert not result.content.startswith("\n")
+    assert result.content.count("## [1.2.0]") == 1
+    assert result.content.endswith(original)
+
+
 def test_prompt_helpers_use_explicit_project_root(tmp_path, monkeypatch):
     project = tmp_path / "project"
     template_dir = project / ".gptchangelog" / "templates"

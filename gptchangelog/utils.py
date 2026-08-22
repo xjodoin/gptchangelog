@@ -241,9 +241,13 @@ def _build_changelog_content(
             False,
         )
 
-    if not _CHANGELOG_HEADER_RE.match(original):
+    normalized_original = original.lstrip("\ufeff")
+    first_line = normalized_original.splitlines()[0] if normalized_original else ""
+    headerless_release_history = _RELEASE_HEADER_RE.fullmatch(first_line) is not None
+    if not _CHANGELOG_HEADER_RE.match(original) and not headerless_release_history:
         raise ChangelogValidationError(
-            "Existing changelog must start with a '# Changelog' header."
+            "Existing changelog must start with a '# Changelog' header or a "
+            "canonical release heading."
         )
 
     matches = _release_matches(original, target_version)
@@ -299,7 +303,7 @@ def _build_changelog_content(
 
     before = original[:insertion_point].rstrip()
     after = original[insertion_point:].lstrip("\r\n")
-    rebuilt = f"{before}\n\n{release}"
+    rebuilt = f"{before}\n\n{release}" if before else release
     if after:
         rebuilt += f"\n{after}"
     return rebuilt, False
