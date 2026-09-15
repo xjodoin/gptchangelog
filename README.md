@@ -52,6 +52,8 @@ codex login
 gptchangelog config init
 ```
 
+Codex is the default provider when none is selected, even when `OPENAI_API_KEY` is set. Use `--provider openai` to select the OpenAI API.
+
 Use `gptchangelog config show` to inspect configuration and `gptchangelog config validate` to check the resolved provider and model.
 
 ## Basic usage

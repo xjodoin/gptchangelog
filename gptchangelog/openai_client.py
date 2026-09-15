@@ -72,7 +72,7 @@ class ProviderDoctorResult:
     message: str
 
 
-_provider_settings = ProviderSettings(provider=OPENAI_PROVIDER)
+_provider_settings = ProviderSettings(provider=CODEX_PROVIDER)
 
 
 def configure_provider(settings: ProviderSettings) -> None:
@@ -95,7 +95,7 @@ def get_provider_settings() -> ProviderSettings:
 
 
 def normalize_provider(provider: Optional[str]) -> ProviderName:
-    normalized = OPENAI_PROVIDER if provider is None else provider.strip().lower()
+    normalized = CODEX_PROVIDER if provider is None else provider.strip().lower()
     if normalized not in {OPENAI_PROVIDER, CODEX_PROVIDER}:
         raise ProviderConfigurationError(
             f"Unsupported provider {provider!r}; expected 'openai' or 'codex'."

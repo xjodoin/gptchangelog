@@ -210,3 +210,21 @@ def test_init_config_prefers_environment_key_without_prompting(tmp_path, monkeyp
 
 def test_default_model_is_balanced_terra():
     assert get_default_model("openai") == "gpt-5.6-terra"
+
+
+def test_config_without_provider_defaults_to_codex(tmp_path):
+    _write_project_config(tmp_path, ["[openai]", "profile = balanced"])
+    config = load_openai_config(project_root=tmp_path)
+    assert config["provider"] == "codex"
+    assert config["model"] == "gpt-6-astra"
+
+
+def test_init_config_defaults_to_codex(tmp_path, monkeypatch):
+    answers = iter(["p", "", "", ""])
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
+    monkeypatch.setattr(config_module, "has_codex_auth", lambda: True)
+    init_config()
+    config = load_openai_config(project_root=tmp_path)
+    assert config["provider"] == "codex"
+    assert config["model"] == "gpt-6-astra"

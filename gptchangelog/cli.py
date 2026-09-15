@@ -104,15 +104,7 @@ def resolve_provider_configuration(
 
     provider_override = args.provider or env_provider
     config = _load_config(repo_path, include_api_key=False)
-    provider = normalize_provider(
-        provider_override
-        or config.get("provider")
-        or (
-            OPENAI_PROVIDER
-            if (env_api_key or config.get("api_key"))
-            else CODEX_PROVIDER
-        )
-    )
+    provider = normalize_provider(provider_override or config.get("provider"))
     if provider == OPENAI_PROVIDER:
         config = _load_config(repo_path, include_api_key=True)
     profile = normalize_profile(

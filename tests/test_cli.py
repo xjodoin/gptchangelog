@@ -2,6 +2,7 @@ import json
 from types import SimpleNamespace
 
 import git
+import pytest
 
 import gptchangelog.cli as cli
 from gptchangelog.enhanced_openai_utils import (
@@ -295,3 +296,32 @@ def test_app_does_not_mutate_process_arguments(monkeypatch):
     original = list(cli.sys.argv)
     assert cli._normalized_argv([]) == ["generate"]
     assert cli.sys.argv == original
+
+
+@pytest.mark.parametrize("api_key", [None, "test-key"])
+@pytest.mark.parametrize("config_provider", [None, "codex", "openai"])
+def test_default_provider_is_codex_unless_selected(
+    tmp_path, monkeypatch, api_key, config_provider
+):
+    for name in (
+        "GPTCHANGELOG_PROVIDER",
+        "GPTCHANGELOG_PROFILE",
+        "GPTCHANGELOG_MODEL",
+        "OPENAI_API_KEY",
+    ):
+        monkeypatch.delenv(name, raising=False)
+    if api_key or config_provider == "openai":
+        monkeypatch.setenv("OPENAI_API_KEY", api_key or "test-key")
+    monkeypatch.setattr(
+        cli, "_load_config", lambda *args, **kwargs: {"provider": config_provider}
+    )
+    monkeypatch.setattr(cli, "has_codex_auth", lambda: True)
+    args = SimpleNamespace(
+        provider=None, profile=None, model=None, timeout=10.0, max_retries=0
+    )
+
+    settings, profile, model = cli.resolve_provider_configuration(args, tmp_path)
+
+    assert settings.provider == (config_provider or "codex")
+    assert profile == "balanced"
+    assert model == ("gpt-5.6-terra" if config_provider == "openai" else "gpt-6-astra")

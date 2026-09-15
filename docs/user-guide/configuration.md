@@ -60,7 +60,9 @@ GPTChangelog uses Codex's supported non-interactive client. Codex owns login cac
 2. `GPTCHANGELOG_PROVIDER`, `GPTCHANGELOG_PROFILE`, and `GPTCHANGELOG_MODEL`
 3. project configuration
 4. global configuration
-5. default provider discovery and the balanced profile
+5. Codex provider and the balanced profile (GPT-6 Astra)
+
+When no provider is selected, Codex is used even if `OPENAI_API_KEY` is set. Select `openai` explicitly to use the API. Configuration files that omit `provider` also default to Codex.
 
 Provider overrides do not accidentally reuse a model configured for a different provider.
 

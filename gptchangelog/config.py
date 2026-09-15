@@ -176,13 +176,13 @@ def _prompt_config_scope() -> str:
 
 def _prompt_provider() -> ProviderName:
     prompt = (
-        "Choose provider: (o)penai API key or (c)odex ChatGPT subscription? [O/c]: "
+        "Choose provider: (o)penai API key or (c)odex ChatGPT subscription? [o/C]: "
     )
     while True:
         choice = input(prompt).strip().lower()
-        if choice in {"", "o"}:
+        if choice == "o":
             return OPENAI_PROVIDER
-        if choice == "c":
+        if choice in {"", "c"}:
             return CODEX_PROVIDER
         print("Please enter 'o' for OpenAI API or 'c' for Codex subscription.")
 
