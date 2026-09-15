@@ -33,16 +33,20 @@ def reset_provider():
     configure_provider(ProviderSettings(provider=OPENAI_PROVIDER, api_key="test"))
 
 
-def test_model_profiles_use_requested_terra_and_sol_models():
+def test_model_profiles_use_provider_specific_defaults():
     assert get_default_model(OPENAI_PROVIDER) == BALANCED_MODEL == "gpt-5.6-terra"
-    assert get_default_model(CODEX_PROVIDER) == BALANCED_MODEL
+    assert get_default_model(CODEX_PROVIDER) == "gpt-6-astra"
+    assert resolve_model(CODEX_PROVIDER) == "gpt-6-astra"
+    assert get_profile_model(CODEX_PROVIDER, "balanced") == "gpt-6-astra"
+    assert get_profile_model(CODEX_PROVIDER, "quality") == QUALITY_MODEL
     assert get_profile_model(OPENAI_PROVIDER, "quality") == QUALITY_MODEL
     assert QUALITY_MODEL == "gpt-5.6-sol"
 
 
-def test_explicit_model_takes_precedence_over_profile():
+@pytest.mark.parametrize("provider", [OPENAI_PROVIDER, CODEX_PROVIDER])
+def test_explicit_model_takes_precedence_over_profile(provider):
     assert (
-        resolve_model(OPENAI_PROVIDER, profile="quality", model="custom-model")
+        resolve_model(provider, profile="quality", model="custom-model")
         == "custom-model"
     )
 

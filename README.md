@@ -91,7 +91,7 @@ gptchangelog generate --profile quality
 
 The profiles resolve to:
 
-- `balanced`: `gpt-5.6-terra` (default)
+- `balanced` (default): `gpt-6-astra` for Codex; `gpt-5.6-terra` for OpenAI
 - `quality`: `gpt-5.6-sol`
 
 `--model` remains available as an explicit override.

@@ -26,10 +26,10 @@ Supported providers are `openai` and `codex`. Unsupported or misspelled values a
 
 Supported profiles are:
 
-| Profile | Model | Purpose |
+| Profile | OpenAI model | Codex model |
 | --- | --- | --- |
-| `balanced` | `gpt-5.6-terra` | Default balance of quality and cost |
-| `quality` | `gpt-5.6-sol` | Highest-quality release-note synthesis |
+| `balanced` (default) | `gpt-5.6-terra` | `gpt-6-astra` |
+| `quality` | `gpt-5.6-sol` | `gpt-5.6-sol` |
 
 An explicit `--model` or `GPTCHANGELOG_MODEL` overrides the profile model.
 

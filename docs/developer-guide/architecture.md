@@ -53,7 +53,7 @@ and its topic is restricted to that category's slots. This makes omitted,
 duplicated, or cross-category source coverage structurally impossible while
 still consolidating related commits into readable entries.
 
-GPT-5.6 Terra is the balanced default; GPT-5.6 Sol is the quality profile. The OpenAI provider uses the Responses API with Structured Outputs. The Codex provider delegates authentication and execution to the supported Codex client instead of parsing cached credentials.
+The balanced default is GPT-6 Astra for Codex and GPT-5.6 Terra for OpenAI; GPT-5.6 Sol is the quality profile for both providers. The OpenAI provider uses the Responses API with Structured Outputs. The Codex provider delegates authentication and execution to the supported Codex client instead of parsing cached credentials.
 
 Large histories are bounded before model use. Inputs above the safety limit use
 validated deterministic entries so no source commit is silently truncated.

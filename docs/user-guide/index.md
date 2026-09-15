@@ -43,4 +43,4 @@ Start here to install, configure, and use GPTChangelog effectively. The guides b
 - Follow Conventional Commits (feat:, fix:, docs:, refactor:, etc.) for clearer categorization.
 - Tag your releases (e.g., v1.2.3) so version detection works consistently.
 - Use `--check` in release automation before allowing a file update.
-- Use `--profile balanced` for GPT-5.6 Terra or `--profile quality` for GPT-5.6 Sol.
+- The default `balanced` profile uses GPT-6 Astra for Codex and GPT-5.6 Terra for OpenAI. Use `--profile quality` for GPT-5.6 Sol.

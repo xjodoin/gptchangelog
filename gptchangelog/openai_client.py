@@ -27,7 +27,7 @@ CODEX_PROVIDER: ProviderName = "codex"
 BALANCED_MODEL = "gpt-5.6-terra"
 QUALITY_MODEL = "gpt-5.6-sol"
 OPENAI_DEFAULT_MODEL = BALANCED_MODEL
-CODEX_DEFAULT_MODEL = BALANCED_MODEL
+CODEX_DEFAULT_MODEL = "gpt-6-astra"
 DEFAULT_MODEL_PROFILE: ModelProfile = "balanced"
 
 MODEL_PROFILES: Mapping[ProviderName, Mapping[ModelProfile, str]] = {
@@ -38,7 +38,7 @@ MODEL_PROFILES: Mapping[ProviderName, Mapping[ModelProfile, str]] = {
     },
     CODEX_PROVIDER: {
         "fast": BALANCED_MODEL,
-        "balanced": BALANCED_MODEL,
+        "balanced": CODEX_DEFAULT_MODEL,
         "quality": QUALITY_MODEL,
     },
 }
